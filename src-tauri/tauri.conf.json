@@ -12,10 +12,14 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false,
       "shell": {
-        "all": false,
-        "open": true
+        "sidecar": true,
+        "scope": [
+          {
+            "name": "bin/api/build_test",
+            "sidecar": true
+          }
+        ]
       },
       "http": {
         "request": true
@@ -31,7 +35,8 @@
         "icons/icon.ico"
       ],
       "identifier": "com.tauri.dev",
-      "targets": "all"
+      "targets": "all",
+      "externalBin": ["bin/api/build_test"]
     },
     "security": {
       "csp": null
@@ -42,10 +47,14 @@
     "windows": [
       {
         "fullscreen": false,
+        "title": "Chat With Markdown",
+        "hiddenTitle": true,
         "resizable": true,
-        "title": "chat with markdown",
         "width": 1280,
-        "height": 820
+        "height": 820,
+        "minWidth": 1280,
+        "minHeight": 820,
+        "maxWidth": 1280
       }
     ]
   }

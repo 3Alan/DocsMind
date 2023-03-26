@@ -28,8 +28,8 @@ importlib-metadata==6.1.0
 itsdangerous==2.1.2
 Jinja2==3.1.2
 joblib==1.2.0
-langchain==0.0.118
-llama-index==0.4.35
+langchain==0.0.123
+llama-index==0.4.39
 lxml==4.9.2
 macholib==1.16.2
 Markdown==3.4.3

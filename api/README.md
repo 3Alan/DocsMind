@@ -30,6 +30,7 @@ query 返回的结果
 - [ ] 请求错误全局处理
 - [ ] 生产环境打包
 - [ ] 打包成应用
+  - [ ] `"build-api": "pyinstaller --onefile app.py --collect-all llama_index --collect-all langchain  --distpath src-tauri/bin/api"`
 - [ ] Demo 部署
 - [ ] 浏览器插件
 - [ ] 分 chunk 逻辑加单元测试

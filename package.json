@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "build-api": "pyinstaller --onefile api/app.py  --distpath src-tauri/bin/api"
+    "build-api": "pyinstaller --onefile ./api/build_test.py -n build_test-x86_64-apple-darwin --distpath src-tauri/bin/api"
   },
   "dependencies": {
     "antd": "^5.3.0",

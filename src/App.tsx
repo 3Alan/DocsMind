@@ -1,11 +1,12 @@
-import { Card, Select } from 'antd';
+import { Card, Menu, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ChatWindow from './components/chatWindow';
 import UploadWithModal from './components/upload';
 import { invoke } from '@tauri-apps/api/tauri';
 import './styles/globals.css';
-import 'github-markdown-css';
+import 'github-markdown-css/github-markdown-light.css';
+import { AppstoreAddOutlined, UploadOutlined } from '@ant-design/icons';
 
 interface FileItem {
   name: string;
@@ -72,18 +73,28 @@ const Home = () => {
   }, []);
 
   return (
-    <main className="bg-slate-100 py-4 h-screen">
-      <div className="flex flex-row justify-center m-auto w-5/6 space-x-4 h-full overflow-hidden">
-        <ChatWindow
-          fileName={currentFile?.name!}
-          className="flex flex-col h-full overflow-hidden"
-          onReplyComplete={onReplyComplete}
-          onReplyClick={data => onReplyComplete(data, 0)}
-        />
-
+    <main className="bg-slate-100 h-screen flex">
+      <Menu
+        style={{ width: 54 }}
+        defaultSelectedKeys={['home']}
+        defaultOpenKeys={['sub1']}
+        mode="inline"
+        items={[
+          {
+            key: 'home',
+            icon: <AppstoreAddOutlined />
+          },
+          {
+            key: 'upload',
+            label: <UploadOutlined />
+          }
+        ]}
+      />
+      <div className="flex py-4 flex-row justify-center m-auto w-5/6 space-x-4 h-full overflow-hidden">
         <Card
           style={{ width: 700 }}
           className="flex flex-col h-full overflow-auto scroll-smooth"
+          bordered={false}
           bodyStyle={{
             overflow: 'hidden',
             padding: 0
@@ -118,6 +129,13 @@ const Home = () => {
             ></div>
           )}
         </Card>
+
+        <ChatWindow
+          fileName={currentFile?.name!}
+          className="flex flex-col h-full overflow-hidden"
+          onReplyComplete={onReplyComplete}
+          onReplyClick={data => onReplyComplete(data, 0)}
+        />
       </div>
     </main>
   );

@@ -74,54 +74,52 @@ const ChatWindow: FC<ChatWindowProps> = ({
   };
 
   return (
-    <>
-      <Card
-        style={{ width: 500 }}
-        className={className}
-        bodyStyle={{
-          flex: 1,
-          overflow: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '24px 0'
-        }}
-        title={fileName ? `Chat with ${fileName}` : 'Select File'}
-        bordered={false}
+    <Card
+      style={{ width: 450 }}
+      className={className}
+      bodyStyle={{
+        flex: 1,
+        overflow: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '24px 0'
+      }}
+      title={fileName ? `Chat with ${fileName}` : 'Select File'}
+      bordered={false}
+    >
+      <div
+        ref={chatWindowRef}
+        className="scroll-smooth flex flex-col items-start flex-1 overflow-auto px-6"
       >
-        <div
-          ref={chatWindowRef}
-          className="scroll-smooth flex flex-col items-start flex-1 overflow-auto px-6"
-        >
-          {messageList.map((item, index) => (
-            <Fragment key={index}>
-              {item.question ? (
-                <Message isQuestion text={item.question} />
-              ) : (
-                <Message
-                  loading={loading && index === messageList.length - 1}
-                  item={item}
-                  text={item.reply || ''}
-                  onReplyClick={onReplyClick}
-                />
-              )}
-            </Fragment>
-          ))}
-        </div>
+        {messageList.map((item, index) => (
+          <Fragment key={index}>
+            {item.question ? (
+              <Message isQuestion text={item.question} />
+            ) : (
+              <Message
+                loading={loading && index === messageList.length - 1}
+                item={item}
+                text={item.reply || ''}
+                onReplyClick={onReplyClick}
+              />
+            )}
+          </Fragment>
+        ))}
+      </div>
 
-        <div className="p-4 pb-0 border-t border-t-gray-200 border-solid border-x-0 border-b-0">
-          <Input.Search
-            enterButton="Ask Question"
-            size="large"
-            value={query}
-            placeholder="input your question"
-            allowClear
-            loading={loading}
-            onChange={e => setQuery(e.target.value)}
-            onSearch={onSearch}
-          />
-        </div>
-      </Card>
-    </>
+      <div className="p-4 pb-0 border-t border-t-gray-200 border-solid border-x-0 border-b-0">
+        <Input.Search
+          enterButton="Ask Question"
+          size="large"
+          value={query}
+          placeholder="input your question"
+          allowClear
+          loading={loading}
+          onChange={e => setQuery(e.target.value)}
+          onSearch={onSearch}
+        />
+      </div>
+    </Card>
   );
 };
 

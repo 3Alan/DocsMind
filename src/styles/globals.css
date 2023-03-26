@@ -16,11 +16,16 @@
   min-width: 200px;
   max-width: 980px;
   margin: 0 auto;
-  padding: 45px;
+  padding: 40px;
+}
+
+.ant-menu-item {
+  padding-left: 16px !important;
+}
+
+.ant-menu-item-active {
+  background-color: #eff6ff;
 }
 
 @media (prefers-color-scheme: dark) {
-  .markdown-body .highlight {
-    background-color: #222f43;
-  }
 }
