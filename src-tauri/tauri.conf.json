@@ -43,9 +43,9 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "chatpdf-app",
-        "width": 800,
-        "height": 600
+        "title": "chat with markdown",
+        "width": 1280,
+        "height": 820
       }
     ]
   }

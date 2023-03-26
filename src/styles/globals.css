@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.markdown-body .highlight {
+  background-color: #eff6ff;
+}
+
+.markdown-body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 45px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .markdown-body .highlight {
+    background-color: #222f43;
+  }
+}
