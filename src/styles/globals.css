@@ -2,9 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  color: #0f0f0f;
+  background-color: #f6f6f6;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
 * {
   margin: 0;
   box-sizing: border-box;
+}
+
+body {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .markdown-body .highlight {
@@ -16,7 +39,11 @@
   min-width: 200px;
   max-width: 980px;
   margin: 0 auto;
-  padding: 40px;
+  padding: 20px 40px;
+}
+
+.markdown-body video {
+  width: 100%;
 }
 
 .ant-menu-item {

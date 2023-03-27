@@ -1,12 +1,10 @@
 from llama_index import GPTSimpleVectorIndex
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
-import sys
 import openai
-import json
 from create_index import create_index
 openai.api_base = os.environ.get('OPENAI_PROXY')
 
@@ -17,15 +15,35 @@ CORS(app)
 load_dotenv()
 
 
+@app.errorhandler(Exception)
+def handle_error(error):
+    """全局错误处理"""
+    message = str(error)
+    status_code = 500
+    if hasattr(error, 'status_code'):
+        status_code = error.status_code
+    print(message)
+    response = jsonify({'message': message})
+    response.status_code = status_code
+    return response
+
+
 @app.route('/api/summarize', methods=["GET"])
 def summarize_index():
     index_name = request.args.get("index")
     index = GPTSimpleVectorIndex.load_from_disk(
         f'./index/{index_name}.json')
     res = index.query(
-        'summarize the article', response_mode="tree_summarize")
-
-    return jsonify(res)
+        'What is a summary of this document?', response_mode="summarize")
+    response_json = {
+        "answer": str(res),
+        "cost": index.llm_predictor.last_token_usage,
+        "sources": [{"text": str(x.source_text),
+                     "similarity": round(x.similarity, 2),
+                     "extraInfo": x.extra_info
+                     } for x in res.source_nodes]
+    }
+    return jsonify(response_json)
 
 
 @app.route('/api/query', methods=["GET"])

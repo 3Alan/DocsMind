@@ -1,6 +1,8 @@
-import { Button, Card, Form, Input, message, Modal } from 'antd';
-import axios from 'axios';
+import { WarningTwoTone } from '@ant-design/icons';
+import { Card, Form, Input, message, Modal, Tag } from 'antd';
+import axios, { AxiosResponse } from 'axios';
 import { FC, Fragment, useEffect, useRef, useState } from 'react';
+import request from '../../utils/request';
 import { MessageItem } from './constants';
 import Message from './Message';
 
@@ -23,29 +25,34 @@ const ChatWindow: FC<ChatWindowProps> = ({
   const [messageList, setMessageList] = useState<MessageItem[]>([]);
 
   const scrollToBottom = () => {
-    setTimeout(() => {
-      const chatWindow = chatWindowRef.current;
+    const chatWindow = chatWindowRef.current;
 
-      if (chatWindow) {
-        chatWindow.scrollTop = chatWindow.scrollHeight + 300;
-      }
-    }, 0);
+    if (chatWindow) {
+      setTimeout(() => {
+        chatWindow.scrollTop = chatWindow?.scrollHeight;
+      }, 100);
+    }
   };
 
-  const onReply = async (value: string) => {
+  const onReply = async (value: string, summarize = false) => {
     try {
+      let res: AxiosResponse;
       setLoading(true);
 
-      const res = await axios(`http://127.0.0.1:5000/api/query`, {
-        params: {
-          query: value,
-          index: fileName
-        },
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      console.log(res);
+      if (summarize) {
+        res = await request('/api/summarize', {
+          params: {
+            index: fileName
+          }
+        });
+      } else {
+        res = await request('/api/query', {
+          params: {
+            query: value,
+            index: fileName
+          }
+        });
+      }
 
       setLoading(false);
       setMessageList(pre => {
@@ -58,10 +65,24 @@ const ChatWindow: FC<ChatWindowProps> = ({
           }
         ];
       });
-      scrollToBottom();
       onReplyComplete(res.data);
+      scrollToBottom();
     } catch (error) {
       setLoading(false);
+      setMessageList(pre => {
+        return [
+          ...pre.slice(0, -1),
+          {
+            ...pre.slice(-1),
+            reply: (
+              <>
+                <WarningTwoTone /> please retry
+              </>
+            ),
+            error: true
+          }
+        ];
+      });
       console.log(error);
     }
   };
@@ -71,6 +92,12 @@ const ChatWindow: FC<ChatWindowProps> = ({
     setMessageList([...messageList, { question: value.trim() }, { reply: '' }]);
     scrollToBottom();
     onReply(value);
+  };
+
+  const onSummarize = async () => {
+    setMessageList([...messageList, { question: 'Summarize the Markdown Content' }, { reply: '' }]);
+    scrollToBottom();
+    onReply('', true);
   };
 
   return (
@@ -101,6 +128,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
                 item={item}
                 text={item.reply || ''}
                 onReplyClick={onReplyClick}
+                error={item.error}
               />
             )}
           </Fragment>
@@ -108,11 +136,16 @@ const ChatWindow: FC<ChatWindowProps> = ({
       </div>
 
       <div className="p-4 pb-0 border-t border-t-gray-200 border-solid border-x-0 border-b-0">
+        {/* <div className="pb-1 pt-2">
+          <Tag onClick={onSummarize} className="cursor-pointer" color="blue">
+            Summarize Markdown
+          </Tag>
+        </div> */}
         <Input.Search
           enterButton="Ask Question"
           size="large"
           value={query}
-          placeholder="input your question"
+          placeholder="Input your question"
           allowClear
           loading={loading}
           onChange={e => setQuery(e.target.value)}

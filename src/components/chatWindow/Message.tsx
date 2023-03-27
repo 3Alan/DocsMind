@@ -1,15 +1,17 @@
 import { HighlightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { FC, PropsWithChildren, useEffect, useState } from 'react';
+import { FC, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 import { MessageItem } from './constants';
 import Loading from './Loading';
+import { isString } from 'lodash';
 
 interface MessageProps extends PropsWithChildren {
   isQuestion?: boolean;
   loading?: boolean;
-  text: string;
+  text: ReactNode;
   item?: MessageItem;
   chunkIdList?: number[];
+  error?: boolean;
   onReplyClick?: (data: any) => void;
 }
 
@@ -18,13 +20,15 @@ const Message: FC<MessageProps> = ({
   isQuestion,
   item,
   loading,
-  chunkIdList,
+  error,
   onReplyClick
 }) => {
   const [words, setWords] = useState<string[]>([]);
 
   useEffect(() => {
-    setWords(text.split(' '));
+    if (!error && isString(text)) {
+      setWords(text.split(' '));
+    }
   }, [text]);
 
   if (loading) {
@@ -42,6 +46,7 @@ const Message: FC<MessageProps> = ({
         <div className="px-3 pb-2">{text}</div>
       ) : (
         <div className="px-3 pb-2 text-gray-800">
+          {error && text}
           {words.map((word, index) => (
             <span
               key={index}

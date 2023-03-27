@@ -22,13 +22,13 @@ query 返回的结果
 
 ## Feature
 
-- [x] 预测 token 耗费 MockLLMPredictor
+- [ ] 预测 token 耗费 MockLLMPredictor
 - [x] 可以使用其他 Embeddings 如 LangchainEmbedding（基于 cohere 也不免费）,看 Embeddings 章节
 - [ ] 添加一个插件系统，可以让使用者自己进行写 chunk 逻辑
 - [ ] stream 流返回
+- [ ] Mac 滚动无效
 - [x] 点击对话滚动到高亮区域
 - [ ] 请求错误全局处理
-- [ ] 生产环境打包
 - [ ] 打包成应用
   - [ ] `"build-api": "pyinstaller --onefile app.py --collect-all llama_index --collect-all langchain  --distpath src-tauri/bin/api"`
 - [ ] Demo 部署
@@ -38,6 +38,8 @@ query 返回的结果
 - [ ] 支持下载 md
 - [ ] pdf,word 转 md
 - [ ] 划词解释
+- [ ] embedding 耗费 token 数
+- [ ] i18n
 
 ## 需要攻克的问题
 
