@@ -6,6 +6,8 @@ from llama_index import GPTSimpleVectorIndex
 from dotenv import load_dotenv
 load_dotenv()
 
+app_dir = 'chatMarkdown'
+
 
 def create_index(filepath, filename) -> int:
     openai.api_base = os.environ.get('OPENAI_PROXY')
@@ -21,7 +23,9 @@ def create_index(filepath, filename) -> int:
         html=html, filename=filename)
     index = GPTSimpleVectorIndex(documents)
 
+    if not os.path.exists(f'{app_dir}/index'):
+        os.makedirs(f'{app_dir}/index')
     # save to disk
-    index.save_to_disk(f'./index/{filename}.json')
+    index.save_to_disk(f'{app_dir}/index/{filename}.json')
 
     return index.embed_model.last_token_usage

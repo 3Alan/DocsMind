@@ -1,18 +1,29 @@
 from llama_index import GPTSimpleVectorIndex
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
+import sys
 import openai
 from create_index import create_index
 openai.api_base = os.environ.get('OPENAI_PROXY')
 
+app_dir = 'chatMarkdown'
 
-app = Flask(__name__, static_folder="html")
+
+if getattr(sys, 'frozen', False):
+    template_folder = os.path.join(sys._MEIPASS, 'templates')
+    static_folder = os.path.join(sys._MEIPASS, f"{app_dir}/html")
+    app = Flask(__name__, template_folder=template_folder,
+                static_folder=static_folder)
+else:
+    app = Flask(__name__, static_folder=f"{app_dir}/html")
+
+
 CORS(app)
 
-load_dotenv()
+load_dotenv(f'{app_dir}/.env')
 
 
 @app.errorhandler(Exception)
@@ -27,12 +38,24 @@ def handle_error(error):
     response.status_code = status_code
     return response
 
+# 获取app下保存的文件
+
+
+@app.route(f'/{app_dir}/<path:path>', methods=["GET"])
+def get_static_files(path):
+    file_path = f'{app_dir}/{path}'
+    print(file_path, path, '-----------')
+    if os.path.isfile(file_path):
+        return send_file(file_path)
+
+    return jsonify({'message': 'Not found'}), 404
+
 
 @app.route('/api/summarize', methods=["GET"])
 def summarize_index():
     index_name = request.args.get("index")
     index = GPTSimpleVectorIndex.load_from_disk(
-        f'./index/{index_name}.json')
+        f'{app_dir}/index/{index_name}.json')
     res = index.query(
         'What is a summary of this document?', response_mode="summarize")
     response_json = {
@@ -51,7 +74,7 @@ def query_index():
     query_text = request.args.get("query")
     index_name = request.args.get("index")
     index = GPTSimpleVectorIndex.load_from_disk(
-        f'./index/{index_name}.json')
+        f'{app_dir}/index/{index_name}.json')
     res = index.query(query_text)
     response_json = {
         "answer": str(res),
@@ -70,7 +93,11 @@ def upload_file():
     try:
         uploaded_file = request.files["file"]
         filename = secure_filename(uploaded_file.filename)
-        filepath = os.path.join('temp', os.path.basename(filename))
+        print(os.getcwd(), os.path.abspath(__file__))
+        filepath = os.path.join(f'{app_dir}/temp',
+                                os.path.basename(filename))
+        if not os.path.exists(f'{app_dir}/temp'):
+            os.makedirs(f'{app_dir}/temp')
         uploaded_file.save(filepath)
 
         token_usage = create_index(filepath, os.path.splitext(filename)[0])
@@ -91,13 +118,17 @@ def upload_file():
 
 @app.route('/api/index-list', methods=["GET"])
 def get_index_files():
-    dir = "index"
+    dir = f'{app_dir}/index'
     files = os.listdir(dir)
     return files
 
 
 @app.route('/api/html-list', methods=["GET"])
 def get_html_files():
-    dir = "html"
+    dir = f'{app_dir}/html'
     files = os.listdir(dir)
-    return [{"path": f'/html/{file}', "name": os.path.splitext(file)[0]} for file in files]
+    return [{"path": f'/{app_dir}/html/{file}', "name": os.path.splitext(file)[0]} for file in files]
+
+
+if __name__ == "__main__":
+    app.run()

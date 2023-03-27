@@ -42,6 +42,7 @@ query 返回的结果
 ## 需要攻克的问题
 
 - https://github.com/jerryjliu/llama_index/blob/main/examples/paul_graham_essay/InsertDemo.ipynb
+- 安装应用时初始化 chatMarkdown 目录
 
 ## 宣传语
 
@@ -51,3 +52,7 @@ query 返回的结果
 - 例子耗费 13618token 约 $0.0054472
 - 开源协议选择
 - 每次提问耗费的 token 数
+
+```
+pyinstaller --onefile app.py --collect-all llama_index --collect-all langchain --hidden-import=tiktoken_ext.openai_public
+```
