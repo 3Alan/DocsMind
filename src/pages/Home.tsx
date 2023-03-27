@@ -1,8 +1,6 @@
 import { Button, Card, Empty, message, Select } from 'antd';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import ChatWindow from '../components/chatWindow';
-import { invoke } from '@tauri-apps/api/tauri';
 import '../styles/globals.css';
 import 'github-markdown-css/github-markdown-light.css';
 import { Link } from 'react-router-dom';
@@ -20,7 +18,7 @@ function removeHighLight() {
   });
 }
 
-function addHighLight(chunkId: string, time = 1000) {
+function addHighLight(chunkId: string, time = 200) {
   removeHighLight();
   const firstElement = document.querySelector(`[data-chunk_id=${chunkId}]`);
   setTimeout(() => {
@@ -39,11 +37,6 @@ const Home = () => {
   const [currentFile, setCurrentFile] = useState<FileItem>();
   const [fileList, setFileList] = useState<FileItem[]>([]);
   const [loading] = message.useMessage();
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    await invoke('greet', { name: 'Alan' });
-  }
 
   async function getFileList() {
     loading.loading('loading...');
@@ -81,7 +74,7 @@ const Home = () => {
     <>
       <Card
         style={{ width: 700 }}
-        className="flex flex-col h-full overflow-auto scroll-smooth"
+        className="flex flex-col h-full overflow-auto"
         bordered={false}
         bodyStyle={{
           overflow: 'hidden',
@@ -114,7 +107,7 @@ const Home = () => {
       >
         {html ? (
           <div
-            className="markdown-body h-full overflow-auto scroll-smooth"
+            className="markdown-body h-full overflow-auto"
             dangerouslySetInnerHTML={{ __html: html }}
           ></div>
         ) : (

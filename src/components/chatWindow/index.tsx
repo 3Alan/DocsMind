@@ -19,17 +19,17 @@ const ChatWindow: FC<ChatWindowProps> = ({
   onReplyComplete,
   onReplyClick
 }) => {
-  const chatWindowRef = useRef<HTMLDivElement>(null);
+  const chatWindowEndRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
   const [messageList, setMessageList] = useState<MessageItem[]>([]);
 
   const scrollToBottom = () => {
-    const chatWindow = chatWindowRef.current;
+    const chatWindowEnd = chatWindowEndRef.current;
 
-    if (chatWindow) {
+    if (chatWindowEnd) {
       setTimeout(() => {
-        chatWindow.scrollTop = chatWindow?.scrollHeight;
+        chatWindowEnd.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     }
   };
@@ -114,10 +114,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
       title={fileName ? `Chat with ${fileName}` : 'Select File'}
       bordered={false}
     >
-      <div
-        ref={chatWindowRef}
-        className="scroll-smooth flex flex-col items-start flex-1 overflow-auto px-6"
-      >
+      <div className="flex flex-col items-start flex-1 overflow-auto px-6">
         {messageList.map((item, index) => (
           <Fragment key={index}>
             {item.question ? (
@@ -133,6 +130,8 @@ const ChatWindow: FC<ChatWindowProps> = ({
             )}
           </Fragment>
         ))}
+
+        <div ref={chatWindowEndRef}></div>
       </div>
 
       <div className="p-4 pb-0 border-t border-t-gray-200 border-solid border-x-0 border-b-0">

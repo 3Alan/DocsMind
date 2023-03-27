@@ -20,9 +20,12 @@ export default function UploadFile() {
   const onUploadChange = (info: any) => {
     setUploading(true);
     const { status } = info.file;
-    if (status === 'done') {
+    if (status === 'done' || status === 'success') {
       generateConfetti();
-      void message.success(`${info.file.name} file uploaded successfully.`);
+      void message.success({
+        content: `${info.file.name} file uploaded successfully. token usage: 💰 ${info.file.response}`,
+        duration: 8
+      });
       setUploading(false);
     } else if (status === 'error') {
       void message.error(`${info.file.name} file upload failed.`);

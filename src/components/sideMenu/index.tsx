@@ -1,12 +1,12 @@
 import { Menu } from 'antd';
-import { AppstoreAddOutlined, UploadOutlined } from '@ant-design/icons';
+import { RobotOutlined, UploadOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 const menuItem = [
   {
     key: '/',
-    icon: <AppstoreAddOutlined />
+    icon: <RobotOutlined />
   },
   {
     key: '/upload',

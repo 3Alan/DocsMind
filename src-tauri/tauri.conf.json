@@ -48,7 +48,6 @@
       {
         "fullscreen": false,
         "title": "Chat With Markdown",
-        "hiddenTitle": true,
         "resizable": true,
         "width": 1280,
         "height": 820,

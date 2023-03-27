@@ -73,7 +73,7 @@ def upload_file():
         filepath = os.path.join('temp', os.path.basename(filename))
         uploaded_file.save(filepath)
 
-        create_index(filepath, os.path.splitext(filename)[0])
+        token_usage = create_index(filepath, os.path.splitext(filename)[0])
     except Exception as e:
         # cleanup temp file
         print(e, 'upload error')
@@ -86,7 +86,7 @@ def upload_file():
     if filepath is not None and os.path.exists(filepath):
         os.remove(filepath)
 
-    return "File inserted!", 200
+    return jsonify(token_usage), 200
 
 
 @app.route('/api/index-list', methods=["GET"])
