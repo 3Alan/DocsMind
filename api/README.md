@@ -56,3 +56,14 @@ query 返回的结果
 ```
 pyinstaller --onefile app.py --collect-all llama_index --collect-all langchain --hidden-import=tiktoken_ext.openai_public
 ```
+
+The New Project
+I want this project has a great UX. But PDF files can be difficult to handle, such as highlighting pdf content, so I may develop a new project.
+
+Here are my interesting ideas for the new project:
+
+Support Markdown files or converting PDF files to Markdown format (which may result in some loss of information and style).
+A cross-platform application that supports macOS and Windows.
+Out of box, no need to install any environment.
+Highlighting relevant Markdown content in response.
+If you are also interested in the new project, let me know in discussion.
