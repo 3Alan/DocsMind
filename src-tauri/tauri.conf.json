@@ -1,7 +1,7 @@
 {
   "build": {
     "beforeDevCommand": "yarn dev",
-    "beforeBuildCommand": "yarn build",
+    "beforeBuildCommand": "yarn build & yarn build-api",
     "devPath": "http://localhost:1420",
     "distDir": "../dist",
     "withGlobalTauri": true
@@ -16,7 +16,7 @@
         "sidecar": true,
         "scope": [
           {
-            "name": "bin/api/build_test",
+            "name": "binaries/backend_server",
             "sidecar": true
           }
         ]
@@ -40,9 +40,9 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.chat.markdown.app",
+      "identifier": "com.chat.markdown",
       "targets": "all",
-      "externalBin": ["bin/api/build_test"]
+      "externalBin": ["binaries/backend_server"]
     },
     "security": {
       "csp": null

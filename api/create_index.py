@@ -6,7 +6,7 @@ from llama_index import GPTSimpleVectorIndex
 from dotenv import load_dotenv
 load_dotenv()
 
-app_dir = 'chatMarkdown'
+user_data_dir = 'userData'
 
 
 def create_index(filepath, filename) -> int:
@@ -23,9 +23,7 @@ def create_index(filepath, filename) -> int:
         html=html, filename=filename)
     index = GPTSimpleVectorIndex(documents)
 
-    if not os.path.exists(f'{app_dir}/index'):
-        os.makedirs(f'{app_dir}/index')
     # save to disk
-    index.save_to_disk(f'{app_dir}/index/{filename}.json')
+    index.save_to_disk(f'{user_data_dir}/index/{filename}.json')
 
     return index.embed_model.last_token_usage

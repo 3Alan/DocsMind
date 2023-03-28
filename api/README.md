@@ -29,7 +29,7 @@ query 返回的结果
 - [ ] Mac 滚动无效
 - [x] 点击对话滚动到高亮区域
 - [ ] 打包成应用
-  - [ ] `"build-api": "pyinstaller --onefile app.py --collect-all llama_index --collect-all langchain  --distpath src-tauri/bin/api"`
+  - [ ] `"build-api": "pyinstaller --onefile app.py --collect-all llama_index --collect-all langchain  --distpath src-tauri/binaries/api"`
 - [ ] Demo 部署
 - [ ] 浏览器插件
 - [ ] 分 chunk 逻辑加单元测试
@@ -42,7 +42,7 @@ query 返回的结果
 ## 需要攻克的问题
 
 - https://github.com/jerryjliu/llama_index/blob/main/examples/paul_graham_essay/InsertDemo.ipynb
-- 安装应用时初始化 chatMarkdown 目录
+- 安装应用时初始化 userData 目录
 
 ## 宣传语
 

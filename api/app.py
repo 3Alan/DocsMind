@@ -6,24 +6,38 @@ from werkzeug.utils import secure_filename
 import os
 import sys
 import openai
+import logging
 from create_index import create_index
 openai.api_base = os.environ.get('OPENAI_PROXY')
 
-app_dir = 'chatMarkdown'
+user_data_dir = 'userData'
+
+# TODO: 直接在tauri中初始化，包括环境变量文件 resolveResource
+if not os.path.exists(f"{user_data_dir}/html"):
+    os.makedirs(f"{user_data_dir}/html")
+if not os.path.exists(f"{user_data_dir}/index"):
+    os.makedirs(f"{user_data_dir}/index")
+if not os.path.exists(f"{user_data_dir}/temp"):
+    os.makedirs(f"{user_data_dir}/temp")
 
 
 if getattr(sys, 'frozen', False):
     template_folder = os.path.join(sys._MEIPASS, 'templates')
-    static_folder = os.path.join(sys._MEIPASS, f"{app_dir}/html")
+    static_folder = os.path.join(sys._MEIPASS, f"{user_data_dir}/html")
     app = Flask(__name__, template_folder=template_folder,
                 static_folder=static_folder)
 else:
-    app = Flask(__name__, static_folder=f"{app_dir}/html")
+    app = Flask(__name__, static_folder=f"{user_data_dir}/html")
 
 
 CORS(app)
 
-load_dotenv(f'{app_dir}/.env')
+logger = logging.getLogger(__name__)
+file_handler = logging.FileHandler('app.log')
+file_handler.setLevel(logging.ERROR)
+logger.addHandler(file_handler)
+
+load_dotenv(f'{user_data_dir}/.env')
 
 
 @app.errorhandler(Exception)
@@ -36,14 +50,15 @@ def handle_error(error):
     print(message)
     response = jsonify({'message': message})
     response.status_code = status_code
+    logger.error(response)
     return response
 
 # 获取app下保存的文件
 
 
-@app.route(f'/{app_dir}/<path:path>', methods=["GET"])
+@app.route(f'/{user_data_dir}/<path:path>', methods=["GET"])
 def get_static_files(path):
-    file_path = f'{app_dir}/{path}'
+    file_path = f'{user_data_dir}/{path}'
     print(file_path, path, '-----------')
     if os.path.isfile(file_path):
         return send_file(file_path)
@@ -55,7 +70,7 @@ def get_static_files(path):
 def summarize_index():
     index_name = request.args.get("index")
     index = GPTSimpleVectorIndex.load_from_disk(
-        f'{app_dir}/index/{index_name}.json')
+        f'{user_data_dir}/index/{index_name}.json')
     res = index.query(
         'What is a summary of this document?', response_mode="summarize")
     response_json = {
@@ -74,7 +89,7 @@ def query_index():
     query_text = request.args.get("query")
     index_name = request.args.get("index")
     index = GPTSimpleVectorIndex.load_from_disk(
-        f'{app_dir}/index/{index_name}.json')
+        f'{user_data_dir}/index/{index_name}.json')
     res = index.query(query_text)
     response_json = {
         "answer": str(res),
@@ -94,10 +109,8 @@ def upload_file():
         uploaded_file = request.files["file"]
         filename = secure_filename(uploaded_file.filename)
         print(os.getcwd(), os.path.abspath(__file__))
-        filepath = os.path.join(f'{app_dir}/temp',
+        filepath = os.path.join(f'{user_data_dir}/temp',
                                 os.path.basename(filename))
-        if not os.path.exists(f'{app_dir}/temp'):
-            os.makedirs(f'{app_dir}/temp')
         uploaded_file.save(filepath)
 
         token_usage = create_index(filepath, os.path.splitext(filename)[0])
@@ -106,7 +119,6 @@ def upload_file():
         print(e, 'upload error')
         if filepath is not None and os.path.exists(filepath):
             os.remove(filepath)
-            return "Error: file exist", 500
         return "Error: {}".format(str(e)), 500
 
     # cleanup temp file
@@ -118,16 +130,16 @@ def upload_file():
 
 @app.route('/api/index-list', methods=["GET"])
 def get_index_files():
-    dir = f'{app_dir}/index'
+    dir = f'{user_data_dir}/index'
     files = os.listdir(dir)
     return files
 
 
 @app.route('/api/html-list', methods=["GET"])
 def get_html_files():
-    dir = f'{app_dir}/html'
+    dir = f'{user_data_dir}/html'
     files = os.listdir(dir)
-    return [{"path": f'/{app_dir}/html/{file}', "name": os.path.splitext(file)[0]} for file in files]
+    return [{"path": f'/{dir}/{file}', "name": os.path.splitext(file)[0]} for file in files]
 
 
 if __name__ == "__main__":

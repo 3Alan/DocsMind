@@ -8,7 +8,7 @@ from bs4.element import NavigableString
 import tiktoken
 import os
 
-app_dir = 'chatMarkdown/'
+user_data_dir = 'userData/'
 
 
 def encode_string(string: str, encoding_name: str = "p50k_base"):
@@ -133,10 +133,8 @@ class CustomReader(BaseReader):
         document_list.append(
             Document(chunk_text.strip(), extra_info={"chunk_id": f"chunk-{index}"}))
 
-        if not os.path.exists(f'{app_dir}/html'):
-            os.makedirs(f'{app_dir}/html')
         # 保存修改后的HTML文件
-        with open(f'{app_dir}/html/{filename}.html', 'w', encoding='utf-8') as f:
+        with open(f'{user_data_dir}/html/{filename}.html', 'w', encoding='utf-8') as f:
             f.write(str(soup))
 
         return document_list

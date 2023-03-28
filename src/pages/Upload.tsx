@@ -28,7 +28,7 @@ export default function UploadFile() {
       });
       setUploading(false);
     } else if (status === 'error') {
-      void message.error(`${info.file.name} file upload failed.`);
+      void message.error(`${info.file.name} file upload failed. ${JSON.stringify(info.file.response)}`);
       setUploading(false);
     }
   };

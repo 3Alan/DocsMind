@@ -3,8 +3,17 @@ import 'github-markdown-css/github-markdown-light.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import routes from './routes';
 import SideMenu from './components/sideMenu';
+// import { window } from '@tauri-apps/api';
+// import { TauriEvent } from '@tauri-apps/api/event';
+import { useEffect } from 'react';
 
 const App = () => {
+  useEffect(() => {
+    // window.getCurrent().listen(TauriEvent.WINDOW_CLOSE_REQUESTED, () => {
+    //   alert('Closing window and maybe saving some data :)');
+    // });
+  }, []);
+
   return (
     <BrowserRouter>
       <main className="bg-slate-100 h-screen flex">
