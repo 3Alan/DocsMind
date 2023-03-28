@@ -1,7 +1,7 @@
 {
   "build": {
     "beforeDevCommand": "yarn dev",
-    "beforeBuildCommand": "yarn build & yarn build-services",
+    "beforeBuildCommand": "yarn build-server && yarn build",
     "devPath": "http://localhost:1420",
     "distDir": "../dist",
     "withGlobalTauri": true
@@ -12,6 +12,7 @@
   },
   "tauri": {
     "allowlist": {
+      "all": true,
       "shell": {
         "sidecar": true,
         "scope": [
@@ -22,10 +23,21 @@
         ]
       },
       "http": {
+        "all": true,
         "request": true
       },
       "fs": {
-        "all": true
+        "all": true,
+        "readFile": true,
+        "writeFile": true,
+        "readDir": true,
+        "copyFile": true,
+        "createDir": true,
+        "removeDir": true,
+        "removeFile": true,
+        "renameFile": true,
+        "exists": true,
+        "scope": ["$APPLOCALDATA/userData/**"]
       },
       "path": {
         "all": true

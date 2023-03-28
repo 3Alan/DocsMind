@@ -6,7 +6,6 @@ import 'github-markdown-css/github-markdown-light.css';
 import { Link } from 'react-router-dom';
 import request from '../utils/request';
 import { readTextFile, BaseDirectory } from '@tauri-apps/api/fs';
-import { dataDir } from '@tauri-apps/api/path';
 
 interface FileItem {
   name: string;
@@ -41,9 +40,6 @@ const Home = () => {
   const [loading] = message.useMessage();
 
   async function getFileList() {
-    const path = await dataDir();
-    console.log(path);
-
     loading.loading('loading...');
     const res = await request('/api/html-list');
     loading.destroy();
@@ -51,7 +47,14 @@ const Home = () => {
 
     if (res.data.length > 0) {
       setCurrentFile(res.data[0]);
-      // const html = await readTextFile(res.data[0]?.path, { dir: BaseDirectory.AppConfig });
+      const html = await readTextFile(res.data[0]?.path?.substring(1), {
+        dir: BaseDirectory.AppLocalData
+      });
+      // const html = await readTextFile('userData/html/test.html', {
+      //   dir: BaseDirectory.AppLocalData
+      // });
+      console.log(html);
+
       // const htmlRes = await request(`${res.data[0]?.path}`);
 
       // setHtml(htmlRes.data);
