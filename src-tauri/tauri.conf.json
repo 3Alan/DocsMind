@@ -1,7 +1,7 @@
 {
   "build": {
     "beforeDevCommand": "yarn dev",
-    "beforeBuildCommand": "yarn build & yarn build-api",
+    "beforeBuildCommand": "yarn build & yarn build-services",
     "devPath": "http://localhost:1420",
     "distDir": "../dist",
     "withGlobalTauri": true

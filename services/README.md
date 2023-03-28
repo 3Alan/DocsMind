@@ -29,7 +29,7 @@ query 返回的结果
 - [ ] Mac 滚动无效
 - [x] 点击对话滚动到高亮区域
 - [ ] 打包成应用
-  - [ ] `"build-api": "pyinstaller --onefile app.py --collect-all llama_index --collect-all langchain  --distpath src-tauri/binaries/api"`
+  - [ ] `"build-services": "pyinstaller --onefile app.py --collect-all llama_index --collect-all langchain  --distpath src-tauri/binaries/api"`
 - [ ] Demo 部署
 - [ ] 浏览器插件
 - [ ] 分 chunk 逻辑加单元测试
