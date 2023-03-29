@@ -45,6 +45,7 @@ body {
 /* 修改滚动条的宽度和颜色 */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
   background-color: #f2f2f2;
 }
 

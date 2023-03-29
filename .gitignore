@@ -24,15 +24,3 @@ dist-ssr
 *.sw?
 
 .env
-
-# python
-*.pyc
-__pycache__/
-.venv/
-*.pyo
-*.pyd
-*.pyc
-instance/
-build
-*.spec
-temp

@@ -67,7 +67,7 @@ const Message: FC<MessageProps> = ({
 
           {item?.cost && (
             <div className=" border-t-gray-200 border-t text-right">
-              <span className=" text-gray-400">cost {item.cost} tokens</span>
+              <span className=" text-gray-400">{item.cost} tokens</span>
             </div>
           )}
         </div>
