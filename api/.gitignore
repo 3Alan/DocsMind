@@ -1,1 +1,10 @@
 .vercel
+*.pyc
+__pycache__/
+.venv/
+*.pyo
+*.pyd
+instance/
+build
+*.spec
+temp
