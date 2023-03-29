@@ -42,6 +42,29 @@ body {
   padding: 20px 40px;
 }
 
+/* 修改滚动条的宽度和颜色 */
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: #f2f2f2;
+}
+
+/* 修改滚动条滑块的样式 */
+::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 5px;
+}
+
+/* 修改滚动条滑块悬停时的样式 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #999;
+}
+
+/* 修改滚动条轨道的样式 */
+::-webkit-scrollbar-track {
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
 .markdown-body video {
   width: 100%;
 }

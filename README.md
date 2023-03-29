@@ -1,7 +1,40 @@
-# Tauri + React + Typescript
+## Run Frontend
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+### Install dependencies
 
-## Recommended IDE Setup
+```
+yarn
+```
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+```
+yarn dev
+```
+
+## Run Backend
+
+you need a python environment
+
+### Create virtual environment
+
+```
+cd api
+python -m venv .venv
+```
+
+### Active virtual environment
+
+```
+.venv\Scripts\Activate.ps1
+```
+
+### Install dependencies
+
+```
+pip install -r requirements.txt
+```
+
+### Run Services
+
+```
+flask run --reload
+```

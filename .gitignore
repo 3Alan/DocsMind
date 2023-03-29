@@ -21,8 +21,9 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?.g
+*.sw?
 
+.env
 
 # python
 *.pyc
@@ -34,7 +35,4 @@ __pycache__/
 instance/
 build
 *.spec
-
-.env
-
 temp

@@ -3,8 +3,8 @@ import os
 from custom_loader import CustomReader
 import markdown
 from llama_index import GPTSimpleVectorIndex
-from dotenv import load_dotenv
-load_dotenv()
+
+user_data_dir = 'userData'
 
 
 def create_index(filepath, filename) -> int:
@@ -22,6 +22,6 @@ def create_index(filepath, filename) -> int:
     index = GPTSimpleVectorIndex(documents)
 
     # save to disk
-    index.save_to_disk(f'./index/{filename}.json')
+    index.save_to_disk(f'{user_data_dir}/index/{filename}.json')
 
     return index.embed_model.last_token_usage

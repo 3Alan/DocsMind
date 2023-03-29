@@ -1,8 +1,6 @@
 import { Button, Card, Empty, message, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import ChatWindow from '../components/chatWindow';
-import '../styles/globals.css';
-import 'github-markdown-css/github-markdown-light.css';
 import { Link } from 'react-router-dom';
 import request from '../utils/request';
 
@@ -18,7 +16,7 @@ function removeHighLight() {
   });
 }
 
-function addHighLight(chunkId: string, time = 200) {
+function addHighLight(chunkId: string, time = 400) {
   removeHighLight();
   const firstElement = document.querySelector(`[data-chunk_id=${chunkId}]`);
   setTimeout(() => {
@@ -47,6 +45,7 @@ const Home = () => {
     if (res.data.length > 0) {
       setCurrentFile(res.data[0]);
       const htmlRes = await request(`${res.data[0]?.path}`);
+
       setHtml(htmlRes.data);
     }
   }
@@ -67,8 +66,6 @@ const Home = () => {
   useEffect(() => {
     getFileList();
   }, []);
-
-  console.log(currentFile);
 
   return (
     <>

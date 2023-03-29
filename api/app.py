@@ -1,16 +1,34 @@
 from llama_index import GPTSimpleVectorIndex
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
+import sys
 import openai
+import logging
 from create_index import create_index
 openai.api_base = os.environ.get('OPENAI_PROXY')
 
+user_data_dir = 'userData'
 
-app = Flask(__name__, static_folder="html")
+if not os.path.exists(f"{user_data_dir}/html"):
+    os.makedirs(f"{user_data_dir}/html")
+if not os.path.exists(f"{user_data_dir}/index"):
+    os.makedirs(f"{user_data_dir}/index")
+if not os.path.exists(f"{user_data_dir}/temp"):
+    os.makedirs(f"{user_data_dir}/temp")
+
+
+app = Flask(__name__, static_folder=f"{user_data_dir}")
+
+
 CORS(app)
+
+logger = logging.getLogger(__name__)
+file_handler = logging.FileHandler('app.log')
+file_handler.setLevel(logging.ERROR)
+logger.addHandler(file_handler)
 
 load_dotenv()
 
@@ -25,6 +43,7 @@ def handle_error(error):
     print(message)
     response = jsonify({'message': message})
     response.status_code = status_code
+    logger.error(response)
     return response
 
 
@@ -32,7 +51,7 @@ def handle_error(error):
 def summarize_index():
     index_name = request.args.get("index")
     index = GPTSimpleVectorIndex.load_from_disk(
-        f'./index/{index_name}.json')
+        f'{user_data_dir}/index/{index_name}.json')
     res = index.query(
         'What is a summary of this document?', response_mode="summarize")
     response_json = {
@@ -51,7 +70,9 @@ def query_index():
     query_text = request.args.get("query")
     index_name = request.args.get("index")
     index = GPTSimpleVectorIndex.load_from_disk(
-        f'./index/{index_name}.json')
+        f'{user_data_dir}/index/{index_name}.json')
+
+    print(os.environ.get('OPENAI_PROXY'), os.environ.get('OPENAI_API_KEY'))
     res = index.query(query_text)
     response_json = {
         "answer": str(res),
@@ -70,7 +91,9 @@ def upload_file():
     try:
         uploaded_file = request.files["file"]
         filename = secure_filename(uploaded_file.filename)
-        filepath = os.path.join('temp', os.path.basename(filename))
+        print(os.getcwd(), os.path.abspath(__file__))
+        filepath = os.path.join(f'{user_data_dir}/temp',
+                                os.path.basename(filename))
         uploaded_file.save(filepath)
 
         token_usage = create_index(filepath, os.path.splitext(filename)[0])
@@ -79,7 +102,6 @@ def upload_file():
         print(e, 'upload error')
         if filepath is not None and os.path.exists(filepath):
             os.remove(filepath)
-            return "Error: file exist", 500
         return "Error: {}".format(str(e)), 500
 
     # cleanup temp file
@@ -91,13 +113,17 @@ def upload_file():
 
 @app.route('/api/index-list', methods=["GET"])
 def get_index_files():
-    dir = "index"
+    dir = f'{user_data_dir}/index'
     files = os.listdir(dir)
     return files
 
 
 @app.route('/api/html-list', methods=["GET"])
 def get_html_files():
-    dir = "html"
+    dir = f'{user_data_dir}/html'
     files = os.listdir(dir)
-    return [{"path": f'/html/{file}', "name": os.path.splitext(file)[0]} for file in files]
+    return [{"path": f'/{dir}/{file}', "name": os.path.splitext(file)[0]} for file in files]
+
+
+if __name__ == "__main__":
+    app.run()
