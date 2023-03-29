@@ -1,8 +1,12 @@
 import { message } from 'antd';
 import axios from 'axios';
 
+export const baseURL = import.meta.env.DEV
+  ? 'http://127.0.0.1:5000'
+  : import.meta.env.VITE_SERVICES_URL;
+
 const request = axios.create({
-  baseURL: 'http://127.0.0.1:5000'
+  baseURL
 });
 
 request.interceptors.response.use(

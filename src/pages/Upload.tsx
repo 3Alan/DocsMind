@@ -2,6 +2,7 @@ import { InboxOutlined } from '@ant-design/icons';
 import { Card, message, Spin, Upload } from 'antd';
 import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
+import { baseURL } from '../utils/request';
 
 const { Dragger } = Upload;
 
@@ -39,7 +40,7 @@ export default function UploadFile() {
     <Card title="Upload File" className="w-full">
       <Spin spinning={uploading}>
         <Dragger
-          action="http://127.0.0.1:5000/api/upload"
+          action={`${baseURL}/api/upload`}
           multiple={false}
           showUploadList={false}
           name="file"
