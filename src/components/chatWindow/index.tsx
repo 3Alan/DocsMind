@@ -1,7 +1,8 @@
 import { SendOutlined, WarningTwoTone } from '@ant-design/icons';
 import { Button, Card, Input } from 'antd';
 import { AxiosResponse } from 'axios';
-import { FC, Fragment, useRef, useState } from 'react';
+import { FC, Fragment, useEffect, useRef, useState } from 'react';
+import eventEmitter from '../../utils/eventEmitter';
 import request from '../../utils/request';
 import useOpenAiKey from '../../utils/useOpenAiKey';
 import { MessageItem } from './constants';
@@ -25,6 +26,18 @@ const ChatWindow: FC<ChatWindowProps> = ({
   const [query, setQuery] = useState('');
   const [messageList, setMessageList] = useState<MessageItem[]>([]);
   const openAiKey = useOpenAiKey();
+
+  function cleanChat() {
+    setMessageList([]);
+  }
+
+  useEffect(() => {
+    eventEmitter.on('cleanChat', cleanChat);
+
+    return () => {
+      eventEmitter.off('cleanChat', cleanChat);
+    };
+  }, []);
 
   const scrollToBottom = () => {
     const chatWindowEnd = chatWindowEndRef.current;

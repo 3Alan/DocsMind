@@ -1,8 +1,9 @@
 import { Button, Card, Empty, message, Select, Spin } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ChatWindow from '../components/chatWindow';
 import { Link } from 'react-router-dom';
 import request from '../utils/request';
+import eventEmitter from '../utils/eventEmitter';
 
 interface FileItem {
   name: string;
@@ -31,10 +32,19 @@ function addHighLight(chunkId: string, time = 400) {
 }
 
 const Home = () => {
+  const htmlRef = useRef<HTMLDivElement>(null);
   const [html, setHtml] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentFile, setCurrentFile] = useState<FileItem>();
   const [fileList, setFileList] = useState<FileItem[]>([]);
+
+  useEffect(() => {
+    eventEmitter.emit('cleanChat');
+
+    if (htmlRef.current) {
+      htmlRef.current.scrollTop = 0;
+    }
+  }, [currentFile]);
 
   async function getFileList() {
     const res = await request('/api/html-list');
@@ -107,6 +117,7 @@ const Home = () => {
       >
         {html ? (
           <div
+            ref={htmlRef}
             className="markdown-body h-full overflow-auto"
             dangerouslySetInnerHTML={{ __html: html }}
           />

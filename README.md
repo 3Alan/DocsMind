@@ -6,6 +6,8 @@ Chat-Markdown is an open-source project that allows you to chat with your markdo
 
 [Demo Site](https://chat-markdown.alanwang.site/)
 
+Deploy on Vercel and Railway
+
 ## Features
 
 - 🤖 Chat with your markdown files
@@ -20,7 +22,7 @@ I plan to add the following features in the future:
 
 - [ ] Support for more file formats: pdf, txt
 - [ ] Summarize
-- [ ] Download text from the internet
+- [ ] Download doc from the internet
 - [ ] Markdown-formatted message
 - [ ] Stream returns
 - [ ] i18n
