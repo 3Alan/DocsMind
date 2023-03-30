@@ -4,7 +4,7 @@ Chat-Markdown is an open-source project that allows you to chat with your markdo
 
 ## Demo
 
-<a href="https://chat-markdown.alanwang.site/" target="_blank">Demo Site</a>
+[Demo Site](https://chat-markdown.alanwang.site/)
 
 ## Features
 
