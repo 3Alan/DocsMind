@@ -40,7 +40,7 @@ def handle_error(error):
     status_code = 500
     if hasattr(error, 'status_code'):
         status_code = error.status_code
-    print(message)
+    print('some error:', message)
     response = jsonify({'message': message})
     response.status_code = status_code
     logger.error(response)
@@ -67,7 +67,7 @@ def summarize_index():
                      } for x in res.source_nodes]
     }
 
-    # 用完了就删掉，防止别人的key被反复使用
+    # 用完了就删掉，防止key被反复使用
     if open_ai_key:
         os.environ['OPENAI_API_KEY'] = ""
 
@@ -96,7 +96,7 @@ def query_index():
                      } for x in res.source_nodes]
     }
 
-    # 用完了就删掉，防止别人的key被反复使用
+    # 用完了就删掉，防止key被反复使用
     if open_ai_key:
         os.environ['OPENAI_API_KEY'] = ""
 
@@ -108,7 +108,7 @@ def upload_file():
     filepath = None
     try:
         uploaded_file = request.files["file"]
-        filename = secure_filename(uploaded_file.filename)
+        filename = uploaded_file.filename
         print(os.getcwd(), os.path.abspath(__file__))
         filepath = os.path.join(f'{user_data_dir}/temp',
                                 os.path.basename(filename))

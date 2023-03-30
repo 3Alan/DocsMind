@@ -32,6 +32,10 @@ Chat-Markdown is licensed under the MIT License.
 
 ## How to run
 
+### Create .env
+
+Create .env file and fill in environment variables, see .env.example for reference
+
 ### Frontend
 
 #### Install dependencies
