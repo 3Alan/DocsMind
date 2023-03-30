@@ -44,7 +44,16 @@ export default function UploadFile() {
           className="mb-6"
           showIcon
           type="warning"
-          description="The upload is not available on the current website. You can clone the project to your local device to complete the upload."
+          description={
+            <>
+              The upload is not available on the current website. You can
+              <a href="https://github.com/3Alan/chat-markdown" target="__blank">
+                {' '}
+                clone the project{' '}
+              </a>
+              to your local device to complete the upload.
+            </>
+          }
         />
       )}
 
