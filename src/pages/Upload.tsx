@@ -1,8 +1,9 @@
 import { InboxOutlined } from '@ant-design/icons';
-import { Card, message, Spin, Upload } from 'antd';
+import { Alert, Card, message, Spin, Upload } from 'antd';
 import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
 import { baseURL } from '../utils/request';
+import { isDev } from '../utils/isDev';
 
 const { Dragger } = Upload;
 
@@ -38,6 +39,15 @@ export default function UploadFile() {
 
   return (
     <Card title="Upload File" className="w-full">
+      {!isDev && (
+        <Alert
+          className="mb-6"
+          showIcon
+          type="warning"
+          description="The upload is not available on the current website. You can clone the project to your local device to complete the upload."
+        />
+      )}
+
       <Spin spinning={uploading}>
         <Dragger
           action={`${baseURL}/api/upload`}
@@ -46,6 +56,7 @@ export default function UploadFile() {
           name="file"
           accept=".md"
           onChange={onUploadChange}
+          disabled={!isDev}
         >
           <p className="ant-upload-drag-icon">
             <InboxOutlined />

@@ -1,4 +1,4 @@
-import { Button, Card, Empty, message, Select } from 'antd';
+import { Button, Card, Empty, message, Select, Spin } from 'antd';
 import { useEffect, useState } from 'react';
 import ChatWindow from '../components/chatWindow';
 import { Link } from 'react-router-dom';
@@ -32,26 +32,29 @@ function addHighLight(chunkId: string, time = 400) {
 
 const Home = () => {
   const [html, setHtml] = useState('');
+  const [loading, setLoading] = useState(false);
   const [currentFile, setCurrentFile] = useState<FileItem>();
   const [fileList, setFileList] = useState<FileItem[]>([]);
-  const [loading] = message.useMessage();
 
   async function getFileList() {
-    loading.loading('loading...');
     const res = await request('/api/html-list');
-    loading.destroy();
     setFileList(res.data);
 
     if (res.data.length > 0) {
       setCurrentFile(res.data[0]);
+
+      setLoading(true);
       const htmlRes = await request(`${res.data[0]?.path}`);
+      setLoading(false);
 
       setHtml(htmlRes.data);
     }
   }
 
   async function onFileChange(_item: string, option: any) {
+    setLoading(true);
     const res = await request(option.value);
+    setLoading(false);
     setHtml(res.data);
     setCurrentFile({ name: option.label, path: option.value });
   }
@@ -106,7 +109,7 @@ const Home = () => {
           <div
             className="markdown-body h-full overflow-auto"
             dangerouslySetInnerHTML={{ __html: html }}
-          ></div>
+          />
         ) : (
           <Empty
             className="mt-24"

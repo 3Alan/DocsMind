@@ -50,6 +50,10 @@ def handle_error(error):
 @app.route('/api/summarize', methods=["GET"])
 def summarize_index():
     index_name = request.args.get("index")
+    open_ai_key = request.args.get("openAiKey")
+    if open_ai_key:
+        os.environ['OPENAI_API_KEY'] = open_ai_key
+
     index = GPTSimpleVectorIndex.load_from_disk(
         f'{user_data_dir}/index/{index_name}.json')
     res = index.query(
@@ -62,6 +66,11 @@ def summarize_index():
                      "extraInfo": x.extra_info
                      } for x in res.source_nodes]
     }
+
+    # 用完了就删掉，防止别人的key被反复使用
+    if open_ai_key:
+        os.environ['OPENAI_API_KEY'] = ""
+
     return jsonify(response_json)
 
 
@@ -69,6 +78,10 @@ def summarize_index():
 def query_index():
     query_text = request.args.get("query")
     index_name = request.args.get("index")
+    open_ai_key = request.args.get("openAiKey")
+    if open_ai_key:
+        os.environ['OPENAI_API_KEY'] = open_ai_key
+
     index = GPTSimpleVectorIndex.load_from_disk(
         f'{user_data_dir}/index/{index_name}.json')
 
@@ -82,6 +95,11 @@ def query_index():
                      "extraInfo": x.extra_info
                      } for x in res.source_nodes]
     }
+
+    # 用完了就删掉，防止别人的key被反复使用
+    if open_ai_key:
+        os.environ['OPENAI_API_KEY'] = ""
+
     return jsonify(response_json)
 
 

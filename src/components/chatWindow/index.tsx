@@ -1,8 +1,9 @@
-import { WarningTwoTone } from '@ant-design/icons';
-import { Card, Form, Input, message, Modal, Tag } from 'antd';
-import axios, { AxiosResponse } from 'axios';
-import { FC, Fragment, useEffect, useRef, useState } from 'react';
+import { SendOutlined, WarningTwoTone } from '@ant-design/icons';
+import { Button, Card, Input } from 'antd';
+import { AxiosResponse } from 'axios';
+import { FC, Fragment, useRef, useState } from 'react';
 import request from '../../utils/request';
+import useOpenAiKey from '../../utils/useOpenAiKey';
 import { MessageItem } from './constants';
 import Message from './Message';
 
@@ -23,6 +24,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
   const [messageList, setMessageList] = useState<MessageItem[]>([]);
+  const openAiKey = useOpenAiKey();
 
   const scrollToBottom = () => {
     const chatWindowEnd = chatWindowEndRef.current;
@@ -42,14 +44,16 @@ const ChatWindow: FC<ChatWindowProps> = ({
       if (summarize) {
         res = await request('/api/summarize', {
           params: {
-            index: fileName
+            index: fileName,
+            openAiKey
           }
         });
       } else {
         res = await request('/api/query', {
           params: {
             query: value,
-            index: fileName
+            index: fileName,
+            openAiKey
           }
         });
       }
@@ -87,11 +91,22 @@ const ChatWindow: FC<ChatWindowProps> = ({
     }
   };
 
-  const onSearch = async (value: string) => {
+  const onSearch = async () => {
     setQuery('');
-    setMessageList([...messageList, { question: value.trim() }, { reply: '' }]);
+    setMessageList([...messageList, { question: query }, { reply: '' }]);
     scrollToBottom();
-    onReply(value);
+    onReply(query);
+  };
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    console.log(e.isComposing, e.shiftKey, e.key);
+
+    if (e.isComposing || e.shiftKey) return;
+
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      onSearch();
+    }
   };
 
   const onSummarize = async () => {
@@ -140,16 +155,26 @@ const ChatWindow: FC<ChatWindowProps> = ({
             Summarize Markdown
           </Tag>
         </div> */}
-        <Input.Search
-          enterButton="Ask Question"
-          size="large"
-          value={query}
-          placeholder="Input your question"
-          allowClear
-          loading={loading}
-          onChange={e => setQuery(e.target.value)}
-          onSearch={onSearch}
-        />
+        <div className="relative">
+          <Input.TextArea
+            size="large"
+            placeholder="Input your question"
+            value={query}
+            className="pr-[36px]"
+            // @ts-ignore
+            onKeyDown={onKeyDown}
+            autoSize
+            onChange={e => setQuery(e.target.value)}
+          />
+          <Button
+            style={{ width: 32 }}
+            size="small"
+            type="text"
+            className="absolute right-1 top-2"
+            icon={<SendOutlined style={{ color: '#3f95ff' }} />}
+            onClick={onSearch}
+          ></Button>
+        </div>
       </div>
     </Card>
   );

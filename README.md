@@ -17,7 +17,7 @@ you need a python environment
 ### Create virtual environment
 
 ```
-cd api
+cd api-src
 python -m venv .venv
 ```
 
@@ -26,7 +26,7 @@ python -m venv .venv
 windows
 
 ```
-.venv\Scripts\Activate.ps1
+.venv\Scripts\activate
 ```
 
 mac
