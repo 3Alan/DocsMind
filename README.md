@@ -4,7 +4,7 @@ Chat-Markdown is an open-source project that allows you to chat with your markdo
 
 ## Demo
 
-[Demo Site](https://chat-markdown.alanwang.site/)
+<a href="https://chat-markdown.alanwang.site/" target="_blank">Demo Site</a>
 
 ## Features
 
@@ -26,11 +26,9 @@ I plan to add the following features in the future:
 - [ ] i18n
 - [ ] Desktop application
 
-## License
+If you find this project helpful, please consider giving it a star 🌟
 
-Chat-Markdown is licensed under the MIT License.
-
-## How to run
+## How to run locally?
 
 ### Create .env
 
@@ -48,7 +46,7 @@ yarn
 yarn dev
 ```
 
-### Run Backend
+### Backend
 
 you need a python environment
 
