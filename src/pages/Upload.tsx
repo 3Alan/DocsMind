@@ -1,6 +1,6 @@
 import { InboxOutlined } from '@ant-design/icons';
 import { Alert, Card, message, Spin, Upload } from 'antd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { baseURL } from '../utils/request';
 import { isDev } from '../utils/isDev';

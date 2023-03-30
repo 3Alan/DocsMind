@@ -1,4 +1,4 @@
-import { Button, Card, Empty, message, Select, Spin } from 'antd';
+import { Button, Card, Empty, Select } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import ChatWindow from '../components/chatWindow';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,7 @@ interface FileItem {
 
 function removeHighLight() {
   const highLightElements = document.querySelectorAll('.highlight');
-  highLightElements?.forEach(element => {
+  highLightElements?.forEach((element) => {
     element.classList.remove('highlight');
   });
 }
@@ -26,7 +26,7 @@ function addHighLight(chunkId: string, time = 400) {
 
   const highLightElements = document.querySelectorAll(`[data-chunk_id=${chunkId}]`);
 
-  highLightElements?.forEach(element => {
+  highLightElements?.forEach((element) => {
     element.classList.add('highlight');
   });
 }
@@ -100,7 +100,7 @@ const Home = () => {
               File:
               <Select
                 defaultValue={(fileList[0] as any)?.value}
-                options={fileList.map(item => ({
+                options={fileList.map((item) => ({
                   label: item.name,
                   value: item.path
                 }))}
@@ -136,10 +136,10 @@ const Home = () => {
       </Card>
 
       <ChatWindow
-        fileName={currentFile?.name!}
+        fileName={currentFile?.name || ''}
         className="flex flex-col"
         onReplyComplete={onReplyComplete}
-        onReplyClick={data => onReplyComplete(data, 0)}
+        onReplyClick={(data) => onReplyComplete(data, 0)}
       />
     </>
   );

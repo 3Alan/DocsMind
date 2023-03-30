@@ -1,7 +1,7 @@
 import { SendOutlined, WarningTwoTone } from '@ant-design/icons';
 import { Button, Card, Input } from 'antd';
 import { AxiosResponse } from 'axios';
-import { FC, Fragment, useEffect, useRef, useState } from 'react';
+import { FC, Fragment, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import eventEmitter from '../../utils/eventEmitter';
 import request from '../../utils/request';
 import useOpenAiKey from '../../utils/useOpenAiKey';
@@ -72,7 +72,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
       }
 
       setLoading(false);
-      setMessageList(pre => {
+      setMessageList((pre) => {
         return [
           ...pre.slice(0, -1),
           {
@@ -86,7 +86,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
       scrollToBottom();
     } catch (error) {
       setLoading(false);
-      setMessageList(pre => {
+      setMessageList((pre) => {
         return [
           ...pre.slice(0, -1),
           {
@@ -112,9 +112,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
   };
 
   const onKeyDown = (e: KeyboardEvent) => {
-    console.log(e.isComposing, e.shiftKey, e.key);
-
-    if (e.isComposing || e.shiftKey) return;
+    if (e.shiftKey) return;
 
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -174,10 +172,9 @@ const ChatWindow: FC<ChatWindowProps> = ({
             placeholder="Input your question"
             value={query}
             className="pr-[36px]"
-            // @ts-ignore
             onKeyDown={onKeyDown}
             autoSize
-            onChange={e => setQuery(e.target.value)}
+            onChange={(e) => setQuery(e.target.value)}
           />
           <Button
             style={{ width: 32 }}

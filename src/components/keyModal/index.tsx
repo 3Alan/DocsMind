@@ -18,11 +18,11 @@ export default function KeyModal() {
   const onSaveSettings = () => {
     form
       .validateFields()
-      .then(values => {
+      .then((values) => {
         localStorage.setItem('settings', JSON.stringify(values));
         setShowSettingModal(false);
       })
-      .catch(info => {
+      .catch((info) => {
         console.log('Validate Failed:', info);
       });
   };

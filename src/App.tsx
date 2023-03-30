@@ -13,7 +13,7 @@ const App = () => {
         <KeyModal />
         <div className="flex py-4 flex-row justify-center m-auto w-5/6 space-x-4 h-full overflow-hidden">
           <Routes>
-            {routes.map(route => (
+            {routes.map((route) => (
               <Route key={route.path} path={route.path} element={route.element} />
             ))}
           </Routes>
