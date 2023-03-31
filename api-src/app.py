@@ -1,10 +1,8 @@
-from llama_index import GPTSimpleVectorIndex
+from llama_index import GPTSimpleVectorIndex, MockLLMPredictor, MockEmbedding, ServiceContext
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request, send_file
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-from werkzeug.utils import secure_filename
 import os
-import sys
 import openai
 import logging
 from create_index import create_index
@@ -85,11 +83,17 @@ def query_index():
     index = GPTSimpleVectorIndex.load_from_disk(
         f'{user_data_dir}/index/{index_name}.json')
 
-    print(os.environ.get('OPENAI_PROXY'), os.environ.get('OPENAI_API_KEY'))
+    # predictor cost
+    llm_predictor = MockLLMPredictor(max_tokens=256)
+    embed_model = MockEmbedding(embed_dim=1536)
+    service_context = ServiceContext.from_defaults(
+        llm_predictor=llm_predictor, embed_model=embed_model)
+    index.query(query_text, service_context=service_context)
+
     res = index.query(query_text)
     response_json = {
         "answer": str(res),
-        "cost": index.llm_predictor.last_token_usage,
+        "cost": embed_model.last_token_usage + llm_predictor.last_token_usage,
         "sources": [{"text": str(x.source_text),
                      "similarity": round(x.similarity, 2),
                      "extraInfo": x.extra_info

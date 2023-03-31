@@ -39,21 +39,17 @@ improvement. Beat up the code instead!</p>
 <h2 data-chunk_id="chunk-4"><strong data-chunk_id="chunk-4">Variables</strong></h2>
 <h3 data-chunk_id="chunk-5">Use meaningful and pronounceable variable names</h3>
 <p data-chunk_id="chunk-5"><strong data-chunk_id="chunk-5">Bad:</strong></p>
-<pre data-chunk_id="chunk-5"><code class="language-javascript" data-chunk_id="chunk-5">const yyyymmdstr = moment().format('YYYY/MM/DD');
-</code></pre>
+<pre class="highlight" data-chunk_id="chunk-5"><code class="language-javascript" data-chunk_id="chunk-5">const yyyymmdstr = moment().format('YYYY/MM/DD');</code></pre>
 <p data-chunk_id="chunk-5"><strong data-chunk_id="chunk-5">Good:</strong></p>
-<pre data-chunk_id="chunk-5"><code class="language-javascript" data-chunk_id="chunk-5">const currentDate = moment().format('YYYY/MM/DD');
-</code></pre>
+<pre class="highlight" data-chunk_id="chunk-5"><code class="language-javascript" data-chunk_id="chunk-5">const currentDate = moment().format('YYYY/MM/DD');</code></pre>
 <p data-chunk_id="chunk-5"><strong data-chunk_id="chunk-5"><a data-chunk_id="chunk-5" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-6">Use the same vocabulary for the same type of variable</h3>
 <p data-chunk_id="chunk-6"><strong data-chunk_id="chunk-6">Bad:</strong></p>
-<pre data-chunk_id="chunk-6"><code class="language-javascript" data-chunk_id="chunk-6">getUserInfo();
+<pre class="highlight" data-chunk_id="chunk-6"><code class="language-javascript" data-chunk_id="chunk-6">getUserInfo();
 getClientData();
-getCustomerRecord();
-</code></pre>
+getCustomerRecord();</code></pre>
 <p data-chunk_id="chunk-6"><strong data-chunk_id="chunk-6">Good:</strong></p>
-<pre data-chunk_id="chunk-6"><code class="language-javascript" data-chunk_id="chunk-6">getUser();
-</code></pre>
+<pre class="highlight" data-chunk_id="chunk-6"><code class="language-javascript" data-chunk_id="chunk-6">getUser();</code></pre>
 <p data-chunk_id="chunk-6"><strong data-chunk_id="chunk-6"><a data-chunk_id="chunk-6" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-7">Use searchable names</h3>
 <p data-chunk_id="chunk-7">We will read more code than we will ever write. It's important that the code we
@@ -64,33 +60,29 @@ Make your names searchable. Tools like
 <a data-chunk_id="chunk-7" href="https://github.com/eslint/eslint/blob/660e0918933e6e7fede26bc675a0763a6b357c94/docs/rules/no-magic-numbers.md">ESLint</a>
 can help identify unnamed constants.</p>
 <p data-chunk_id="chunk-7"><strong data-chunk_id="chunk-7">Bad:</strong></p>
-<pre data-chunk_id="chunk-7"><code class="language-javascript" data-chunk_id="chunk-7">// What the heck is 86400000 for?
-setTimeout(blastOff, 86400000);
-</code></pre>
+<pre class="highlight" data-chunk_id="chunk-7"><code class="language-javascript" data-chunk_id="chunk-7">// What the heck is 86400000 for?
+setTimeout(blastOff, 86400000);</code></pre>
 <p data-chunk_id="chunk-7"><strong data-chunk_id="chunk-7">Good:</strong></p>
-<pre data-chunk_id="chunk-7"><code class="language-javascript" data-chunk_id="chunk-7">// Declare them as capitalized named constants.
+<pre class="highlight" data-chunk_id="chunk-7"><code class="language-javascript" data-chunk_id="chunk-7">// Declare them as capitalized named constants.
 const MILLISECONDS_PER_DAY = 60 * 60 * 24 * 1000; //86400000;
 
-setTimeout(blastOff, MILLISECONDS_PER_DAY);
-</code></pre>
+setTimeout(blastOff, MILLISECONDS_PER_DAY);</code></pre>
 <p data-chunk_id="chunk-7"><strong data-chunk_id="chunk-7"><a data-chunk_id="chunk-7" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-8">Use explanatory variables</h3>
 <p data-chunk_id="chunk-8"><strong data-chunk_id="chunk-8">Bad:</strong></p>
-<pre data-chunk_id="chunk-8"><code class="language-javascript" data-chunk_id="chunk-8">const address = 'One Infinite Loop, Cupertino 95014';
+<pre class="highlight" data-chunk_id="chunk-8"><code class="language-javascript" data-chunk_id="chunk-8">const address = 'One Infinite Loop, Cupertino 95014';
 const cityZipCodeRegex = /^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/;
-saveCityZipCode(address.match(cityZipCodeRegex)[1], address.match(cityZipCodeRegex)[2]);
-</code></pre>
+saveCityZipCode(address.match(cityZipCodeRegex)[1], address.match(cityZipCodeRegex)[2]);</code></pre>
 <p data-chunk_id="chunk-8"><strong data-chunk_id="chunk-8">Good:</strong></p>
-<pre data-chunk_id="chunk-8"><code class="language-javascript" data-chunk_id="chunk-8">const address = 'One Infinite Loop, Cupertino 95014';
+<pre class="highlight" data-chunk_id="chunk-8"><code class="language-javascript" data-chunk_id="chunk-8">const address = 'One Infinite Loop, Cupertino 95014';
 const cityZipCodeRegex = /^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/;
 const [_, city, zipCode] = address.match(cityZipCodeRegex) || [];
-saveCityZipCode(city, zipCode);
-</code></pre>
+saveCityZipCode(city, zipCode);</code></pre>
 <p data-chunk_id="chunk-8"><strong data-chunk_id="chunk-8"><a data-chunk_id="chunk-8" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-9">Avoid Mental Mapping</h3>
 <p data-chunk_id="chunk-9">Explicit is better than implicit.</p>
 <p data-chunk_id="chunk-9"><strong data-chunk_id="chunk-9">Bad:</strong></p>
-<pre data-chunk_id="chunk-9"><code class="language-javascript" data-chunk_id="chunk-9">const locations = ['Austin', 'New York', 'San Francisco'];
+<pre class="highlight" data-chunk_id="chunk-9"><code class="language-javascript" data-chunk_id="chunk-9">const locations = ['Austin', 'New York', 'San Francisco'];
 locations.forEach(l =&gt; {
   doStuff();
   doSomeOtherStuff();
@@ -99,10 +91,9 @@ locations.forEach(l =&gt; {
   // ...
   // Wait, what is `l` for again?
   dispatch(l);
-});
-</code></pre>
+});</code></pre>
 <p data-chunk_id="chunk-9"><strong data-chunk_id="chunk-9">Good:</strong></p>
-<pre data-chunk_id="chunk-9"><code class="language-javascript" data-chunk_id="chunk-9">const locations = ['Austin', 'New York', 'San Francisco'];
+<pre class="highlight" data-chunk_id="chunk-9"><code class="language-javascript" data-chunk_id="chunk-9">const locations = ['Austin', 'New York', 'San Francisco'];
 locations.forEach(location =&gt; {
   doStuff();
   doSomeOtherStuff();
@@ -110,14 +101,13 @@ locations.forEach(location =&gt; {
   // ...
   // ...
   dispatch(location);
-});
-</code></pre>
+});</code></pre>
 <p data-chunk_id="chunk-9"><strong data-chunk_id="chunk-9"><a data-chunk_id="chunk-9" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-10">Don't add unneeded context</h3>
 <p data-chunk_id="chunk-10">If your class/object name tells you something, don't repeat that in your
 variable name.</p>
 <p data-chunk_id="chunk-10"><strong data-chunk_id="chunk-10">Bad:</strong></p>
-<pre data-chunk_id="chunk-10"><code class="language-javascript" data-chunk_id="chunk-10">const Car = {
+<pre class="highlight" data-chunk_id="chunk-10"><code class="language-javascript" data-chunk_id="chunk-10">const Car = {
   carMake: 'Honda',
   carModel: 'Accord',
   carColor: 'Blue'
@@ -125,10 +115,9 @@ variable name.</p>
 
 function paintCar(car, color) {
   car.carColor = color;
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-10"><strong data-chunk_id="chunk-10">Good:</strong></p>
-<pre data-chunk_id="chunk-10"><code class="language-javascript" data-chunk_id="chunk-10">const Car = {
+<pre class="highlight" data-chunk_id="chunk-10"><code class="language-javascript" data-chunk_id="chunk-10">const Car = {
   make: 'Honda',
   model: 'Accord',
   color: 'Blue'
@@ -136,8 +125,7 @@ function paintCar(car, color) {
 
 function paintCar(car, color) {
   car.color = color;
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-10"><strong data-chunk_id="chunk-10"><a data-chunk_id="chunk-10" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-11">Use default parameters instead of short circuiting or conditionals</h3>
 <p data-chunk_id="chunk-11">Default parameters are often cleaner than short circuiting. Be aware that if you
@@ -145,16 +133,14 @@ use them, your function will only provide default values for <code data-chunk_id
 arguments. Other "falsy" values such as <code data-chunk_id="chunk-11">''</code>, <code data-chunk_id="chunk-11">""</code>, <code data-chunk_id="chunk-11">false</code>, <code data-chunk_id="chunk-11">null</code>, <code data-chunk_id="chunk-11">0</code>, and
 <code data-chunk_id="chunk-11">NaN</code>, will not be replaced by a default value.</p>
 <p data-chunk_id="chunk-11"><strong data-chunk_id="chunk-11">Bad:</strong></p>
-<pre data-chunk_id="chunk-11"><code class="language-javascript" data-chunk_id="chunk-11">function createMicrobrewery(name) {
+<pre class="highlight" data-chunk_id="chunk-11"><code class="language-javascript" data-chunk_id="chunk-11">function createMicrobrewery(name) {
   const breweryName = name || 'Hipster Brew Co.';
   // ...
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-11"><strong data-chunk_id="chunk-11">Good:</strong></p>
-<pre data-chunk_id="chunk-11"><code class="language-javascript" data-chunk_id="chunk-11">function createMicrobrewery(name = 'Hipster Brew Co.') {
+<pre class="highlight" data-chunk_id="chunk-11"><code class="language-javascript" data-chunk_id="chunk-11">function createMicrobrewery(name = 'Hipster Brew Co.') {
   // ...
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-11"><strong data-chunk_id="chunk-11"><a data-chunk_id="chunk-11" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h2 data-chunk_id="chunk-12"><strong data-chunk_id="chunk-12">Functions</strong></h2>
 <h3 data-chunk_id="chunk-13">Function arguments (2 or fewer ideally)</h3>
@@ -184,14 +170,13 @@ destructuring syntax. This has a few advantages:</p>
    without destructuring.</li>
 </ol>
 <p data-chunk_id="chunk-13"><strong data-chunk_id="chunk-13">Bad:</strong></p>
-<pre data-chunk_id="chunk-13"><code class="language-javascript" data-chunk_id="chunk-13">function createMenu(title, body, buttonText, cancellable) {
+<pre class="highlight" data-chunk_id="chunk-13"><code class="language-javascript" data-chunk_id="chunk-13">function createMenu(title, body, buttonText, cancellable) {
   // ...
 }
 
-createMenu('Foo', 'Bar', 'Baz', true);
-</code></pre>
+createMenu('Foo', 'Bar', 'Baz', true);</code></pre>
 <p data-chunk_id="chunk-13"><strong data-chunk_id="chunk-13">Good:</strong></p>
-<pre data-chunk_id="chunk-13"><code class="language-javascript" data-chunk_id="chunk-13">function createMenu({ title, body, buttonText, cancellable }) {
+<pre class="highlight" data-chunk_id="chunk-13"><code class="language-javascript" data-chunk_id="chunk-13">function createMenu({ title, body, buttonText, cancellable }) {
   // ...
 }
 
@@ -200,8 +185,7 @@ createMenu({
   body: 'Bar',
   buttonText: 'Baz',
   cancellable: true
-});
-</code></pre>
+});</code></pre>
 <p data-chunk_id="chunk-13"><strong data-chunk_id="chunk-13"><a data-chunk_id="chunk-13" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-14">Functions should do one thing</h3>
 <p data-chunk_id="chunk-14">This is by far the most important rule in software engineering. When functions
@@ -210,52 +194,48 @@ When you can isolate a function to just one action, it can be refactored
 easily and your code will read much cleaner. If you take nothing else away from
 this guide other than this, you'll be ahead of many developers.</p>
 <p data-chunk_id="chunk-14"><strong data-chunk_id="chunk-14">Bad:</strong></p>
-<pre data-chunk_id="chunk-14"><code class="language-javascript" data-chunk_id="chunk-14">function emailClients(clients) {
+<pre class="highlight" data-chunk_id="chunk-14"><code class="language-javascript" data-chunk_id="chunk-14">function emailClients(clients) {
   clients.forEach(client =&gt; {
     const clientRecord = database.lookup(client);
     if (clientRecord.isActive()) {
       email(client);
     }
   });
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-14"><strong data-chunk_id="chunk-14">Good:</strong></p>
-<pre data-chunk_id="chunk-14"><code class="language-javascript" data-chunk_id="chunk-14">function emailActiveClients(clients) {
+<pre class="highlight" data-chunk_id="chunk-14"><code class="language-javascript" data-chunk_id="chunk-14">function emailActiveClients(clients) {
   clients.filter(isActiveClient).forEach(email);
 }
 
 function isActiveClient(client) {
   const clientRecord = database.lookup(client);
   return clientRecord.isActive();
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-14"><strong data-chunk_id="chunk-14"><a data-chunk_id="chunk-14" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-15">Function names should say what they do</h3>
 <p data-chunk_id="chunk-15"><strong data-chunk_id="chunk-15">Bad:</strong></p>
-<pre data-chunk_id="chunk-15"><code class="language-javascript" data-chunk_id="chunk-15">function addToDate(date, month) {
+<pre class="highlight" data-chunk_id="chunk-15"><code class="language-javascript" data-chunk_id="chunk-15">function addToDate(date, month) {
   // ...
 }
 
 const date = new Date();
 
 // It's hard to tell from the function name what is added
-addToDate(date, 1);
-</code></pre>
+addToDate(date, 1);</code></pre>
 <p data-chunk_id="chunk-15"><strong data-chunk_id="chunk-15">Good:</strong></p>
-<pre data-chunk_id="chunk-15"><code class="language-javascript" data-chunk_id="chunk-15">function addMonthToDate(month, date) {
+<pre class="highlight" data-chunk_id="chunk-15"><code class="language-javascript" data-chunk_id="chunk-15">function addMonthToDate(month, date) {
   // ...
 }
 
 const date = new Date();
-addMonthToDate(1, date);
-</code></pre>
+addMonthToDate(1, date);</code></pre>
 <p data-chunk_id="chunk-15"><strong data-chunk_id="chunk-15"><a data-chunk_id="chunk-15" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-16">Functions should only be one level of abstraction</h3>
 <p data-chunk_id="chunk-16">When you have more than one level of abstraction your function is usually
 doing too much. Splitting up functions leads to reusability and easier
 testing.</p>
 <p data-chunk_id="chunk-16"><strong data-chunk_id="chunk-16">Bad:</strong></p>
-<pre data-chunk_id="chunk-16"><code class="language-javascript" data-chunk_id="chunk-16">function parseBetterJSAlternative(code) {
+<pre class="highlight" data-chunk_id="chunk-16"><code class="language-javascript" data-chunk_id="chunk-16">function parseBetterJSAlternative(code) {
   const REGEXES = [
     // ...
   ];
@@ -276,10 +256,9 @@ testing.</p>
   ast.forEach(node =&gt; {
     // parse...
   });
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-16"><strong data-chunk_id="chunk-16">Good:</strong></p>
-<pre data-chunk_id="chunk-16"><code class="language-javascript" data-chunk_id="chunk-16">function parseBetterJSAlternative(code) {
+<pre class="highlight" data-chunk_id="chunk-16"><code class="language-javascript" data-chunk_id="chunk-16">function parseBetterJSAlternative(code) {
   const tokens = tokenize(code);
   const syntaxTree = parse(tokens);
   syntaxTree.forEach(node =&gt; {
@@ -310,8 +289,7 @@ function parse(tokens) {
   });
 
   return syntaxTree;
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-16"><strong data-chunk_id="chunk-16"><a data-chunk_id="chunk-16" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-17">Remove duplicate code</h3>
 <p data-chunk_id="chunk-17">Do your absolute best to avoid duplicate code. Duplicate code is bad because it
@@ -332,7 +310,7 @@ worse than duplicate code, so be careful! Having said this, if you can make
 a good abstraction, do it! Don't repeat yourself, otherwise you'll find yourself
 updating multiple places anytime you want to change one thing.</p>
 <p data-chunk_id="chunk-17"><strong data-chunk_id="chunk-17">Bad:</strong></p>
-<pre data-chunk_id="chunk-17"><code class="language-javascript" data-chunk_id="chunk-17">function showDeveloperList(developers) {
+<pre class="highlight" data-chunk_id="chunk-17"><code class="language-javascript" data-chunk_id="chunk-17">function showDeveloperList(developers) {
   developers.forEach(developer =&gt; {
     const expectedSalary = developer.calculateExpectedSalary();
     const experience = developer.getExperience();
@@ -360,10 +338,9 @@ function showManagerList(managers) {
 
     render(data);
   });
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-18"><strong data-chunk_id="chunk-18">Good:</strong></p>
-<pre data-chunk_id="chunk-18"><code class="language-javascript" data-chunk_id="chunk-18">function showEmployeeList(employees) {
+<pre class="highlight" data-chunk_id="chunk-18"><code class="language-javascript" data-chunk_id="chunk-18">function showEmployeeList(employees) {
   employees.forEach(employee =&gt; {
     const expectedSalary = employee.calculateExpectedSalary();
     const experience = employee.getExperience();
@@ -384,12 +361,11 @@ function showManagerList(managers) {
 
     render(data);
   });
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-18"><strong data-chunk_id="chunk-18"><a data-chunk_id="chunk-18" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-19">Set default objects with Object.assign</h3>
 <p data-chunk_id="chunk-19"><strong data-chunk_id="chunk-19">Bad:</strong></p>
-<pre data-chunk_id="chunk-19"><code class="language-javascript" data-chunk_id="chunk-19">const menuConfig = {
+<pre class="highlight" data-chunk_id="chunk-19"><code class="language-javascript" data-chunk_id="chunk-19">const menuConfig = {
   title: null,
   body: 'Bar',
   buttonText: null,
@@ -403,10 +379,9 @@ function createMenu(config) {
   config.cancellable = config.cancellable !== undefined ? config.cancellable : true;
 }
 
-createMenu(menuConfig);
-</code></pre>
+createMenu(menuConfig);</code></pre>
 <p data-chunk_id="chunk-19"><strong data-chunk_id="chunk-19">Good:</strong></p>
-<pre data-chunk_id="chunk-19"><code class="language-javascript" data-chunk_id="chunk-19">const menuConfig = {
+<pre class="highlight" data-chunk_id="chunk-19"><code class="language-javascript" data-chunk_id="chunk-19">const menuConfig = {
   title: 'Order',
   // User did not include 'body' key
   buttonText: 'Send',
@@ -428,29 +403,26 @@ function createMenu(config) {
   // ...
 }
 
-createMenu(menuConfig);
-</code></pre>
+createMenu(menuConfig);</code></pre>
 <p data-chunk_id="chunk-19"><strong data-chunk_id="chunk-19"><a data-chunk_id="chunk-19" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-20">Don't use flags as function parameters</h3>
 <p data-chunk_id="chunk-20">Flags tell your user that this function does more than one thing. Functions should do one thing. Split out your functions if they are following different code paths based on a boolean.</p>
 <p data-chunk_id="chunk-20"><strong data-chunk_id="chunk-20">Bad:</strong></p>
-<pre data-chunk_id="chunk-20"><code class="language-javascript" data-chunk_id="chunk-20">function createFile(name, temp) {
+<pre class="highlight" data-chunk_id="chunk-20"><code class="language-javascript" data-chunk_id="chunk-20">function createFile(name, temp) {
   if (temp) {
     fs.create(`./temp/${name}`);
   } else {
     fs.create(name);
   }
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-20"><strong data-chunk_id="chunk-20">Good:</strong></p>
-<pre data-chunk_id="chunk-20"><code class="language-javascript" data-chunk_id="chunk-20">function createFile(name) {
+<pre class="highlight" data-chunk_id="chunk-20"><code class="language-javascript" data-chunk_id="chunk-20">function createFile(name) {
   fs.create(name);
 }
 
 function createTempFile(name) {
   createFile(`./temp/${name}`);
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-20"><strong data-chunk_id="chunk-20"><a data-chunk_id="chunk-20" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-21">Avoid Side Effects (part 1)</h3>
 <p data-chunk_id="chunk-21">A function produces a side effect if it does anything other than take a value in
@@ -466,7 +438,7 @@ without any structure, using mutable data types that can be written to by anythi
 and not centralizing where your side effects occur. If you can do this, you will
 be happier than the vast majority of other programmers.</p>
 <p data-chunk_id="chunk-21"><strong data-chunk_id="chunk-21">Bad:</strong></p>
-<pre data-chunk_id="chunk-21"><code class="language-javascript" data-chunk_id="chunk-21">// Global variable referenced by following function.
+<pre class="highlight" data-chunk_id="chunk-21"><code class="language-javascript" data-chunk_id="chunk-21">// Global variable referenced by following function.
 // If we had another function that used this name, now it'd be an array and it could break it.
 let name = 'Ryan McDermott';
 
@@ -476,10 +448,9 @@ function splitIntoFirstAndLastName() {
 
 splitIntoFirstAndLastName();
 
-console.log(name); // ['Ryan', 'McDermott'];
-</code></pre>
+console.log(name); // ['Ryan', 'McDermott'];</code></pre>
 <p data-chunk_id="chunk-21"><strong data-chunk_id="chunk-21">Good:</strong></p>
-<pre data-chunk_id="chunk-21"><code class="language-javascript" data-chunk_id="chunk-21">function splitIntoFirstAndLastName(name) {
+<pre class="highlight" data-chunk_id="chunk-21"><code class="language-javascript" data-chunk_id="chunk-21">function splitIntoFirstAndLastName(name) {
   return name.split(' ');
 }
 
@@ -487,8 +458,7 @@ const name = 'Ryan McDermott';
 const newName = splitIntoFirstAndLastName(name);
 
 console.log(name); // 'Ryan McDermott';
-console.log(newName); // ['Ryan', 'McDermott'];
-</code></pre>
+console.log(newName); // ['Ryan', 'McDermott'];</code></pre>
 <p data-chunk_id="chunk-21"><strong data-chunk_id="chunk-21"><a data-chunk_id="chunk-21" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-22">Avoid Side Effects (part 2)</h3>
 <p data-chunk_id="chunk-22">In JavaScript, some values are unchangeable (immutable) and some are changeable
@@ -527,15 +497,13 @@ using the old shopping cart wouldn't be affected by the changes.</p>
 </li>
 </ol>
 <p data-chunk_id="chunk-23"><strong data-chunk_id="chunk-23">Bad:</strong></p>
-<pre data-chunk_id="chunk-23"><code class="language-javascript" data-chunk_id="chunk-23">const addItemToCart = (cart, item) =&gt; {
+<pre class="highlight" data-chunk_id="chunk-23"><code class="language-javascript" data-chunk_id="chunk-23">const addItemToCart = (cart, item) =&gt; {
   cart.push({ item, date: Date.now() });
-};
-</code></pre>
+};</code></pre>
 <p data-chunk_id="chunk-23"><strong data-chunk_id="chunk-23">Good:</strong></p>
-<pre data-chunk_id="chunk-23"><code class="language-javascript" data-chunk_id="chunk-23">const addItemToCart = (cart, item) =&gt; {
+<pre class="highlight" data-chunk_id="chunk-23"><code class="language-javascript" data-chunk_id="chunk-23">const addItemToCart = (cart, item) =&gt; {
   return [...cart, { item, date: Date.now() }];
-};
-</code></pre>
+};</code></pre>
 <p data-chunk_id="chunk-23"><strong data-chunk_id="chunk-23"><a data-chunk_id="chunk-23" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-24">Don't write to global functions</h3>
 <p data-chunk_id="chunk-24">Polluting globals is a bad practice in JavaScript because you could clash with another
@@ -548,26 +516,24 @@ to do the same thing. What if that other library was just using <code data-chunk
 the difference between the first and last elements of an array? This is why it
 would be much better to just use ES2015/ES6 classes and simply extend the <code data-chunk_id="chunk-24">Array</code> global.</p>
 <p data-chunk_id="chunk-24"><strong data-chunk_id="chunk-24">Bad:</strong></p>
-<pre data-chunk_id="chunk-24"><code class="language-javascript" data-chunk_id="chunk-24">Array.prototype.diff = function diff(comparisonArray) {
+<pre class="highlight" data-chunk_id="chunk-24"><code class="language-javascript" data-chunk_id="chunk-24">Array.prototype.diff = function diff(comparisonArray) {
   const hash = new Set(comparisonArray);
   return this.filter(elem =&gt; !hash.has(elem));
-};
-</code></pre>
+};</code></pre>
 <p data-chunk_id="chunk-24"><strong data-chunk_id="chunk-24">Good:</strong></p>
-<pre data-chunk_id="chunk-24"><code class="language-javascript" data-chunk_id="chunk-24">class SuperArray extends Array {
+<pre class="highlight" data-chunk_id="chunk-24"><code class="language-javascript" data-chunk_id="chunk-24">class SuperArray extends Array {
   diff(comparisonArray) {
     const hash = new Set(comparisonArray);
     return this.filter(elem =&gt; !hash.has(elem));
   }
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-24"><strong data-chunk_id="chunk-24"><a data-chunk_id="chunk-24" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-25">Favor functional programming over imperative programming</h3>
 <p data-chunk_id="chunk-25">JavaScript isn't a functional language in the way that Haskell is, but it has
 a functional flavor to it. Functional languages can be cleaner and easier to test.
 Favor this style of programming when you can.</p>
 <p data-chunk_id="chunk-25"><strong data-chunk_id="chunk-25">Bad:</strong></p>
-<pre data-chunk_id="chunk-25"><code class="language-javascript" data-chunk_id="chunk-25">const programmerOutput = [
+<pre class="highlight" data-chunk_id="chunk-25"><code class="language-javascript" data-chunk_id="chunk-25">const programmerOutput = [
   {
     name: 'Uncle Bobby',
     linesOfCode: 500
@@ -590,10 +556,9 @@ let totalOutput = 0;
 
 for (let i = 0; i &lt; programmerOutput.length; i++) {
   totalOutput += programmerOutput[i].linesOfCode;
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-25"><strong data-chunk_id="chunk-25">Good:</strong></p>
-<pre data-chunk_id="chunk-25"><code class="language-javascript" data-chunk_id="chunk-25">const programmerOutput = [
+<pre class="highlight" data-chunk_id="chunk-25"><code class="language-javascript" data-chunk_id="chunk-25">const programmerOutput = [
   {
     name: 'Uncle Bobby',
     linesOfCode: 500
@@ -615,44 +580,39 @@ for (let i = 0; i &lt; programmerOutput.length; i++) {
 const totalOutput = programmerOutput.reduce(
   (totalLines, output) =&gt; totalLines + output.linesOfCode,
   0
-);
-</code></pre>
+);</code></pre>
 <p data-chunk_id="chunk-25"><strong data-chunk_id="chunk-25"><a data-chunk_id="chunk-25" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-26">Encapsulate conditionals</h3>
 <p data-chunk_id="chunk-26"><strong data-chunk_id="chunk-26">Bad:</strong></p>
-<pre data-chunk_id="chunk-26"><code class="language-javascript" data-chunk_id="chunk-26">if (fsm.state === 'fetching' &amp;&amp; isEmpty(listNode)) {
+<pre class="highlight" data-chunk_id="chunk-26"><code class="language-javascript" data-chunk_id="chunk-26">if (fsm.state === 'fetching' &amp;&amp; isEmpty(listNode)) {
   // ...
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-26"><strong data-chunk_id="chunk-26">Good:</strong></p>
-<pre data-chunk_id="chunk-26"><code class="language-javascript" data-chunk_id="chunk-26">function shouldShowSpinner(fsm, listNode) {
+<pre class="highlight" data-chunk_id="chunk-26"><code class="language-javascript" data-chunk_id="chunk-26">function shouldShowSpinner(fsm, listNode) {
   return fsm.state === 'fetching' &amp;&amp; isEmpty(listNode);
 }
 
 if (shouldShowSpinner(fsmInstance, listNodeInstance)) {
   // ...
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-26"><strong data-chunk_id="chunk-26"><a data-chunk_id="chunk-26" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-27">Avoid negative conditionals</h3>
 <p data-chunk_id="chunk-27"><strong data-chunk_id="chunk-27">Bad:</strong></p>
-<pre data-chunk_id="chunk-27"><code class="language-javascript" data-chunk_id="chunk-27">function isDOMNodeNotPresent(node) {
+<pre class="highlight" data-chunk_id="chunk-27"><code class="language-javascript" data-chunk_id="chunk-27">function isDOMNodeNotPresent(node) {
   // ...
 }
 
 if (!isDOMNodeNotPresent(node)) {
   // ...
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-27"><strong data-chunk_id="chunk-27">Good:</strong></p>
-<pre data-chunk_id="chunk-27"><code class="language-javascript" data-chunk_id="chunk-27">function isDOMNodePresent(node) {
+<pre class="highlight" data-chunk_id="chunk-27"><code class="language-javascript" data-chunk_id="chunk-27">function isDOMNodePresent(node) {
   // ...
 }
 
 if (isDOMNodePresent(node)) {
   // ...
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-27"><strong data-chunk_id="chunk-27"><a data-chunk_id="chunk-27" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-28">Avoid conditionals</h3>
 <p data-chunk_id="chunk-28">This seems like an impossible task. Upon first hearing this, most people say,
@@ -664,7 +624,7 @@ one thing. When you have classes and functions that have <code data-chunk_id="ch
 are telling your user that your function does more than one thing. Remember,
 just do one thing.</p>
 <p data-chunk_id="chunk-28"><strong data-chunk_id="chunk-28">Bad:</strong></p>
-<pre data-chunk_id="chunk-28"><code class="language-javascript" data-chunk_id="chunk-28">class Airplane {
+<pre class="highlight" data-chunk_id="chunk-28"><code class="language-javascript" data-chunk_id="chunk-28">class Airplane {
   // ...
   getCruisingAltitude() {
     switch (this.type) {
@@ -676,10 +636,9 @@ just do one thing.</p>
         return this.getMaxAltitude() - this.getFuelExpenditure();
     }
   }
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-28"><strong data-chunk_id="chunk-28">Good:</strong></p>
-<pre data-chunk_id="chunk-28"><code class="language-javascript" data-chunk_id="chunk-28">class Airplane {
+<pre class="highlight" data-chunk_id="chunk-28"><code class="language-javascript" data-chunk_id="chunk-28">class Airplane {
   // ...
 }
 
@@ -702,8 +661,7 @@ class Cessna extends Airplane {
   getCruisingAltitude() {
     return this.getMaxAltitude() - this.getFuelExpenditure();
   }
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-28"><strong data-chunk_id="chunk-28"><a data-chunk_id="chunk-28" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-29">Avoid type-checking (part 1)</h3>
 <p data-chunk_id="chunk-29">JavaScript is untyped, which means your functions can take any type of argument.
@@ -711,19 +669,17 @@ Sometimes you are bitten by this freedom and it becomes tempting to do
 type-checking in your functions. There are many ways to avoid having to do this.
 The first thing to consider is consistent APIs.</p>
 <p data-chunk_id="chunk-29"><strong data-chunk_id="chunk-29">Bad:</strong></p>
-<pre data-chunk_id="chunk-29"><code class="language-javascript" data-chunk_id="chunk-29">function travelToTexas(vehicle) {
+<pre class="highlight" data-chunk_id="chunk-29"><code class="language-javascript" data-chunk_id="chunk-29">function travelToTexas(vehicle) {
   if (vehicle instanceof Bicycle) {
     vehicle.pedal(this.currentLocation, new Location('texas'));
   } else if (vehicle instanceof Car) {
     vehicle.drive(this.currentLocation, new Location('texas'));
   }
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-29"><strong data-chunk_id="chunk-29">Good:</strong></p>
-<pre data-chunk_id="chunk-29"><code class="language-javascript" data-chunk_id="chunk-29">function travelToTexas(vehicle) {
+<pre class="highlight" data-chunk_id="chunk-29"><code class="language-javascript" data-chunk_id="chunk-29">function travelToTexas(vehicle) {
   vehicle.move(this.currentLocation, new Location('texas'));
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-29"><strong data-chunk_id="chunk-29"><a data-chunk_id="chunk-29" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-30">Avoid type-checking (part 2)</h3>
 <p data-chunk_id="chunk-30">If you are working with basic primitive values like strings and integers,
@@ -736,7 +692,7 @@ doesn't make up for the lost readability. Keep your JavaScript clean, write
 good tests, and have good code reviews. Otherwise, do all of that but with
 TypeScript (which, like I said, is a great alternative!).</p>
 <p data-chunk_id="chunk-30"><strong data-chunk_id="chunk-30">Bad:</strong></p>
-<pre data-chunk_id="chunk-30"><code class="language-javascript" data-chunk_id="chunk-30">function combine(val1, val2) {
+<pre class="highlight" data-chunk_id="chunk-30"><code class="language-javascript" data-chunk_id="chunk-30">function combine(val1, val2) {
   if (
     (typeof val1 === 'number' &amp;&amp; typeof val2 === 'number') ||
     (typeof val1 === 'string' &amp;&amp; typeof val2 === 'string')
@@ -745,13 +701,11 @@ TypeScript (which, like I said, is a great alternative!).</p>
   }
 
   throw new Error('Must be of type String or Number');
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-30"><strong data-chunk_id="chunk-30">Good:</strong></p>
-<pre data-chunk_id="chunk-30"><code class="language-javascript" data-chunk_id="chunk-30">function combine(val1, val2) {
+<pre class="highlight" data-chunk_id="chunk-30"><code class="language-javascript" data-chunk_id="chunk-30">function combine(val1, val2) {
   return val1 + val2;
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-30"><strong data-chunk_id="chunk-30"><a data-chunk_id="chunk-30" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-31">Don't over-optimize</h3>
 <p data-chunk_id="chunk-31">Modern browsers do a lot of optimization under-the-hood at runtime. A lot of
@@ -760,24 +714,22 @@ resources</a>
 for seeing where optimization is lacking. Target those in the meantime, until
 they are fixed if they can be.</p>
 <p data-chunk_id="chunk-31"><strong data-chunk_id="chunk-31">Bad:</strong></p>
-<pre data-chunk_id="chunk-31"><code class="language-javascript" data-chunk_id="chunk-31">// On old browsers, each iteration with uncached `list.length` would be costly
+<pre class="highlight" data-chunk_id="chunk-31"><code class="language-javascript" data-chunk_id="chunk-31">// On old browsers, each iteration with uncached `list.length` would be costly
 // because of `list.length` recomputation. In modern browsers, this is optimized.
 for (let i = 0, len = list.length; i &lt; len; i++) {
   // ...
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-31"><strong data-chunk_id="chunk-31">Good:</strong></p>
-<pre data-chunk_id="chunk-31"><code class="language-javascript" data-chunk_id="chunk-31">for (let i = 0; i &lt; list.length; i++) {
+<pre class="highlight" data-chunk_id="chunk-31"><code class="language-javascript" data-chunk_id="chunk-31">for (let i = 0; i &lt; list.length; i++) {
   // ...
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-31"><strong data-chunk_id="chunk-31"><a data-chunk_id="chunk-31" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-32">Remove dead code</h3>
 <p data-chunk_id="chunk-32">Dead code is just as bad as duplicate code. There's no reason to keep it in
 your codebase. If it's not being called, get rid of it! It will still be safe
 in your version history if you still need it.</p>
 <p data-chunk_id="chunk-32"><strong data-chunk_id="chunk-32">Bad:</strong></p>
-<pre data-chunk_id="chunk-32"><code class="language-javascript" data-chunk_id="chunk-32">function oldRequestModule(url) {
+<pre class="highlight" data-chunk_id="chunk-32"><code class="language-javascript" data-chunk_id="chunk-32">function oldRequestModule(url) {
   // ...
 }
 
@@ -786,16 +738,14 @@ function newRequestModule(url) {
 }
 
 const req = newRequestModule;
-inventoryTracker('apples', req, 'www.inventory-awesome.io');
-</code></pre>
+inventoryTracker('apples', req, 'www.inventory-awesome.io');</code></pre>
 <p data-chunk_id="chunk-32"><strong data-chunk_id="chunk-32">Good:</strong></p>
-<pre data-chunk_id="chunk-32"><code class="language-javascript" data-chunk_id="chunk-32">function newRequestModule(url) {
+<pre class="highlight" data-chunk_id="chunk-32"><code class="language-javascript" data-chunk_id="chunk-32">function newRequestModule(url) {
   // ...
 }
 
 const req = newRequestModule;
-inventoryTracker('apples', req, 'www.inventory-awesome.io');
-</code></pre>
+inventoryTracker('apples', req, 'www.inventory-awesome.io');</code></pre>
 <p data-chunk_id="chunk-32"><strong data-chunk_id="chunk-32"><a data-chunk_id="chunk-32" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h2 data-chunk_id="chunk-33"><strong data-chunk_id="chunk-33">Objects and Data Structures</strong></h2>
 <h3 data-chunk_id="chunk-34">Use getters and setters</h3>
@@ -812,7 +762,7 @@ unorganized list of reasons why:</p>
   server.</li>
 </ul>
 <p data-chunk_id="chunk-34"><strong data-chunk_id="chunk-34">Bad:</strong></p>
-<pre data-chunk_id="chunk-34"><code class="language-javascript" data-chunk_id="chunk-34">function makeBankAccount() {
+<pre class="highlight" data-chunk_id="chunk-34"><code class="language-javascript" data-chunk_id="chunk-34">function makeBankAccount() {
   // ...
 
   return {
@@ -822,10 +772,9 @@ unorganized list of reasons why:</p>
 }
 
 const account = makeBankAccount();
-account.balance = 100;
-</code></pre>
+account.balance = 100;</code></pre>
 <p data-chunk_id="chunk-34"><strong data-chunk_id="chunk-34">Good:</strong></p>
-<pre data-chunk_id="chunk-34"><code class="language-javascript" data-chunk_id="chunk-34">function makeBankAccount() {
+<pre class="highlight" data-chunk_id="chunk-34"><code class="language-javascript" data-chunk_id="chunk-34">function makeBankAccount() {
   // this one is private
   let balance = 0;
 
@@ -848,13 +797,12 @@ account.balance = 100;
 }
 
 const account = makeBankAccount();
-account.setBalance(100);
-</code></pre>
+account.setBalance(100);</code></pre>
 <p data-chunk_id="chunk-34"><strong data-chunk_id="chunk-34"><a data-chunk_id="chunk-34" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-35">Make objects have private members</h3>
 <p data-chunk_id="chunk-35">This can be accomplished through closures (for ES5 and below).</p>
 <p data-chunk_id="chunk-35"><strong data-chunk_id="chunk-35">Bad:</strong></p>
-<pre data-chunk_id="chunk-35"><code class="language-javascript" data-chunk_id="chunk-35">const Employee = function (name) {
+<pre class="highlight" data-chunk_id="chunk-35"><code class="language-javascript" data-chunk_id="chunk-35">const Employee = function (name) {
   this.name = name;
 };
 
@@ -865,10 +813,9 @@ Employee.prototype.getName = function getName() {
 const employee = new Employee('John Doe');
 console.log(`Employee name: ${employee.getName()}`); // Employee name: John Doe
 delete employee.name;
-console.log(`Employee name: ${employee.getName()}`); // Employee name: undefined
-</code></pre>
+console.log(`Employee name: ${employee.getName()}`); // Employee name: undefined</code></pre>
 <p data-chunk_id="chunk-35"><strong data-chunk_id="chunk-35">Good:</strong></p>
-<pre data-chunk_id="chunk-35"><code class="language-javascript" data-chunk_id="chunk-35">function makeEmployee(name) {
+<pre class="highlight" data-chunk_id="chunk-35"><code class="language-javascript" data-chunk_id="chunk-35">function makeEmployee(name) {
   return {
     getName() {
       return name;
@@ -879,8 +826,7 @@ console.log(`Employee name: ${employee.getName()}`); // Employee name: undefined
 const employee = makeEmployee('John Doe');
 console.log(`Employee name: ${employee.getName()}`); // Employee name: John Doe
 delete employee.name;
-console.log(`Employee name: ${employee.getName()}`); // Employee name: John Doe
-</code></pre>
+console.log(`Employee name: ${employee.getName()}`); // Employee name: John Doe</code></pre>
 <p data-chunk_id="chunk-35"><strong data-chunk_id="chunk-35"><a data-chunk_id="chunk-35" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h2 data-chunk_id="chunk-36"><strong data-chunk_id="chunk-36">Classes</strong></h2>
 <h3 data-chunk_id="chunk-37">Prefer ES2015/ES6 classes over ES5 plain functions</h3>
@@ -889,7 +835,7 @@ definitions for classical ES5 classes. If you need inheritance (and be aware
 that you might not), then prefer ES2015/ES6 classes. However, prefer small functions over
 classes until you find yourself needing larger and more complex objects.</p>
 <p data-chunk_id="chunk-37"><strong data-chunk_id="chunk-37">Bad:</strong></p>
-<pre data-chunk_id="chunk-37"><code class="language-javascript" data-chunk_id="chunk-37">const Animal = function (age) {
+<pre class="highlight" data-chunk_id="chunk-37"><code class="language-javascript" data-chunk_id="chunk-37">const Animal = function (age) {
   if (!(this instanceof Animal)) {
     throw new Error('Instantiate Animal with `new`');
   }
@@ -923,10 +869,9 @@ const Human = function (age, furColor, languageSpoken) {
 
 Human.prototype = Object.create(Mammal.prototype);
 Human.prototype.constructor = Human;
-Human.prototype.speak = function speak() {};
-</code></pre>
+Human.prototype.speak = function speak() {};</code></pre>
 <p data-chunk_id="chunk-37"><strong data-chunk_id="chunk-37">Good:</strong></p>
-<pre data-chunk_id="chunk-37"><code class="language-javascript" data-chunk_id="chunk-37">class Animal {
+<pre class="highlight" data-chunk_id="chunk-37"><code class="language-javascript" data-chunk_id="chunk-37">class Animal {
   constructor(age) {
     this.age = age;
   }
@@ -956,8 +901,7 @@ class Human extends Mammal {
   speak() {
     /* ... */
   }
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-38"><strong data-chunk_id="chunk-38"><a data-chunk_id="chunk-38" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-39">Use method chaining</h3>
 <p data-chunk_id="chunk-39">This pattern is very useful in JavaScript and you see it in many libraries such
@@ -966,7 +910,7 @@ For that reason, I say, use method chaining and take a look at how clean your co
 will be. In your class functions, simply return <code data-chunk_id="chunk-39">this</code> at the end of every function,
 and you can chain further class methods onto it.</p>
 <p data-chunk_id="chunk-39"><strong data-chunk_id="chunk-39">Bad:</strong></p>
-<pre data-chunk_id="chunk-39"><code class="language-javascript" data-chunk_id="chunk-39">class Car {
+<pre class="highlight" data-chunk_id="chunk-39"><code class="language-javascript" data-chunk_id="chunk-39">class Car {
   constructor(make, model, color) {
     this.make = make;
     this.model = model;
@@ -992,10 +936,9 @@ and you can chain further class methods onto it.</p>
 
 const car = new Car('Ford', 'F-150', 'red');
 car.setColor('pink');
-car.save();
-</code></pre>
+car.save();</code></pre>
 <p data-chunk_id="chunk-39"><strong data-chunk_id="chunk-39">Good:</strong></p>
-<pre data-chunk_id="chunk-39"><code class="language-javascript" data-chunk_id="chunk-39">class Car {
+<pre class="highlight" data-chunk_id="chunk-39"><code class="language-javascript" data-chunk_id="chunk-39">class Car {
   constructor(make, model, color) {
     this.make = make;
     this.model = model;
@@ -1027,8 +970,7 @@ car.save();
   }
 }
 
-const car = new Car('Ford', 'F-150', 'red').setColor('pink').save();
-</code></pre>
+const car = new Car('Ford', 'F-150', 'red').setColor('pink').save();</code></pre>
 <p data-chunk_id="chunk-40"><strong data-chunk_id="chunk-40"><a data-chunk_id="chunk-40" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-41">Prefer composition over inheritance</h3>
 <p data-chunk_id="chunk-41">As stated famously in <a data-chunk_id="chunk-41" href="https://en.wikipedia.org/wiki/Design_Patterns"><em data-chunk_id="chunk-41">Design Patterns</em></a> by the Gang of Four,
@@ -1048,7 +990,7 @@ makes more sense than composition:</p>
    (Change the caloric expenditure of all animals when they move).</li>
 </ol>
 <p data-chunk_id="chunk-41"><strong data-chunk_id="chunk-41">Bad:</strong></p>
-<pre data-chunk_id="chunk-41"><code class="language-javascript" data-chunk_id="chunk-41">class Employee {
+<pre class="highlight" data-chunk_id="chunk-41"><code class="language-javascript" data-chunk_id="chunk-41">class Employee {
   constructor(name, email) {
     this.name = name;
     this.email = email;
@@ -1066,10 +1008,9 @@ class EmployeeTaxData extends Employee {
   }
 
   // ...
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-41"><strong data-chunk_id="chunk-41">Good:</strong></p>
-<pre data-chunk_id="chunk-41"><code class="language-javascript" data-chunk_id="chunk-41">class EmployeeTaxData {
+<pre class="highlight" data-chunk_id="chunk-41"><code class="language-javascript" data-chunk_id="chunk-41">class EmployeeTaxData {
   constructor(ssn, salary) {
     this.ssn = ssn;
     this.salary = salary;
@@ -1088,8 +1029,7 @@ class Employee {
     this.taxData = new EmployeeTaxData(ssn, salary);
   }
   // ...
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-42"><strong data-chunk_id="chunk-42"><a data-chunk_id="chunk-42" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h2 data-chunk_id="chunk-43"><strong data-chunk_id="chunk-43">SOLID</strong></h2>
 <h3 data-chunk_id="chunk-44">Single Responsibility Principle (SRP)</h3>
@@ -1102,7 +1042,7 @@ It's important because if too much functionality is in one class and you modify
 a piece of it, it can be difficult to understand how that will affect other
 dependent modules in your codebase.</p>
 <p data-chunk_id="chunk-44"><strong data-chunk_id="chunk-44">Bad:</strong></p>
-<pre data-chunk_id="chunk-44"><code class="language-javascript" data-chunk_id="chunk-44">class UserSettings {
+<pre class="highlight" data-chunk_id="chunk-44"><code class="language-javascript" data-chunk_id="chunk-44">class UserSettings {
   constructor(user) {
     this.user = user;
   }
@@ -1116,10 +1056,9 @@ dependent modules in your codebase.</p>
   verifyCredentials() {
     // ...
   }
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-44"><strong data-chunk_id="chunk-44">Good:</strong></p>
-<pre data-chunk_id="chunk-44"><code class="language-javascript" data-chunk_id="chunk-44">class UserAuth {
+<pre class="highlight" data-chunk_id="chunk-44"><code class="language-javascript" data-chunk_id="chunk-44">class UserAuth {
   constructor(user) {
     this.user = user;
   }
@@ -1140,8 +1079,7 @@ class UserSettings {
       // ...
     }
   }
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-44"><strong data-chunk_id="chunk-44"><a data-chunk_id="chunk-44" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-45">Open/Closed Principle (OCP)</h3>
 <p data-chunk_id="chunk-45">As stated by Bertrand Meyer, "software entities (classes, modules, functions,
@@ -1149,7 +1087,7 @@ etc.) should be open for extension, but closed for modification." What does that
 mean though? This principle basically states that you should allow users to
 add new functionalities without changing existing code.</p>
 <p data-chunk_id="chunk-45"><strong data-chunk_id="chunk-45">Bad:</strong></p>
-<pre data-chunk_id="chunk-45"><code class="language-javascript" data-chunk_id="chunk-45">class AjaxAdapter extends Adapter {
+<pre class="highlight" data-chunk_id="chunk-45"><code class="language-javascript" data-chunk_id="chunk-45">class AjaxAdapter extends Adapter {
   constructor() {
     super();
     this.name = 'ajaxAdapter';
@@ -1187,10 +1125,9 @@ function makeAjaxCall(url) {
 
 function makeHttpCall(url) {
   // request and return promise
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-45"><strong data-chunk_id="chunk-45">Good:</strong></p>
-<pre data-chunk_id="chunk-45"><code class="language-javascript" data-chunk_id="chunk-45">class AjaxAdapter extends Adapter {
+<pre class="highlight" data-chunk_id="chunk-45"><code class="language-javascript" data-chunk_id="chunk-45">class AjaxAdapter extends Adapter {
   constructor() {
     super();
     this.name = 'ajaxAdapter';
@@ -1222,8 +1159,7 @@ class HttpRequester {
       // transform response and return
     });
   }
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-46"><strong data-chunk_id="chunk-46"><a data-chunk_id="chunk-46" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-47">Liskov Substitution Principle (LSP)</h3>
 <p data-chunk_id="chunk-47">This is a scary term for a very simple concept. It's formally defined as "If S
@@ -1238,7 +1174,7 @@ classic Square-Rectangle example. Mathematically, a square is a rectangle, but
 if you model it using the "is-a" relationship via inheritance, you quickly
 get into trouble.</p>
 <p data-chunk_id="chunk-47"><strong data-chunk_id="chunk-47">Bad:</strong></p>
-<pre data-chunk_id="chunk-47"><code class="language-javascript" data-chunk_id="chunk-47">class Rectangle {
+<pre class="highlight" data-chunk_id="chunk-47"><code class="language-javascript" data-chunk_id="chunk-47">class Rectangle {
   constructor() {
     this.width = 0;
     this.height = 0;
@@ -1287,10 +1223,9 @@ function renderLargeRectangles(rectangles) {
 }
 
 const rectangles = [new Rectangle(), new Rectangle(), new Square()];
-renderLargeRectangles(rectangles);
-</code></pre>
+renderLargeRectangles(rectangles);</code></pre>
 <p data-chunk_id="chunk-48"><strong data-chunk_id="chunk-48">Good:</strong></p>
-<pre data-chunk_id="chunk-48"><code class="language-javascript" data-chunk_id="chunk-48">class Shape {
+<pre class="highlight" data-chunk_id="chunk-48"><code class="language-javascript" data-chunk_id="chunk-48">class Shape {
   setColor(color) {
     // ...
   }
@@ -1331,8 +1266,7 @@ function renderLargeShapes(shapes) {
 }
 
 const shapes = [new Rectangle(4, 5), new Rectangle(4, 5), new Square(5)];
-renderLargeShapes(shapes);
-</code></pre>
+renderLargeShapes(shapes);</code></pre>
 <p data-chunk_id="chunk-48"><strong data-chunk_id="chunk-48"><a data-chunk_id="chunk-48" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-49">Interface Segregation Principle (ISP)</h3>
 <p data-chunk_id="chunk-49">JavaScript doesn't have interfaces so this principle doesn't apply as strictly
@@ -1347,7 +1281,7 @@ huge amounts of options is beneficial, because most of the time they won't need
 all of the settings. Making them optional helps prevent having a
 "fat interface".</p>
 <p data-chunk_id="chunk-49"><strong data-chunk_id="chunk-49">Bad:</strong></p>
-<pre data-chunk_id="chunk-49"><code class="language-javascript" data-chunk_id="chunk-49">class DOMTraverser {
+<pre class="highlight" data-chunk_id="chunk-49"><code class="language-javascript" data-chunk_id="chunk-49">class DOMTraverser {
   constructor(settings) {
     this.settings = settings;
     this.setup();
@@ -1367,10 +1301,9 @@ const $ = new DOMTraverser({
   rootNode: document.getElementsByTagName('body'),
   animationModule() {} // Most of the time, we won't need to animate when traversing.
   // ...
-});
-</code></pre>
+});</code></pre>
 <p data-chunk_id="chunk-49"><strong data-chunk_id="chunk-49">Good:</strong></p>
-<pre data-chunk_id="chunk-49"><code class="language-javascript" data-chunk_id="chunk-49">class DOMTraverser {
+<pre class="highlight" data-chunk_id="chunk-49"><code class="language-javascript" data-chunk_id="chunk-49">class DOMTraverser {
   constructor(settings) {
     this.settings = settings;
     this.options = settings.options;
@@ -1398,8 +1331,7 @@ const $ = new DOMTraverser({
   options: {
     animationModule() {}
   }
-});
-</code></pre>
+});</code></pre>
 <p data-chunk_id="chunk-50"><strong data-chunk_id="chunk-50"><a data-chunk_id="chunk-50" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-51">Dependency Inversion Principle (DIP)</h3>
 <p data-chunk_id="chunk-51">This principle states two essential things:</p>
@@ -1422,7 +1354,7 @@ and properties that an object/class exposes to another object/class. In the
 example below, the implicit contract is that any Request module for an
 <code data-chunk_id="chunk-51">InventoryTracker</code> will have a <code data-chunk_id="chunk-51">requestItems</code> method.</p>
 <p data-chunk_id="chunk-51"><strong data-chunk_id="chunk-51">Bad:</strong></p>
-<pre data-chunk_id="chunk-51"><code class="language-javascript" data-chunk_id="chunk-51">class InventoryRequester {
+<pre class="highlight" data-chunk_id="chunk-51"><code class="language-javascript" data-chunk_id="chunk-51">class InventoryRequester {
   constructor() {
     this.REQ_METHODS = ['HTTP'];
   }
@@ -1449,10 +1381,9 @@ class InventoryTracker {
 }
 
 const inventoryTracker = new InventoryTracker(['apples', 'bananas']);
-inventoryTracker.requestItems();
-</code></pre>
+inventoryTracker.requestItems();</code></pre>
 <p data-chunk_id="chunk-52"><strong data-chunk_id="chunk-52">Good:</strong></p>
-<pre data-chunk_id="chunk-52"><code class="language-javascript" data-chunk_id="chunk-52">class InventoryTracker {
+<pre class="highlight" data-chunk_id="chunk-52"><code class="language-javascript" data-chunk_id="chunk-52">class InventoryTracker {
   constructor(items, requester) {
     this.items = items;
     this.requester = requester;
@@ -1488,8 +1419,7 @@ class InventoryRequesterV2 {
 // By constructing our dependencies externally and injecting them, we can easily
 // substitute our request module for a fancy new one that uses WebSockets.
 const inventoryTracker = new InventoryTracker(['apples', 'bananas'], new InventoryRequesterV2());
-inventoryTracker.requestItems();
-</code></pre>
+inventoryTracker.requestItems();</code></pre>
 <p data-chunk_id="chunk-52"><strong data-chunk_id="chunk-52"><a data-chunk_id="chunk-52" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h2 data-chunk_id="chunk-53"><strong data-chunk_id="chunk-53">Testing</strong></h2>
 <p data-chunk_id="chunk-53">Testing is more important than shipping. If you have no tests or an
@@ -1507,7 +1437,7 @@ make sure you are reaching your coverage goals before launching any feature,
 or refactoring an existing one.</p>
 <h3 data-chunk_id="chunk-54">Single concept per test</h3>
 <p data-chunk_id="chunk-54"><strong data-chunk_id="chunk-54">Bad:</strong></p>
-<pre data-chunk_id="chunk-54"><code class="language-javascript" data-chunk_id="chunk-54">import assert from 'assert';
+<pre class="highlight" data-chunk_id="chunk-54"><code class="language-javascript" data-chunk_id="chunk-54">import assert from 'assert';
 
 describe('MomentJS', () =&gt; {
   it('handles date boundaries', () =&gt; {
@@ -1525,10 +1455,9 @@ describe('MomentJS', () =&gt; {
     date.addDays(28);
     assert.equal('03/01/2015', date);
   });
-});
-</code></pre>
+});</code></pre>
 <p data-chunk_id="chunk-54"><strong data-chunk_id="chunk-54">Good:</strong></p>
-<pre data-chunk_id="chunk-54"><code class="language-javascript" data-chunk_id="chunk-54">import assert from 'assert';
+<pre class="highlight" data-chunk_id="chunk-54"><code class="language-javascript" data-chunk_id="chunk-54">import assert from 'assert';
 
 describe('MomentJS', () =&gt; {
   it('handles 30-day months', () =&gt; {
@@ -1548,15 +1477,14 @@ describe('MomentJS', () =&gt; {
     date.addDays(28);
     assert.equal('03/01/2015', date);
   });
-});
-</code></pre>
+});</code></pre>
 <p data-chunk_id="chunk-54"><strong data-chunk_id="chunk-54"><a data-chunk_id="chunk-54" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h2 data-chunk_id="chunk-55"><strong data-chunk_id="chunk-55">Concurrency</strong></h2>
 <h3 data-chunk_id="chunk-56">Use Promises, not callbacks</h3>
 <p data-chunk_id="chunk-56">Callbacks aren't clean, and they cause excessive amounts of nesting. With ES2015/ES6,
 Promises are a built-in global type. Use them!</p>
 <p data-chunk_id="chunk-56"><strong data-chunk_id="chunk-56">Bad:</strong></p>
-<pre data-chunk_id="chunk-56"><code class="language-javascript" data-chunk_id="chunk-56">import { get } from 'request';
+<pre class="highlight" data-chunk_id="chunk-56"><code class="language-javascript" data-chunk_id="chunk-56">import { get } from 'request';
 import { writeFile } from 'fs';
 
 get('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', (requestErr, response, body) =&gt; {
@@ -1571,10 +1499,9 @@ get('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', (requestErr, response, 
       }
     });
   }
-});
-</code></pre>
+});</code></pre>
 <p data-chunk_id="chunk-56"><strong data-chunk_id="chunk-56">Good:</strong></p>
-<pre data-chunk_id="chunk-56"><code class="language-javascript" data-chunk_id="chunk-56">import { get } from 'request-promise';
+<pre class="highlight" data-chunk_id="chunk-56"><code class="language-javascript" data-chunk_id="chunk-56">import { get } from 'request-promise';
 import { writeFile } from 'fs-extra';
 
 get('https://en.wikipedia.org/wiki/Robert_Cecil_Martin')
@@ -1586,8 +1513,7 @@ get('https://en.wikipedia.org/wiki/Robert_Cecil_Martin')
   })
   .catch(err =&gt; {
     console.error(err);
-  });
-</code></pre>
+  });</code></pre>
 <p data-chunk_id="chunk-56"><strong data-chunk_id="chunk-56"><a data-chunk_id="chunk-56" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-57">Async/Await are even cleaner than Promises</h3>
 <p data-chunk_id="chunk-57">Promises are a very clean alternative to callbacks, but ES2017/ES8 brings async and await
@@ -1596,7 +1522,7 @@ in an <code data-chunk_id="chunk-57">async</code> keyword, and then you can writ
 a <code data-chunk_id="chunk-57">then</code> chain of functions. Use this if you can take advantage of ES2017/ES8 features
 today!</p>
 <p data-chunk_id="chunk-57"><strong data-chunk_id="chunk-57">Bad:</strong></p>
-<pre data-chunk_id="chunk-57"><code class="language-javascript" data-chunk_id="chunk-57">import { get } from 'request-promise';
+<pre class="highlight" data-chunk_id="chunk-57"><code class="language-javascript" data-chunk_id="chunk-57">import { get } from 'request-promise';
 import { writeFile } from 'fs-extra';
 
 get('https://en.wikipedia.org/wiki/Robert_Cecil_Martin')
@@ -1608,10 +1534,9 @@ get('https://en.wikipedia.org/wiki/Robert_Cecil_Martin')
   })
   .catch(err =&gt; {
     console.error(err);
-  });
-</code></pre>
+  });</code></pre>
 <p data-chunk_id="chunk-57"><strong data-chunk_id="chunk-57">Good:</strong></p>
-<pre data-chunk_id="chunk-57"><code class="language-javascript" data-chunk_id="chunk-57">import { get } from 'request-promise';
+<pre class="highlight" data-chunk_id="chunk-57"><code class="language-javascript" data-chunk_id="chunk-57">import { get } from 'request-promise';
 import { writeFile } from 'fs-extra';
 
 async function getCleanCodeArticle() {
@@ -1624,8 +1549,7 @@ async function getCleanCodeArticle() {
   }
 }
 
-getCleanCodeArticle();
-</code></pre>
+getCleanCodeArticle();</code></pre>
 <p data-chunk_id="chunk-57"><strong data-chunk_id="chunk-57"><a data-chunk_id="chunk-57" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h2 data-chunk_id="chunk-58"><strong data-chunk_id="chunk-58">Error Handling</strong></h2>
 <p data-chunk_id="chunk-58">Thrown errors are a good thing! They mean the runtime has successfully
@@ -1640,14 +1564,13 @@ to the console. If you wrap any bit of code in a <code data-chunk_id="chunk-59">
 think an error may occur there and therefore you should have a plan,
 or create a code path, for when it occurs.</p>
 <p data-chunk_id="chunk-59"><strong data-chunk_id="chunk-59">Bad:</strong></p>
-<pre data-chunk_id="chunk-59"><code class="language-javascript" data-chunk_id="chunk-59">try {
+<pre class="highlight" data-chunk_id="chunk-59"><code class="language-javascript" data-chunk_id="chunk-59">try {
   functionThatMightThrow();
 } catch (error) {
   console.log(error);
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-59"><strong data-chunk_id="chunk-59">Good:</strong></p>
-<pre data-chunk_id="chunk-59"><code class="language-javascript" data-chunk_id="chunk-59">try {
+<pre class="highlight" data-chunk_id="chunk-59"><code class="language-javascript" data-chunk_id="chunk-59">try {
   functionThatMightThrow();
 } catch (error) {
   // One option (more noisy than console.log):
@@ -1657,22 +1580,20 @@ or create a code path, for when it occurs.</p>
   // Another option:
   reportErrorToService(error);
   // OR do all three!
-}
-</code></pre>
+}</code></pre>
 <h3 data-chunk_id="chunk-60">Don't ignore rejected promises</h3>
 <p data-chunk_id="chunk-60">For the same reason you shouldn't ignore caught errors
 from <code data-chunk_id="chunk-60">try/catch</code>.</p>
 <p data-chunk_id="chunk-60"><strong data-chunk_id="chunk-60">Bad:</strong></p>
-<pre data-chunk_id="chunk-60"><code class="language-javascript" data-chunk_id="chunk-60">getdata()
+<pre class="highlight" data-chunk_id="chunk-60"><code class="language-javascript" data-chunk_id="chunk-60">getdata()
   .then(data =&gt; {
     functionThatMightThrow(data);
   })
   .catch(error =&gt; {
     console.log(error);
-  });
-</code></pre>
+  });</code></pre>
 <p data-chunk_id="chunk-60"><strong data-chunk_id="chunk-60">Good:</strong></p>
-<pre data-chunk_id="chunk-60"><code class="language-javascript" data-chunk_id="chunk-60">getdata()
+<pre class="highlight" data-chunk_id="chunk-60"><code class="language-javascript" data-chunk_id="chunk-60">getdata()
   .then(data =&gt; {
     functionThatMightThrow(data);
   })
@@ -1684,8 +1605,7 @@ from <code data-chunk_id="chunk-60">try/catch</code>.</p>
     // Another option:
     reportErrorToService(error);
     // OR do all three!
-  });
-</code></pre>
+  });</code></pre>
 <p data-chunk_id="chunk-60"><strong data-chunk_id="chunk-60"><a data-chunk_id="chunk-60" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h2 data-chunk_id="chunk-61"><strong data-chunk_id="chunk-61">Formatting</strong></h2>
 <p data-chunk_id="chunk-61">Formatting is subjective. Like many rules herein, there is no hard and fast
@@ -1700,7 +1620,7 @@ for some guidance.</p>
 functions, etc. These rules are subjective, so your team can choose whatever
 they want. The point is, no matter what you all choose, just be consistent.</p>
 <p data-chunk_id="chunk-62"><strong data-chunk_id="chunk-62">Bad:</strong></p>
-<pre data-chunk_id="chunk-62"><code class="language-javascript" data-chunk_id="chunk-62">const DAYS_IN_WEEK = 7;
+<pre class="highlight" data-chunk_id="chunk-62"><code class="language-javascript" data-chunk_id="chunk-62">const DAYS_IN_WEEK = 7;
 const daysInMonth = 30;
 
 const songs = ['Back In Black', 'Stairway to Heaven', 'Hey Jude'];
@@ -1710,10 +1630,9 @@ function eraseDatabase() {}
 function restore_database() {}
 
 class animal {}
-class Alpaca {}
-</code></pre>
+class Alpaca {}</code></pre>
 <p data-chunk_id="chunk-62"><strong data-chunk_id="chunk-62">Good:</strong></p>
-<pre data-chunk_id="chunk-62"><code class="language-javascript" data-chunk_id="chunk-62">const DAYS_IN_WEEK = 7;
+<pre class="highlight" data-chunk_id="chunk-62"><code class="language-javascript" data-chunk_id="chunk-62">const DAYS_IN_WEEK = 7;
 const DAYS_IN_MONTH = 30;
 
 const SONGS = ['Back In Black', 'Stairway to Heaven', 'Hey Jude'];
@@ -1723,15 +1642,14 @@ function eraseDatabase() {}
 function restoreDatabase() {}
 
 class Animal {}
-class Alpaca {}
-</code></pre>
+class Alpaca {}</code></pre>
 <p data-chunk_id="chunk-62"><strong data-chunk_id="chunk-62"><a data-chunk_id="chunk-62" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-63">Function callers and callees should be close</h3>
 <p data-chunk_id="chunk-63">If a function calls another, keep those functions vertically close in the source
 file. Ideally, keep the caller right above the callee. We tend to read code from
 top-to-bottom, like a newspaper. Because of this, make your code read that way.</p>
 <p data-chunk_id="chunk-63"><strong data-chunk_id="chunk-63">Bad:</strong></p>
-<pre data-chunk_id="chunk-63"><code class="language-javascript" data-chunk_id="chunk-63">class PerformanceReview {
+<pre class="highlight" data-chunk_id="chunk-63"><code class="language-javascript" data-chunk_id="chunk-63">class PerformanceReview {
   constructor(employee) {
     this.employee = employee;
   }
@@ -1765,10 +1683,9 @@ top-to-bottom, like a newspaper. Because of this, make your code read that way.<
 }
 
 const review = new PerformanceReview(employee);
-review.perfReview();
-</code></pre>
+review.perfReview();</code></pre>
 <p data-chunk_id="chunk-63"><strong data-chunk_id="chunk-63">Good:</strong></p>
-<pre data-chunk_id="chunk-63"><code class="language-javascript" data-chunk_id="chunk-63">class PerformanceReview {
+<pre class="highlight" data-chunk_id="chunk-63"><code class="language-javascript" data-chunk_id="chunk-63">class PerformanceReview {
   constructor(employee) {
     this.employee = employee;
   }
@@ -1802,14 +1719,13 @@ review.perfReview();
 }
 
 const review = new PerformanceReview(employee);
-review.perfReview();
-</code></pre>
+review.perfReview();</code></pre>
 <p data-chunk_id="chunk-64"><strong data-chunk_id="chunk-64"><a data-chunk_id="chunk-64" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h2 data-chunk_id="chunk-65"><strong data-chunk_id="chunk-65">Comments</strong></h2>
 <h3 data-chunk_id="chunk-66">Only comment things that have business logic complexity.</h3>
 <p data-chunk_id="chunk-66">Comments are an apology, not a requirement. Good code <em data-chunk_id="chunk-66">mostly</em> documents itself.</p>
 <p data-chunk_id="chunk-66"><strong data-chunk_id="chunk-66">Bad:</strong></p>
-<pre data-chunk_id="chunk-66"><code class="language-javascript" data-chunk_id="chunk-66">function hashIt(data) {
+<pre class="highlight" data-chunk_id="chunk-66"><code class="language-javascript" data-chunk_id="chunk-66">function hashIt(data) {
   // The hash
   let hash = 0;
 
@@ -1825,10 +1741,9 @@ review.perfReview();
     // Convert to 32-bit integer
     hash &amp;= hash;
   }
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-66"><strong data-chunk_id="chunk-66">Good:</strong></p>
-<pre data-chunk_id="chunk-66"><code class="language-javascript" data-chunk_id="chunk-66">function hashIt(data) {
+<pre class="highlight" data-chunk_id="chunk-66"><code class="language-javascript" data-chunk_id="chunk-66">function hashIt(data) {
   let hash = 0;
   const length = data.length;
 
@@ -1839,26 +1754,23 @@ review.perfReview();
     // Convert to 32-bit integer
     hash &amp;= hash;
   }
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-66"><strong data-chunk_id="chunk-66"><a data-chunk_id="chunk-66" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-67">Don't leave commented out code in your codebase</h3>
 <p data-chunk_id="chunk-67">Version control exists for a reason. Leave old code in your history.</p>
 <p data-chunk_id="chunk-67"><strong data-chunk_id="chunk-67">Bad:</strong></p>
-<pre data-chunk_id="chunk-67"><code class="language-javascript" data-chunk_id="chunk-67">doStuff();
+<pre class="highlight" data-chunk_id="chunk-67"><code class="language-javascript" data-chunk_id="chunk-67">doStuff();
 // doOtherStuff();
 // doSomeMoreStuff();
-// doSoMuchStuff();
-</code></pre>
+// doSoMuchStuff();</code></pre>
 <p data-chunk_id="chunk-67"><strong data-chunk_id="chunk-67">Good:</strong></p>
-<pre data-chunk_id="chunk-67"><code class="language-javascript" data-chunk_id="chunk-67">doStuff();
-</code></pre>
+<pre class="highlight" data-chunk_id="chunk-67"><code class="language-javascript" data-chunk_id="chunk-67">doStuff();</code></pre>
 <p data-chunk_id="chunk-67"><strong data-chunk_id="chunk-67"><a data-chunk_id="chunk-67" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-68">Don't have journal comments</h3>
 <p data-chunk_id="chunk-68">Remember, use version control! There's no need for dead code, commented code,
 and especially journal comments. Use <code data-chunk_id="chunk-68">git log</code> to get history!</p>
 <p data-chunk_id="chunk-68"><strong data-chunk_id="chunk-68">Bad:</strong></p>
-<pre data-chunk_id="chunk-68"><code class="language-javascript" data-chunk_id="chunk-68">/**
+<pre class="highlight" data-chunk_id="chunk-68"><code class="language-javascript" data-chunk_id="chunk-68">/**
  * 2016-12-20: Removed monads, didn't understand them (RM)
  * 2016-10-01: Improved using special monads (JP)
  * 2016-02-03: Removed type-checking (LI)
@@ -1866,19 +1778,17 @@ and especially journal comments. Use <code data-chunk_id="chunk-68">git log</cod
  */
 function combine(a, b) {
   return a + b;
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-68"><strong data-chunk_id="chunk-68">Good:</strong></p>
-<pre data-chunk_id="chunk-68"><code class="language-javascript" data-chunk_id="chunk-68">function combine(a, b) {
+<pre class="highlight" data-chunk_id="chunk-68"><code class="language-javascript" data-chunk_id="chunk-68">function combine(a, b) {
   return a + b;
-}
-</code></pre>
+}</code></pre>
 <p data-chunk_id="chunk-68"><strong data-chunk_id="chunk-68"><a data-chunk_id="chunk-68" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h3 data-chunk_id="chunk-69">Avoid positional markers</h3>
 <p data-chunk_id="chunk-69">They usually just add noise. Let the functions and variable names along with the
 proper indentation and formatting give the visual structure to your code.</p>
 <p data-chunk_id="chunk-69"><strong data-chunk_id="chunk-69">Bad:</strong></p>
-<pre data-chunk_id="chunk-69"><code class="language-javascript" data-chunk_id="chunk-69">////////////////////////////////////////////////////////////////////////////////
+<pre class="highlight" data-chunk_id="chunk-69"><code class="language-javascript" data-chunk_id="chunk-69">////////////////////////////////////////////////////////////////////////////////
 // Scope Model Instantiation
 ////////////////////////////////////////////////////////////////////////////////
 $scope.model = {
@@ -1891,18 +1801,16 @@ $scope.model = {
 ////////////////////////////////////////////////////////////////////////////////
 const actions = function () {
   // ...
-};
-</code></pre>
+};</code></pre>
 <p data-chunk_id="chunk-69"><strong data-chunk_id="chunk-69">Good:</strong></p>
-<pre data-chunk_id="chunk-69"><code class="language-javascript" data-chunk_id="chunk-69">$scope.model = {
+<pre class="highlight" data-chunk_id="chunk-69"><code class="language-javascript" data-chunk_id="chunk-69">$scope.model = {
   menu: 'foo',
   nav: 'bar'
 };
 
 const actions = function () {
   // ...
-};
-</code></pre>
+};</code></pre>
 <p data-chunk_id="chunk-69"><strong data-chunk_id="chunk-69"><a data-chunk_id="chunk-69" href="#table-of-contents">⬆ back to top</a></strong></p>
 <h2 data-chunk_id="chunk-70">Translation</h2>
 <p data-chunk_id="chunk-70">This is also available in other languages:</p>
