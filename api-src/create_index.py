@@ -16,7 +16,6 @@ def create_index(filepath, filename) -> int:
     html = markdown.markdown(md_text, extensions=[
                              'pymdownx.superfences', 'tables', 'pymdownx.details'])
 
-    print(html)
     loader = CustomReader()
     documents = loader.load_data(
         html=html, filename=filename)
