@@ -1,6 +1,7 @@
-import { SendOutlined, WarningTwoTone } from '@ant-design/icons';
-import { Button, Card, Input } from 'antd';
+import { ProfileOutlined, SendOutlined, WarningTwoTone } from '@ant-design/icons';
+import { Button, Card, Input, Popconfirm, Tooltip } from 'antd';
 import { AxiosResponse } from 'axios';
+import { isEmpty } from 'lodash';
 import { FC, Fragment, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import eventEmitter from '../../utils/eventEmitter';
 import request from '../../utils/request';
@@ -121,9 +122,15 @@ const ChatWindow: FC<ChatWindowProps> = ({
   };
 
   const onSummarize = async () => {
-    setMessageList([...messageList, { question: 'Summarize the Markdown Content' }, { reply: '' }]);
+    setMessageList([...messageList, { question: 'Summarize the Document' }, { reply: '' }]);
     scrollToBottom();
     onReply('', true);
+  };
+
+  const onSummarizeClick = () => {
+    if (!isEmpty(fileName)) {
+      onSummarize();
+    }
   };
 
   return (
@@ -138,6 +145,19 @@ const ChatWindow: FC<ChatWindowProps> = ({
         padding: '24px 0'
       }}
       title={fileName ? `Chat with ${fileName}` : 'Select File'}
+      extra={
+        <Popconfirm
+          title="This will consume a large amount of tokens"
+          description="Do you want to continue?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={onSummarizeClick}
+        >
+          <Tooltip title="Summarize">
+            <Button icon={<ProfileOutlined />}></Button>
+          </Tooltip>
+        </Popconfirm>
+      }
       bordered={false}
     >
       <div className="flex flex-col items-start flex-1 overflow-auto px-6">

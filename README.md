@@ -11,6 +11,7 @@ Deploy on Vercel and Railway
 ## Features
 
 - 🤖 Chat with your markdown files
+- 📝 Summarize articles
 - 🖍️ Highlight source
 - 📤 Upload files
 - 💾 Data saved locally
@@ -21,7 +22,6 @@ Deploy on Vercel and Railway
 I plan to add the following features in the future:
 
 - [ ] Support for more file formats: pdf, txt
-- [ ] Summarize
 - [ ] Download doc from the internet
 - [ ] Markdown-formatted message
 - [ ] Stream returns
