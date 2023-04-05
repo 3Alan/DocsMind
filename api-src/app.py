@@ -1,11 +1,13 @@
+import json
 import logging
 import os
+import time
 from pathlib import Path
 
 import openai
 from create_index import create_index
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, Response, jsonify, request, stream_with_context
 from flask_cors import CORS
 from llama_index import (
     GPTListIndex,
@@ -121,18 +123,25 @@ def query_index():
     )
     index.query(query_text, service_context=service_context)
 
-    res = index.query(query_text)
-    response_json = {
-        "answer": str(res),
-        "cost": embed_model.last_token_usage + llm_predictor.last_token_usage,
-        "sources": [{"extraInfo": x.extra_info} for x in res.source_nodes],
-    }
+    res = index.query(query_text, streaming=True)
+    cost = embed_model.last_token_usage + llm_predictor.last_token_usage
+    sources = [{"extraInfo": x.extra_info} for x in res.source_nodes]
+
+    def response_generator():
+        response_stream = "".join(list(res.response_gen))
+        yield json.dumps({"cost": cost, "sources": sources})
+        yield "\n ###endjson### \n\n"
+        for char in response_stream:
+
+            # TODO: 后面去掉，调试stream使用
+            time.sleep(0.01)
+            yield char
 
     # 用完了就删掉，防止key被反复使用
     if open_ai_key:
         os.environ["OPENAI_API_KEY"] = ""
 
-    return jsonify(response_json)
+    return Response(stream_with_context(response_generator()))
 
 
 @app.route("/api/upload", methods=["POST"])

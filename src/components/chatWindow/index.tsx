@@ -2,7 +2,7 @@ import { ProfileOutlined, SendOutlined, WarningTwoTone } from '@ant-design/icons
 import { Button, Card, Input, Popconfirm, Tooltip } from 'antd';
 import { AxiosResponse } from 'axios';
 import { isEmpty } from 'lodash';
-import { FC, Fragment, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { FC, Fragment, KeyboardEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import eventEmitter from '../../utils/eventEmitter';
 import request from '../../utils/request';
 import useOpenAiKey from '../../utils/useOpenAiKey';
@@ -40,13 +40,22 @@ const ChatWindow: FC<ChatWindowProps> = ({
     };
   }, []);
 
-  const scrollToBottom = () => {
+  useLayoutEffect(() => {
+    // TODO: bug
+    scrollToBottom();
+  }, [messageList]);
+
+  const scrollToBottom = (delay = false) => {
     const chatWindowEnd = chatWindowEndRef.current;
 
     if (chatWindowEnd) {
-      setTimeout(() => {
+      if (delay) {
+        setTimeout(() => {
+          chatWindowEnd.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
         chatWindowEnd.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      }
     }
   };
 
@@ -60,31 +69,73 @@ const ChatWindow: FC<ChatWindowProps> = ({
           params: {
             index: fileName,
             openAiKey
-          }
+          },
+          responseType: 'stream'
         });
       } else {
-        res = await request('/api/query', {
-          params: {
-            query: value,
-            index: fileName,
-            openAiKey
-          }
-        });
-      }
+        // TODO: axios
+        fetch(
+          `http://127.0.0.1:5000/api/query?query=${value}&index=${fileName}&openAiKey=${openAiKey}`
+        )
+          .then(async (response) => {
+            setLoading(false);
+            const reader = response?.body?.getReader() as ReadableStreamDefaultReader;
 
-      setLoading(false);
-      setMessageList((pre) => {
-        return [
-          ...pre.slice(0, -1),
-          {
-            ...pre.slice(-1),
-            reply: res.data.answer,
-            ...res.data
-          }
-        ];
-      });
-      onReplyComplete(res.data);
-      scrollToBottom();
+            const decoder = new TextDecoder();
+            let done = false;
+            let metaData: any;
+
+            while (!done) {
+              const { value, done: doneReading } = await reader.read();
+
+              done = doneReading;
+              const chunkValue = decoder.decode(value);
+              const hasMeta = chunkValue.includes('\n ###endjson### \n\n');
+              if (hasMeta) {
+                const [metaDataStr, message] = chunkValue.split('\n ###endjson### \n\n');
+                metaData = JSON.parse(metaDataStr);
+
+                // TODO: bug
+                setMessageList((pre) => {
+                  return [
+                    ...pre.slice(0, -1),
+                    {
+                      ...pre.slice(-1),
+                      reply: pre.slice(-1)[0].reply + message
+                    }
+                  ];
+                });
+              } else {
+                setMessageList((pre) => {
+                  return [
+                    ...pre.slice(0, -1),
+                    {
+                      ...pre.slice(-1),
+                      reply: pre.slice(-1)[0].reply + chunkValue
+                    }
+                  ];
+                });
+              }
+            }
+
+            // setMessageList((pre) => {
+            //   console.log(pre.slice(0, -1), pre.slice(-1));
+
+            //   return [
+            //     ...pre.slice(0, -1),
+            //     {
+            //       ...pre.slice(-1),
+            //       cost: metaData.cost,
+            //       sources: metaData.sources
+            //     }
+            //   ];
+            // });
+            onReplyComplete({ sources: metaData?.sources });
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     } catch (error) {
       setLoading(false);
       setMessageList((pre) => {
@@ -108,7 +159,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
   const onSearch = async () => {
     setQuery('');
     setMessageList([...messageList, { question: query }, { reply: '' }]);
-    scrollToBottom();
+    // scrollToBottom();
     onReply(query);
   };
 
@@ -123,7 +174,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
 
   const onSummarize = async () => {
     setMessageList([...messageList, { question: 'Summarize the Document' }, { reply: '' }]);
-    scrollToBottom();
+    // scrollToBottom();
     onReply('', true);
   };
 

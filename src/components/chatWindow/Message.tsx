@@ -50,7 +50,7 @@ const Message: FC<MessageProps> = ({
           {words.map((word, index) => (
             <span
               key={index}
-              className="text-gray-800 animate-fade-in"
+              className="animate-fade-in"
               style={{ animationDelay: `${index * 0.01}s` }}
             >
               {word}{' '}
