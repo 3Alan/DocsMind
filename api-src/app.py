@@ -134,7 +134,7 @@ def query_index():
         for char in response_stream:
 
             # TODO: 后面去掉，调试stream使用
-            time.sleep(0.01)
+            time.sleep(0.005)
             yield char
 
     # 用完了就删掉，防止key被反复使用
