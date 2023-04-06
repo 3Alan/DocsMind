@@ -1,10 +1,8 @@
 import { ProfileOutlined, SendOutlined, WarningTwoTone } from '@ant-design/icons';
 import { Button, Card, Input, Popconfirm, Tooltip } from 'antd';
-import { AxiosResponse } from 'axios';
 import { isEmpty } from 'lodash';
-import { FC, Fragment, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { FC, Fragment, KeyboardEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import eventEmitter from '../../utils/eventEmitter';
-import request from '../../utils/request';
 import useOpenAiKey from '../../utils/useOpenAiKey';
 import { MessageItem } from './constants';
 import Message from './Message';
@@ -22,7 +20,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
   onReplyComplete,
   onReplyClick
 }) => {
-  const chatWindowEndRef = useRef<HTMLDivElement>(null);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
   const [messageList, setMessageList] = useState<MessageItem[]>([]);
@@ -40,51 +38,78 @@ const ChatWindow: FC<ChatWindowProps> = ({
     };
   }, []);
 
-  const scrollToBottom = () => {
-    const chatWindowEnd = chatWindowEndRef.current;
+  useLayoutEffect(() => {
+    requestAnimationFrame(() => scrollToBottom());
+  }, [messageList]);
 
-    if (chatWindowEnd) {
-      setTimeout(() => {
-        chatWindowEnd.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-    }
+  const scrollToBottom = () => {
+    const chatWindow = chatWindowRef.current;
+    chatWindow && (chatWindow.scrollTop = chatWindow?.scrollHeight || 0);
+  };
+
+  const updateMessageList = (message: string) => {
+    setMessageList((pre) => {
+      return [
+        ...pre.slice(0, -1),
+        {
+          ...pre.slice(-1)[0],
+          reply: pre.slice(-1)[0].reply + message
+        }
+      ];
+    });
   };
 
   const onReply = async (value: string, summarize = false) => {
     try {
-      let res: AxiosResponse;
+      let res: Response;
       setLoading(true);
 
       if (summarize) {
-        res = await request('/api/summarize', {
-          params: {
-            index: fileName,
-            openAiKey
-          }
-        });
+        // TODO: 统一配置
+        res = await fetch(
+          `http://127.0.0.1:5000/api/summarize?index=${fileName}&openAiKey=${openAiKey}`
+        );
       } else {
-        res = await request('/api/query', {
-          params: {
-            query: value,
-            index: fileName,
-            openAiKey
-          }
-        });
+        res = await fetch(
+          `http://127.0.0.1:5000/api/query?query=${value}&index=${fileName}&openAiKey=${openAiKey}`
+        );
       }
 
       setLoading(false);
+
+      const reader = res?.body?.getReader() as ReadableStreamDefaultReader;
+
+      const decoder = new TextDecoder();
+      let done = false;
+      let metaData: any;
+
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+
+        done = doneReading;
+        const chunkValue = decoder.decode(value);
+        const hasMeta = chunkValue.includes('\n ###endjson### \n\n');
+        if (hasMeta) {
+          const [metaDataStr, message] = chunkValue.split('\n ###endjson### \n\n');
+          metaData = JSON.parse(metaDataStr);
+
+          updateMessageList(message.trim());
+        } else {
+          updateMessageList(chunkValue);
+        }
+      }
+
       setMessageList((pre) => {
         return [
           ...pre.slice(0, -1),
           {
-            ...pre.slice(-1),
-            reply: res.data.answer,
-            ...res.data
+            ...pre.slice(-1)[0],
+            cost: metaData.cost,
+            sources: metaData.sources
           }
         ];
       });
-      onReplyComplete(res.data);
-      scrollToBottom();
+      onReplyComplete({ sources: metaData?.sources });
     } catch (error) {
       setLoading(false);
       setMessageList((pre) => {
@@ -108,7 +133,6 @@ const ChatWindow: FC<ChatWindowProps> = ({
   const onSearch = async () => {
     setQuery('');
     setMessageList([...messageList, { question: query }, { reply: '' }]);
-    scrollToBottom();
     onReply(query);
   };
 
@@ -123,7 +147,6 @@ const ChatWindow: FC<ChatWindowProps> = ({
 
   const onSummarize = async () => {
     setMessageList([...messageList, { question: 'Summarize the Document' }, { reply: '' }]);
-    scrollToBottom();
     onReply('', true);
   };
 
@@ -160,7 +183,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
       }
       bordered={false}
     >
-      <div className="flex flex-col items-start flex-1 overflow-auto px-6">
+      <div ref={chatWindowRef} className="flex flex-col items-start flex-1 overflow-auto px-6">
         {messageList.map((item, index) => (
           <Fragment key={index}>
             {item.question ? (
@@ -176,16 +199,9 @@ const ChatWindow: FC<ChatWindowProps> = ({
             )}
           </Fragment>
         ))}
-
-        <div ref={chatWindowEndRef}></div>
       </div>
 
       <div className="p-4 pb-0 border-t border-t-gray-200 border-solid border-x-0 border-b-0">
-        {/* <div className="pb-1 pt-2">
-          <Tag onClick={onSummarize} className="cursor-pointer" color="blue">
-            Summarize Markdown
-          </Tag>
-        </div> */}
         <div className="relative">
           <Input.TextArea
             size="large"

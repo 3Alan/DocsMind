@@ -11,9 +11,9 @@ interface FileItem {
 }
 
 function removeHighLight() {
-  const highLightElements = document.querySelectorAll('.highlight');
+  const highLightElements = document.querySelectorAll('.hl-source');
   highLightElements?.forEach((element) => {
-    element.classList.remove('highlight');
+    element.classList.remove('hl-source');
   });
 }
 
@@ -27,7 +27,7 @@ function addHighLight(chunkId: string, time = 400) {
   const highLightElements = document.querySelectorAll(`[data-chunk_id=${chunkId}]`);
 
   highLightElements?.forEach((element) => {
-    element.classList.add('highlight');
+    element.classList.add('hl-source');
   });
 }
 

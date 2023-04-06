@@ -38,7 +38,7 @@ const Message: FC<MessageProps> = ({
   return (
     <div
       className={classNames(
-        'flex flex-col pt-2 shadow rounded-lg max-w-md mb-5',
+        'flex flex-col pt-2 shadow rounded-lg max-w-md mb-5 whitespace-pre-wrap',
         isQuestion ? 'bg-blue-500 self-end text-white' : 'bg-blue-50'
       )}
     >
@@ -48,13 +48,7 @@ const Message: FC<MessageProps> = ({
         <div className="px-3 pb-2 text-gray-800">
           {error && text}
           {words.map((word, index) => (
-            <span
-              key={index}
-              className="text-gray-800 animate-fade-in"
-              style={{ animationDelay: `${index * 0.01}s` }}
-            >
-              {word}{' '}
-            </span>
+            <span key={index}>{word} </span>
           ))}
         </div>
       )}

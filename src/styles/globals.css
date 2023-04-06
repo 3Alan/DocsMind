@@ -30,7 +30,7 @@ body {
   overflow: hidden;
 }
 
-.markdown-body .highlight {
+.markdown-body .hl-source {
   background-color: #eff6ff;
 }
 

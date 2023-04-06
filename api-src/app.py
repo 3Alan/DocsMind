@@ -1,11 +1,13 @@
+import json
 import logging
 import os
+import time
 from pathlib import Path
 
 import openai
 from create_index import create_index
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, Response, jsonify, request, stream_with_context
 from flask_cors import CORS
 from llama_index import (
     GPTListIndex,
@@ -76,29 +78,47 @@ def summarize_index():
     )
 
     index.query(
-        "Give me a summary of this document and provide three questions related to the summary.",
+        (
+            "Summarize this document and provide three questions related to the summary. Try to use your own words when possible. Keep your answer under 5 sentences. \n"
+            "The three questions use the following format(add two line breaks at the beginning of the template):"
+            "Template:"
+            "Questions you may want to ask 🤔 \n"
+            "1. <question_1> \n"
+            "2. <question_2> \n"
+            "3. <question_3> \n"
+        ),
         response_mode="tree_summarize",
         service_context=service_context,
         optimizer=SentenceEmbeddingOptimizer(percentile_cutoff=0.8),
     )
 
     res = index.query(
-        "Give me a summary of this document and provide three questions related to the summary.",
+        (
+            "Summarize this document and provide three questions related to the summary. Try to use your own words when possible. Keep your answer under 5 sentences. \n"
+            "The three questions use the following format(add two line breaks at the beginning of the template):"
+            "Template:"
+            "Questions you may want to ask 🤔 \n"
+            "1. <question_1> \n"
+            "2. <question_2> \n"
+            "3. <question_3> \n"
+        ),
+        streaming=True,
         response_mode="tree_summarize",
         optimizer=SentenceEmbeddingOptimizer(percentile_cutoff=0.8),
     )
+    cost = embed_model.last_token_usage + llm_predictor.last_token_usage
 
-    response_json = {
-        "answer": str(res),
-        "cost": embed_model.last_token_usage + llm_predictor.last_token_usage,
-        "sources": [],
-    }
+    def response_generator():
+        yield json.dumps({"cost": cost, "sources": []})
+        yield "\n ###endjson### \n\n"
+        for text in res.response_gen:
+            yield text
 
     # 用完了就删掉，防止key被反复使用
     if open_ai_key:
         os.environ["OPENAI_API_KEY"] = ""
 
-    return jsonify(response_json)
+    return Response(stream_with_context(response_generator()))
 
 
 @app.route("/api/query", methods=["GET"])
@@ -121,18 +141,21 @@ def query_index():
     )
     index.query(query_text, service_context=service_context)
 
-    res = index.query(query_text)
-    response_json = {
-        "answer": str(res),
-        "cost": embed_model.last_token_usage + llm_predictor.last_token_usage,
-        "sources": [{"extraInfo": x.extra_info} for x in res.source_nodes],
-    }
+    res = index.query(query_text, streaming=True)
+    cost = embed_model.last_token_usage + llm_predictor.last_token_usage
+    sources = [{"extraInfo": x.extra_info} for x in res.source_nodes]
+
+    def response_generator():
+        yield json.dumps({"cost": cost, "sources": sources})
+        yield "\n ###endjson### \n\n"
+        for text in res.response_gen:
+            yield text
 
     # 用完了就删掉，防止key被反复使用
     if open_ai_key:
         os.environ["OPENAI_API_KEY"] = ""
 
-    return jsonify(response_json)
+    return Response(stream_with_context(response_generator()))
 
 
 @app.route("/api/upload", methods=["POST"])
