@@ -3,7 +3,6 @@ import { Button, Card, Input, Popconfirm, Tooltip } from 'antd';
 import { isEmpty } from 'lodash';
 import { FC, Fragment, KeyboardEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import eventEmitter from '../../utils/eventEmitter';
-import request from '../../utils/request';
 import useOpenAiKey from '../../utils/useOpenAiKey';
 import { MessageItem } from './constants';
 import Message from './Message';
@@ -21,7 +20,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
   onReplyComplete,
   onReplyClick
 }) => {
-  const chatWindowEndRef = useRef<HTMLDivElement>(null);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
   const [messageList, setMessageList] = useState<MessageItem[]>([]);
@@ -40,22 +39,12 @@ const ChatWindow: FC<ChatWindowProps> = ({
   }, []);
 
   useLayoutEffect(() => {
-    // TODO: bug
-    scrollToBottom();
+    requestAnimationFrame(() => scrollToBottom());
   }, [messageList]);
 
-  const scrollToBottom = (delay = false) => {
-    const chatWindowEnd = chatWindowEndRef.current;
-
-    if (chatWindowEnd) {
-      if (delay) {
-        setTimeout(() => {
-          chatWindowEnd.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        chatWindowEnd.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+  const scrollToBottom = () => {
+    const chatWindow = chatWindowRef.current;
+    chatWindow && (chatWindow.scrollTop = chatWindow?.scrollHeight || 0);
   };
 
   const updateMessageList = (message: string) => {
@@ -76,13 +65,10 @@ const ChatWindow: FC<ChatWindowProps> = ({
       setLoading(true);
 
       if (summarize) {
-        res = await request('/api/summarize', {
-          params: {
-            index: fileName,
-            openAiKey
-          },
-          responseType: 'stream'
-        });
+        // TODO: 统一配置
+        res = await fetch(
+          `http://127.0.0.1:5000/api/summarize?index=${fileName}&openAiKey=${openAiKey}`
+        );
       } else {
         res = await fetch(
           `http://127.0.0.1:5000/api/query?query=${value}&index=${fileName}&openAiKey=${openAiKey}`
@@ -107,7 +93,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
           const [metaDataStr, message] = chunkValue.split('\n ###endjson### \n\n');
           metaData = JSON.parse(metaDataStr);
 
-          updateMessageList(message);
+          updateMessageList(message.trim());
         } else {
           updateMessageList(chunkValue);
         }
@@ -147,7 +133,6 @@ const ChatWindow: FC<ChatWindowProps> = ({
   const onSearch = async () => {
     setQuery('');
     setMessageList([...messageList, { question: query }, { reply: '' }]);
-    // scrollToBottom();
     onReply(query);
   };
 
@@ -162,7 +147,6 @@ const ChatWindow: FC<ChatWindowProps> = ({
 
   const onSummarize = async () => {
     setMessageList([...messageList, { question: 'Summarize the Document' }, { reply: '' }]);
-    // scrollToBottom();
     onReply('', true);
   };
 
@@ -199,7 +183,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
       }
       bordered={false}
     >
-      <div className="flex flex-col items-start flex-1 overflow-auto px-6">
+      <div ref={chatWindowRef} className="flex flex-col items-start flex-1 overflow-auto px-6">
         {messageList.map((item, index) => (
           <Fragment key={index}>
             {item.question ? (
@@ -215,16 +199,9 @@ const ChatWindow: FC<ChatWindowProps> = ({
             )}
           </Fragment>
         ))}
-
-        <div ref={chatWindowEndRef}></div>
       </div>
 
       <div className="p-4 pb-0 border-t border-t-gray-200 border-solid border-x-0 border-b-0">
-        {/* <div className="pb-1 pt-2">
-          <Tag onClick={onSummarize} className="cursor-pointer" color="blue">
-            Summarize Markdown
-          </Tag>
-        </div> */}
         <div className="relative">
           <Input.TextArea
             size="large"
