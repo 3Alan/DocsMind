@@ -3,6 +3,7 @@ import { Button, Card, Input, Popconfirm, Tooltip } from 'antd';
 import { isEmpty } from 'lodash';
 import { FC, Fragment, KeyboardEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import eventEmitter from '../../utils/eventEmitter';
+import fetchRequest from '../../utils/fetch';
 import useOpenAiKey from '../../utils/useOpenAiKey';
 import { MessageItem } from './constants';
 import Message from './Message';
@@ -65,14 +66,16 @@ const ChatWindow: FC<ChatWindowProps> = ({
       setLoading(true);
 
       if (summarize) {
-        // TODO: 统一配置
-        res = await fetch(
-          `http://127.0.0.1:5000/api/summarize?index=${fileName}&openAiKey=${openAiKey}`
-        );
+        res = await fetchRequest('/api/summarize', {
+          index: fileName,
+          openAiKey
+        });
       } else {
-        res = await fetch(
-          `http://127.0.0.1:5000/api/query?query=${value}&index=${fileName}&openAiKey=${openAiKey}`
-        );
+        res = await fetchRequest('/api/query', {
+          query: value,
+          index: fileName,
+          openAiKey
+        });
       }
 
       setLoading(false);
