@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import sys
 import time
 from pathlib import Path
 
@@ -9,6 +10,8 @@ from create_index import create_index
 from dotenv import load_dotenv
 from flask import Flask, Response, jsonify, request, stream_with_context
 from flask_cors import CORS
+from langchain import OpenAI
+from langchain.chains.conversation.memory import ConversationBufferMemory
 from llama_index import (
     GPTListIndex,
     GPTSimpleVectorIndex,
@@ -17,6 +20,13 @@ from llama_index import (
     ServiceContext,
     download_loader,
 )
+from llama_index.langchain_helpers.agents import (
+    IndexToolConfig,
+    LlamaIndexTool,
+    LlamaToolkit,
+    create_llama_chat_agent,
+)
+from llama_index.langchain_helpers.memory_wrapper import GPTIndexChatMemory
 from llama_index.optimization.optimizer import SentenceEmbeddingOptimizer
 
 openai.api_base = os.environ.get("OPENAI_PROXY")
@@ -36,6 +46,8 @@ app = Flask(__name__, static_folder=f"{user_data_dir}")
 
 CORS(app)
 
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
 logger = logging.getLogger(__name__)
 file_handler = logging.FileHandler("app.log")
 file_handler.setLevel(logging.ERROR)
@@ -133,6 +145,27 @@ def query_index():
         f"{user_data_dir}/index/{index_name}.json"
     )
 
+    tool_config = IndexToolConfig(
+        index=index,
+        name=f"{index_name} Vector Index",
+        # 貌似是根据description来判断是否使用llama-index进行查询的
+        description=f"useful for when you want to answer queries about {index_name}",
+        index_query_kwargs={"similarity_top_k": 3},
+        tool_kwargs={"return_direct": True},
+    )
+    tool = LlamaIndexTool.from_tool_config(tool_config)
+
+    toolkit = LlamaToolkit(
+        index_configs=[tool],
+    )
+
+    # set Logging to DEBUG for more detailed outputs
+    memory = ConversationBufferMemory(memory_key="chat_history")
+    llm = OpenAI(temperature=0)
+    agent_chain = create_llama_chat_agent(
+        toolkit=toolkit, llm=llm, memory=memory, verbose=True
+    )
+
     # predictor cost
     llm_predictor = MockLLMPredictor(max_tokens=256)
     embed_model = MockEmbedding(embed_dim=1536)
@@ -141,7 +174,9 @@ def query_index():
     )
     index.query(query_text, service_context=service_context)
 
-    res = index.query(query_text, streaming=True)
+    # res = index.query(query_text, streaming=True)
+    res = agent_chain.run(input=query_text)
+    print(res)
     cost = embed_model.last_token_usage + llm_predictor.last_token_usage
     sources = [{"extraInfo": x.extra_info} for x in res.source_nodes]
 
