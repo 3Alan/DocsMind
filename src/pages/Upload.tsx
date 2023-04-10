@@ -3,9 +3,10 @@ import { Alert, Card, message, Spin, Upload } from 'antd';
 import { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { baseURL } from '../utils/request';
-import { isDev } from '../utils/isDev';
 
 const { Dragger } = Upload;
+
+const disableUpload = import.meta.env.VITE_DISABLED_UPLOAD;
 
 function generateConfetti() {
   confetti({
@@ -39,7 +40,7 @@ export default function UploadFile() {
 
   return (
     <Card title="Upload File" className="w-full">
-      {!isDev && (
+      {disableUpload && (
         <Alert
           className="mb-6"
           showIcon
@@ -65,7 +66,7 @@ export default function UploadFile() {
           name="file"
           accept=".md"
           onChange={onUploadChange}
-          disabled={!isDev}
+          disabled={disableUpload}
         >
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
