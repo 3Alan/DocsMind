@@ -8,6 +8,10 @@ Chat-Markdown is an open-source project that allows you to chat with your markdo
 
 Deploy on Vercel and Railway
 
+> **Warning**
+>
+> Due to the free plan of Railway only providing 500 hours per month, the Demo on the 21st day of each month will not be available. Please clone it locally for use at that time.
+
 ## Features
 
 - 🤖 Chat with your markdown files
@@ -30,6 +34,10 @@ I plan to add the following features in the future:
 If you find this project helpful, please consider giving it a star 🌟
 
 ## How to run locally?
+
+> **Warning**
+>
+> Please check if you can access OpenAI in your region, you can refer to the [issue](https://github.com/3Alan/chat-markdown/issues/3#issuecomment-1511470063) for more information.
 
 ### Create .env
 
