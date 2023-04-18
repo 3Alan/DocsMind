@@ -2,6 +2,8 @@
 
 Chat-Markdown is an open-source project that allows you to chat with your markdown files.
 
+![Stack](https://skillicons.dev/icons?i=vite,react,ts,tailwind,py)
+
 ## Demo
 
 [Demo Site](https://chat-markdown.alanwang.site/)
