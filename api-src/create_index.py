@@ -1,7 +1,4 @@
-import os
-
 import markdown
-import openai
 from custom_loader import CustomReader
 from llama_index import GPTSimpleVectorIndex, MockEmbedding, ServiceContext
 
@@ -9,8 +6,6 @@ user_data_dir = "userData"
 
 
 def create_index(filepath, filename) -> int:
-    openai.api_base = os.environ.get("OPENAI_PROXY")
-
     # load data
     with open(filepath, "r", encoding="utf-8") as f:
         md_text = f.read()

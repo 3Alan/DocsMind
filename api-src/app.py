@@ -1,7 +1,6 @@
 import json
 import logging
 import os
-import time
 from pathlib import Path
 
 import openai
@@ -19,10 +18,8 @@ from llama_index import (
 )
 from llama_index.optimization.optimizer import SentenceEmbeddingOptimizer
 
-openai_proxy = os.environ.get("OPENAI_PROXY")
-
-if not openai_proxy:
-    openai.api_base = openai_proxy
+openai_proxy = os.environ.get("OPENAI_PROXY", "https://api.openai.com/v1")
+openai.api_base = openai_proxy
 
 
 user_data_dir = "userData"
