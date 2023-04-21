@@ -7,5 +7,11 @@ export default async function fetchRequest(url: string, params: { [key: string]:
     query: params
   });
 
-  return fetch(combineUrl);
+  const res = await fetch(combineUrl);
+
+  if (res.ok) {
+    return res;
+  }
+
+  return Promise.reject(res.statusText);
 }
