@@ -21,7 +21,9 @@ from llama_index.optimization.optimizer import SentenceEmbeddingOptimizer
 
 openai_proxy = os.environ.get("OPENAI_PROXY")
 
-openai.api_base = openai_proxy or "https://api.openai.com"
+if not openai_proxy:
+    openai.api_base = openai_proxy
+
 
 user_data_dir = "userData"
 
