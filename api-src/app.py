@@ -19,7 +19,9 @@ from llama_index import (
 )
 from llama_index.optimization.optimizer import SentenceEmbeddingOptimizer
 
-openai.api_base = os.environ.get("OPENAI_PROXY")
+openai_proxy = os.environ.get("OPENAI_PROXY")
+
+openai.api_base = openai_proxy or "https://api.openai.com"
 
 user_data_dir = "userData"
 
@@ -37,7 +39,7 @@ app = Flask(__name__, static_folder=f"{user_data_dir}")
 CORS(app)
 
 logger = logging.getLogger(__name__)
-file_handler = logging.FileHandler("app.log")
+file_handler = logging.FileHandler("app.log", encoding="utf-8")
 file_handler.setLevel(logging.ERROR)
 logger.addHandler(file_handler)
 
@@ -54,7 +56,7 @@ def handle_error(error):
     print("some error:", error)
     response = jsonify({"message": message})
     response.status_code = status_code
-    logger.error(response)
+    logger.error(error, exc_info=True)
     return response
 
 
