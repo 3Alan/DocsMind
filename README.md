@@ -43,15 +43,17 @@ If you find this project helpful, please consider giving it a star 🌟
 
 ### Create .env
 
-Create .env file and fill in environment variables, see .env.example for reference
+Create `.env` file and fill in environment variables, see `.env.example` for reference
 
 ### Frontend
 
-#### Install dependencies
+1. Install dependencies
 
 ```
 yarn
 ```
+
+2. Run app
 
 ```
 yarn dev
@@ -61,14 +63,14 @@ yarn dev
 
 you need a python environment
 
-#### Create virtual environment
+1. Create virtual environment
 
 ```
 cd api-src
 python -m venv .venv
 ```
 
-#### Active virtual environment
+2. Active virtual environment
 
 windows
 
@@ -82,13 +84,13 @@ mac
 . .venv/bin/activate
 ```
 
-#### Install dependencies
+3. Install dependencies
 
 ```
 pip install -r requirements.txt
 ```
 
-#### Run Services
+4. Run Services
 
 ```
 flask run --reload
