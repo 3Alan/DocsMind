@@ -22,23 +22,23 @@ openai_proxy = os.environ.get("OPENAI_PROXY", "https://api.openai.com/v1")
 openai.api_base = openai_proxy
 
 
-user_data_dir = "userData"
+staticPath = "static"
 
-if not os.path.exists(f"{user_data_dir}/html"):
-    os.makedirs(f"{user_data_dir}/html")
-if not os.path.exists(f"{user_data_dir}/index"):
-    os.makedirs(f"{user_data_dir}/index")
-if not os.path.exists(f"{user_data_dir}/temp"):
-    os.makedirs(f"{user_data_dir}/temp")
+if not os.path.exists(f"{staticPath}/html"):
+    os.makedirs(f"{staticPath}/html")
+if not os.path.exists(f"{staticPath}/index"):
+    os.makedirs(f"{staticPath}/index")
+if not os.path.exists(f"{staticPath}/temp"):
+    os.makedirs(f"{staticPath}/temp")
 
 
-app = Flask(__name__, static_folder=f"{user_data_dir}")
+app = Flask(__name__, static_folder=f"{staticPath}")
 
 
 CORS(app)
 
 logger = logging.getLogger(__name__)
-file_handler = logging.FileHandler("app.log", encoding="utf-8")
+file_handler = logging.FileHandler("logs/app.log", encoding="utf-8")
 formatter = logging.Formatter(
     "%(asctime)s %(levelname)s: %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
 )
@@ -72,7 +72,7 @@ def summarize_index():
 
     UnstructuredReader = download_loader("UnstructuredReader")
     loader = UnstructuredReader()
-    documents = loader.load_data(file=Path(f"./{user_data_dir}/html/{index_name}.html"))
+    documents = loader.load_data(file=Path(f"./{staticPath}/html/{index_name}.html"))
     index = GPTListIndex.from_documents(documents)
 
     # predictor cost
@@ -134,9 +134,7 @@ def query_index():
     if open_ai_key:
         os.environ["OPENAI_API_KEY"] = open_ai_key
 
-    index = GPTSimpleVectorIndex.load_from_disk(
-        f"{user_data_dir}/index/{index_name}.json"
-    )
+    index = GPTSimpleVectorIndex.load_from_disk(f"{staticPath}/index/{index_name}.json")
 
     # predictor cost
     llm_predictor = MockLLMPredictor(max_tokens=256)
@@ -167,37 +165,50 @@ def query_index():
 def upload_file():
     filepath = None
     try:
+        open_ai_key = request.form["openAiKey"]
+        if open_ai_key:
+            os.environ["OPENAI_API_KEY"] = open_ai_key
+
         uploaded_file = request.files["file"]
         filename = uploaded_file.filename
         print(os.getcwd(), os.path.abspath(__file__))
-        filepath = os.path.join(f"{user_data_dir}/temp", os.path.basename(filename))
+        filepath = os.path.join(f"{staticPath}/temp", os.path.basename(filename))
         uploaded_file.save(filepath)
 
         token_usage = create_index(filepath, os.path.splitext(filename)[0])
     except Exception as e:
+        logger.error(e, exc_info=True)
         # cleanup temp file
         print(e, "upload error")
         if filepath is not None and os.path.exists(filepath):
             os.remove(filepath)
+
+        # 用完了就删掉，防止key被反复使用
+        if open_ai_key:
+            os.environ["OPENAI_API_KEY"] = ""
         return "Error: {}".format(str(e)), 500
 
     # cleanup temp file
     if filepath is not None and os.path.exists(filepath):
         os.remove(filepath)
 
+    # 用完了就删掉，防止key被反复使用
+    if open_ai_key:
+        os.environ["OPENAI_API_KEY"] = ""
+
     return jsonify(token_usage), 200
 
 
 @app.route("/api/index-list", methods=["GET"])
 def get_index_files():
-    dir = f"{user_data_dir}/index"
+    dir = f"{staticPath}/index"
     files = os.listdir(dir)
     return files
 
 
 @app.route("/api/html-list", methods=["GET"])
 def get_html_files():
-    dir = f"{user_data_dir}/html"
+    dir = f"{staticPath}/html"
     files = os.listdir(dir)
     return [
         {"path": f"/{dir}/{file}", "name": os.path.splitext(file)[0]} for file in files

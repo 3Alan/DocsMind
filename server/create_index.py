@@ -2,7 +2,7 @@ import markdown
 from custom_loader import CustomReader
 from llama_index import GPTSimpleVectorIndex, MockEmbedding, ServiceContext
 
-user_data_dir = "userData"
+staticPath = "static"
 
 
 def create_index(filepath, filename) -> int:
@@ -26,6 +26,6 @@ def create_index(filepath, filename) -> int:
     index = GPTSimpleVectorIndex.from_documents(documents)
 
     # save to disk
-    index.save_to_disk(f"{user_data_dir}/index/{filename}.json")
+    index.save_to_disk(f"{staticPath}/index/{filename}.json")
 
     return embed_model.last_token_usage

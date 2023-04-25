@@ -6,7 +6,7 @@ from bs4.element import NavigableString
 from llama_index.readers.base import BaseReader
 from llama_index.readers.schema.base import Document
 
-user_data_dir = "userData/"
+staticPath = "static"
 
 
 def encode_string(string: str, encoding_name: str = "p50k_base"):
@@ -107,6 +107,13 @@ class CustomReader(BaseReader):
                         elem["data-chunk_id"] = f"chunk-{index}"
                         break
 
+        # TODO:
+        # if len(headings) == 0:
+        #     UnstructuredReader = download_loader("UnstructuredReader")
+        #     loader = UnstructuredReader()
+        #     documents = loader.load_data(f"{staticPath}/html/{filename}.html")
+        #     return documents
+
         start = headings[-1]
         start["data-chunk_id"] = f"chunk-{index}"
         content = start.next_elements
@@ -164,7 +171,7 @@ class CustomReader(BaseReader):
         )
 
         # 保存修改后的HTML文件
-        with open(f"{user_data_dir}/html/{filename}.html", "w", encoding="utf-8") as f:
+        with open(f"{staticPath}/html/{filename}.html", "w", encoding="utf-8") as f:
             f.write(str(soup))
 
         return document_list

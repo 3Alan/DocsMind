@@ -67,7 +67,7 @@ you need a python environment
 1. Create virtual environment
 
 ```
-cd api-src
+cd server
 python -m venv .venv
 ```
 

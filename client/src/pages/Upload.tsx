@@ -3,6 +3,7 @@ import { Alert, Card, message, Spin, Upload } from 'antd';
 import { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { baseURL } from '../utils/request';
+import useOpenAiKey from '../utils/useOpenAiKey';
 
 const { Dragger } = Upload;
 
@@ -19,6 +20,7 @@ function generateConfetti() {
 
 export default function UploadFile() {
   const [uploading, setUploading] = useState(false);
+  const openAiKey = useOpenAiKey();
 
   const onUploadChange = (info: any) => {
     setUploading(true);
@@ -61,6 +63,7 @@ export default function UploadFile() {
       <Spin spinning={uploading}>
         <Dragger
           action={`${baseURL}/api/upload`}
+          data={{ openAiKey }}
           multiple={false}
           showUploadList={false}
           name="file"

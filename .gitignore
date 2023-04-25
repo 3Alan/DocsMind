@@ -36,3 +36,5 @@ instance/
 build
 *.spec
 temp
+
+data
