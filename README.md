@@ -30,6 +30,7 @@ I plan to add the following features in the future:
 - [ ] Support for more file formats: pdf, txt
 - [ ] Download doc from the internet
 - [ ] Markdown-formatted message
+- [ ] Dockerize
 - [ ] i18n
 - [ ] Desktop application
 
