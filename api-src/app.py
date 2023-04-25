@@ -167,6 +167,10 @@ def query_index():
 def upload_file():
     filepath = None
     try:
+        open_ai_key = request.form["openAiKey"]
+        if open_ai_key:
+            os.environ["OPENAI_API_KEY"] = open_ai_key
+
         uploaded_file = request.files["file"]
         filename = uploaded_file.filename
         print(os.getcwd(), os.path.abspath(__file__))
@@ -175,15 +179,24 @@ def upload_file():
 
         token_usage = create_index(filepath, os.path.splitext(filename)[0])
     except Exception as e:
+        logger.error(e, exc_info=True)
         # cleanup temp file
         print(e, "upload error")
         if filepath is not None and os.path.exists(filepath):
             os.remove(filepath)
+
+        # 用完了就删掉，防止key被反复使用
+        if open_ai_key:
+            os.environ["OPENAI_API_KEY"] = ""
         return "Error: {}".format(str(e)), 500
 
     # cleanup temp file
     if filepath is not None and os.path.exists(filepath):
         os.remove(filepath)
+
+    # 用完了就删掉，防止key被反复使用
+    if open_ai_key:
+        os.environ["OPENAI_API_KEY"] = ""
 
     return jsonify(token_usage), 200
 
