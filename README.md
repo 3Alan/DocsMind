@@ -30,7 +30,6 @@ I plan to add the following features in the future:
 - [ ] Support for more file formats: pdf, txt
 - [ ] Download doc from the internet
 - [ ] Markdown-formatted message
-- [ ] Dockerize
 - [ ] i18n
 - [ ] Desktop application
 
@@ -42,9 +41,17 @@ If you find this project helpful, please consider giving it a star 🌟
 >
 > Please check if you can access OpenAI in your region, you can refer to the [issue](https://github.com/3Alan/chat-markdown/issues/3#issuecomment-1511470063) for more information.
 
+### Create .env
+
+Create `.env` file and fill in environment variables, see `.env.example` for reference
+
+### Run App
+
 ```bash
 docker-compose up --build
 ```
+
+now you can access the app at `http://localhost:8081`
 
 ## Local Development
 
