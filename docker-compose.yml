@@ -5,17 +5,13 @@ services:
       context: .
       dockerfile: docker/Dockerfile.client
     ports:
-      - "8001:80"
-    env_file:
-      - .env
+      - "8081:80"
   server:
     build:
       context: .
       dockerfile: docker/Dockerfile.server
     ports:
-      - "5000:5000"
-    env_file:
-      - .env
+      - "8080:8080"
     volumes:
       - ./data:/server/static
       - ./logs:/server/logs

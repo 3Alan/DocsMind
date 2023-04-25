@@ -30,6 +30,8 @@ if not os.path.exists(f"{staticPath}/index"):
     os.makedirs(f"{staticPath}/index")
 if not os.path.exists(f"{staticPath}/temp"):
     os.makedirs(f"{staticPath}/temp")
+if not os.path.exists(f"logs"):
+    os.makedirs(f"logs")
 
 
 app = Flask(__name__, static_folder=f"{staticPath}")

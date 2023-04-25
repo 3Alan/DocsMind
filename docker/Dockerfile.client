@@ -3,7 +3,6 @@ FROM node:16-alpine as client
 WORKDIR /client
 
 COPY ./client .
-COPY .env .
 
 RUN yarn install
 

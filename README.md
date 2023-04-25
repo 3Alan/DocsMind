@@ -42,6 +42,12 @@ If you find this project helpful, please consider giving it a star 🌟
 >
 > Please check if you can access OpenAI in your region, you can refer to the [issue](https://github.com/3Alan/chat-markdown/issues/3#issuecomment-1511470063) for more information.
 
+```bash
+docker-compose up --build
+```
+
+## Local Development
+
 ### Create .env
 
 Create `.env` file and fill in environment variables, see `.env.example` for reference
@@ -94,5 +100,5 @@ pip install -r requirements.txt
 4. Run Services
 
 ```
-flask run --reload
+flask run --reload --port=8080
 ```
