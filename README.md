@@ -2,7 +2,7 @@
 
 Chat-Markdown is an open-source project that allows you to chat with your markdown files.
 
-![Stack](https://skillicons.dev/icons?i=vite,react,ts,tailwind,py)
+![Stack](https://skillicons.dev/icons?i=vite,react,ts,tailwind,flask)
 
 ## Demo
 
@@ -22,6 +22,7 @@ Deploy on Vercel and Railway
 - 📤 Upload files
 - 💾 Data saved locally
 - 💰 Token usage tracker
+- 🐳 Dockerize
 
 ## Future Development
 
@@ -35,31 +36,42 @@ I plan to add the following features in the future:
 
 If you find this project helpful, please consider giving it a star 🌟
 
-## How to run locally?
+## Q&A
+
+### How to run locally?
 
 > **Warning**
 >
 > Please check if you can access OpenAI in your region, you can refer to the [issue](https://github.com/3Alan/chat-markdown/issues/3#issuecomment-1511470063) for more information.
 
-### Create .env
+1. Create .env
 
-Create `.env` file and fill in environment variables, see `.env.example` for reference
+Create a `.env` file and copy the contents of `.env.example` to modify it.
 
-### Run App
+2. Run App
 
 ```bash
-docker-compose up --build
+docker-compose up -d
+```
+
+Please add `--build` to rebuild the image after each code update.
+
+```bash
+docker-compose up -d --build
 ```
 
 now you can access the app at `http://localhost:8081`
 
-## Local Development
+### Local Development
 
-### Create .env
+<details>
+  <summary>Detail</summary>
+
+#### Create .env
 
 Create `.env` file and fill in environment variables, see `.env.example` for reference
 
-### Frontend
+#### Run Frontend
 
 1. Install dependencies
 
@@ -73,7 +85,7 @@ yarn
 yarn dev
 ```
 
-### Backend
+#### Run Backend
 
 you need a python environment
 
@@ -109,3 +121,5 @@ pip install -r requirements.txt
 ```
 flask run --reload --port=8080
 ```
+
+</detail>
