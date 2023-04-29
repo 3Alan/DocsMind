@@ -32,6 +32,7 @@ body {
 
 .markdown-body .hl-source {
   background-color: #eff6ff;
+  border-radius: 6px;
 }
 
 .markdown-body {

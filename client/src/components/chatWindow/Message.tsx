@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { FC, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 import { MessageItem } from './constants';
 import Loading from './Loading';
-import { isString } from 'lodash';
+import { isEmpty, isString } from 'lodash';
 
 interface MessageProps extends PropsWithChildren {
   isQuestion?: boolean;
@@ -55,7 +55,7 @@ const Message: FC<MessageProps> = ({
 
       {(item?.sources || item?.cost) && (
         <div className="flex px-3 pt-2 pb-2 border-t-gray-200 border-t items-center justify-between">
-          {item?.sources && (
+          {!isEmpty(item?.sources) && (
             <HighlightOutlined className=" text-gray-400" onClick={() => onReplyClick?.(item)} />
           )}
 
