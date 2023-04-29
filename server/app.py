@@ -84,31 +84,29 @@ def summarize_index():
         llm_predictor=llm_predictor, embed_model=embed_model
     )
 
+    # TODO: Format everything as markdown
+    prompt = f"""
+        Summarize this document and provide three questions related to the summary. Try to use your own words when possible. Keep your answer under 5 sentences. 
+
+        Use the following format:
+        <summary text>
+
+
+        Questions you may want to ask 🤔
+        1. <question text>
+        2. <question text>
+        3. <question text>
+        """
+
     index.query(
-        (
-            "Summarize this document and provide three questions related to the summary. Try to use your own words when possible. Keep your answer under 5 sentences. \n"
-            "The three questions use the following format(add two line breaks at the beginning of the template):"
-            "Template:"
-            "Questions you may want to ask 🤔 \n"
-            "1. <question_1> \n"
-            "2. <question_2> \n"
-            "3. <question_3> \n"
-        ),
+        prompt,
         response_mode="tree_summarize",
         service_context=service_context,
         optimizer=SentenceEmbeddingOptimizer(percentile_cutoff=0.8),
     )
 
     res = index.query(
-        (
-            "Summarize this document and provide three questions related to the summary. Try to use your own words when possible. Keep your answer under 5 sentences. \n"
-            "The three questions use the following format(add two line breaks at the beginning of the template):"
-            "Template:"
-            "Questions you may want to ask 🤔 \n"
-            "1. <question_1> \n"
-            "2. <question_2> \n"
-            "3. <question_3> \n"
-        ),
+        prompt,
         streaming=True,
         response_mode="tree_summarize",
         optimizer=SentenceEmbeddingOptimizer(percentile_cutoff=0.8),

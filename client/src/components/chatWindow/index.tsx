@@ -207,6 +207,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
       <div className="p-4 pb-0 border-t border-t-gray-200 border-solid border-x-0 border-b-0">
         <div className="relative">
           <Input.TextArea
+            disabled={loading}
             size="large"
             placeholder="Input your question"
             value={query}
