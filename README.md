@@ -131,7 +131,7 @@ pip install -r requirements.txt
 flask run --reload --port=8080
 ```
 
-</detail>
+</details>
 
 ## Buy me a coffee
 
