@@ -36,6 +36,15 @@ I plan to add the following features in the future:
 
 If you find this project helpful, please consider giving it a star 🌟
 
+## Environment Variables
+
+| Name                 | Description                            | Optional |
+| -------------------- | -------------------------------------- | -------- |
+| OPENAI_API_KEY       | sk-xxx                                 | ✅       |
+| OPENAI_PROXY         | will replace https://api.openai.com/v1 | ✅       |
+| VITE_SERVICES_URL    | backend url for frontend code          | ✅       |
+| VITE_DISABLED_UPLOAD | DISABLED_UPLOAD                        | ✅       |
+
 ## Q&A
 
 ### How to run locally?
@@ -44,7 +53,7 @@ If you find this project helpful, please consider giving it a star 🌟
 >
 > Please check if you can access OpenAI in your region, you can refer to the [issue](https://github.com/3Alan/chat-markdown/issues/3#issuecomment-1511470063) for more information.
 
-1. Create .env
+1. Create .env(Optional)
 
 Create a `.env` file and copy the contents of `.env.example` to modify it.
 
@@ -67,9 +76,9 @@ now you can access the app at `http://localhost:8081`
 <details>
   <summary>Detail</summary>
 
-#### Create .env
+#### Create .env(Optional)
 
-Create `.env` file and fill in environment variables, see `.env.example` for reference
+Create a `.env` file and copy the contents of `.env.example` to modify it.
 
 #### Run Frontend
 
