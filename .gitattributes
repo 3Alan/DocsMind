@@ -1,1 +1,1 @@
-server/static/* linguist-detectable=false
+server/static/** linguist-detectable=false
