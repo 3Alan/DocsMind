@@ -1,0 +1,18 @@
+version: '3'
+services:
+  client:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.client
+    ports:
+      - "8081:80"
+  server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.server
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/server/static
+      - ./logs:/server/logs
+

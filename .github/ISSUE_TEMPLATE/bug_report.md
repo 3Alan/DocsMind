@@ -10,7 +10,7 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 **Provide logs**
-Please provide the log located at `api-src/app.log` and the client error (browser console) so that I can better understand the issue.
+Please provide the log located at `logs/app.log` and the client error (browser console) so that I can better understand the issue.
 
 **To Reproduce**
 Steps to reproduce the behavior.
