@@ -30,9 +30,26 @@ body {
   overflow: hidden;
 }
 
-.markdown-body .hl-source {
-  background-color: #eff6ff;
-  border-radius: 6px;
+.markdown-body {
+  table {
+    &.hl-source {
+      border-radius: 0;
+
+      tr, td {
+        background-color: #eff6ff;
+        border-radius: 0;
+      }
+    }
+  }
+
+  .hl-source {
+    background-color: #eff6ff;
+    border-radius: 6px;
+
+    pre {
+      background-color: #eff6ff !important;
+    }
+  }
 }
 
 .markdown-body {
