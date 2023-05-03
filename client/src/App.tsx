@@ -1,4 +1,4 @@
-import './styles/globals.css';
+import './styles/globals.scss';
 import 'github-markdown-css/github-markdown-light.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import routes from './routes';

@@ -1,5 +1,7 @@
 # Test Markdown
 
+The Test File chunk size is 10
+
 ## list
 
 - first
@@ -25,4 +27,4 @@
 
 ## Other
 
-**strong**
+long text**strong**long textlong textlong textlong textlong textlong textlong textlong textlong textlong textlong textlong textlong textlong textlong textlong textlong textlong text
