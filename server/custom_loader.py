@@ -61,12 +61,12 @@ class CustomReader(BaseReader):
 
         # 只处理前三级标题，其他的按照段落处理
         headings = ["h1", "h2", "h3"]
-        headingDoms = soup.find_all(headings)
+        heading_doms = soup.find_all(headings)
 
-        if len(headingDoms) == 0:
-            headingDoms = [soup.find()]
+        if len(heading_doms) == 0:
+            heading_doms = [soup.find()]
 
-        for tag in headingDoms:
+        for tag in heading_doms:
             tag["data-chunk_id"] = f"chunk-{current_chunk_id}"
             current_chunk_text = tag.text.strip()
 
