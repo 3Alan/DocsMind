@@ -61,7 +61,7 @@ class CustomReader(BaseReader):
 
         # 只处理前三级标题，其他的按照段落处理
         headings = ["h1", "h2", "h3"]
-        heading_doms = soup.find("body").find_all(headings)
+        heading_doms = soup.find_all(headings)
 
         if len(heading_doms) == 0:
             heading_doms = [soup.find()]

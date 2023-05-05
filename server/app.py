@@ -146,7 +146,9 @@ def query_index():
 
     res = index.query(query_text, streaming=True)
     cost = embed_model.last_token_usage + llm_predictor.last_token_usage
-    sources = [{"extraInfo": x.node.extra_info} for x in res.source_nodes]
+    sources = [
+        {"extraInfo": x.node.extra_info, "text": x.node.text} for x in res.source_nodes
+    ]
 
     def response_generator():
         yield json.dumps({"cost": cost, "sources": sources})

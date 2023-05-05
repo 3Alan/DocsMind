@@ -4,6 +4,9 @@ import { FC, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 import { MessageItem } from './constants';
 import Loading from './Loading';
 import { isEmpty, isString } from 'lodash';
+import { Collapse } from 'antd';
+
+const { Panel } = Collapse;
 
 interface MessageProps extends PropsWithChildren {
   isQuestion?: boolean;
@@ -54,10 +57,18 @@ const Message: FC<MessageProps> = ({
       )}
 
       {(item?.sources || item?.cost) && (
-        <div className="flex px-3 pt-2 pb-2 border-t-gray-200 border-t items-center justify-between">
+        <div className="flex px-3 pt-2 pb-2 border-t-gray-200 border-t justify-between">
           {!isEmpty(item?.sources) && (
             <HighlightOutlined className=" text-gray-400" onClick={() => onReplyClick?.(item)} />
           )}
+
+          <Collapse bordered={false} expandIconPosition="end" ghost>
+            {item.sources?.map((item, index) => (
+              <Panel header={`Source ${index + 1}`} key={index + 1}>
+                {item.text}
+              </Panel>
+            ))}
+          </Collapse>
 
           {item?.cost && (
             <div className=" border-t-gray-200 border-t text-right">

@@ -4,7 +4,8 @@ TODO:
 
 - Use pdf2htmlEX to convert PDF to HTML.
 - Reduce the size of the server image.
-- pdf2htmlEX --zoom 1.3 --process-outline 0 --printing 0 test.pdf
+- pdf2htmlEX --fit-width 700 --process-outline 0 --printing 0 ./server/static/documents/pdf2htmlex.pdf
+- pdf split by sentence
 
 Chat-Markdown is an open-source project that allows you to chat with your markdown files.
 
@@ -135,6 +136,18 @@ pip install -r requirements.txt
 
 ```
 flask run --reload --port=8080
+```
+
+#### Install pdf2htmlEX for PDF convert
+
+```shell
+docker pull pdf2htmlex/pdf2htmlex:0.18.8.rc2-master-20200820-alpine-3.12.0-x86_64
+```
+
+set alias
+
+```shell
+alias pdf2htmlEX='docker run -ti --rm -v "`pwd`":/pdf -w /pdf pdf2htmlex/pdf2htmlex:0.18.8.rc2-master-20200820-alpine-3.12.0-x86_64'
 ```
 
 </details>

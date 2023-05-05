@@ -118,7 +118,7 @@ const Home = () => {
         {html ? (
           <div
             ref={htmlRef}
-            className="markdown-body h-full overflow-auto"
+            className="markdown-body h-full overflow-auto relative"
             dangerouslySetInnerHTML={{ __html: html }}
           />
         ) : (

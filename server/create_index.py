@@ -3,12 +3,12 @@ import os
 import markdown
 from custom_loader import CustomReader
 from llama_index import GPTSimpleVectorIndex, MockEmbedding, ServiceContext
+from pdf_loader import PdfReader
 
 staticPath = "static"
 
 
 def create_index(filepath, filename) -> int:
-    html = ""
     name, ext = os.path.splitext(filename)
     # load data
     with open(filepath, "r", encoding="utf-8") as f:
@@ -17,15 +17,17 @@ def create_index(filepath, filename) -> int:
     if ext == ".pdf":
         # TODO: Use pdf2htmlEX to convert PDF to HTML.
         html = "todo"
+        loader = CustomReader()
+        documents = loader.load_data(html=html, filename=name)
     elif ext == ".md":
         html = markdown.markdown(
             file_text, extensions=["pymdownx.superfences", "tables", "pymdownx.details"]
         )
+        loader = CustomReader()
+        documents = loader.load_data(html=html, filename=name)
     elif ext == ".html":
-        html = file_text
-
-    loader = CustomReader()
-    documents = loader.load_data(html=html, filename=name)
+        loader = PdfReader()
+        documents = loader.load_data(html=file_text, filename=name)
 
     # predictor cost
     embed_model = MockEmbedding(embed_dim=1536)
