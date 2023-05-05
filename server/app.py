@@ -175,7 +175,7 @@ def upload_file():
         filepath = os.path.join(f"{staticPath}/temp", os.path.basename(filename))
         uploaded_file.save(filepath)
 
-        token_usage = create_index(filepath, os.path.splitext(filename)[0])
+        token_usage = create_index(filepath, filename)
     except Exception as e:
         logger.error(e, exc_info=True)
         # cleanup temp file

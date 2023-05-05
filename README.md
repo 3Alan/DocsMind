@@ -1,5 +1,11 @@
 # Chat-Markdown
 
+TODO:
+
+- Use pdf2htmlEX to convert PDF to HTML.
+- Reduce the size of the server image.
+- pdf2htmlEX --zoom 1.3 --process-outline 0 --printing 0 test.pdf
+
 Chat-Markdown is an open-source project that allows you to chat with your markdown files.
 
 ![Stack](https://skillicons.dev/icons?i=vite,react,ts,tailwind,flask)
