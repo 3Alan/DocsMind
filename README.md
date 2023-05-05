@@ -6,6 +6,10 @@ TODO:
 - Reduce the size of the server image.
 - pdf2htmlEX --fit-width 700 --process-outline 0 --printing 0 ./server/static/documents/pdf2htmlex.pdf
 - pdf split by sentence
+- input /summarize to summarize
+- input /fetch to scrape the web page
+- chat mode
+- dark mode
 
 Chat-Markdown is an open-source project that allows you to chat with your markdown files.
 
