@@ -24,8 +24,8 @@ openai.api_base = openai_proxy
 
 staticPath = "static"
 
-if not os.path.exists(f"{staticPath}/html"):
-    os.makedirs(f"{staticPath}/html")
+if not os.path.exists(f"{staticPath}/file"):
+    os.makedirs(f"{staticPath}/file")
 if not os.path.exists(f"{staticPath}/index"):
     os.makedirs(f"{staticPath}/index")
 if not os.path.exists(f"{staticPath}/temp"):
@@ -74,7 +74,8 @@ def summarize_index():
 
     UnstructuredReader = download_loader("UnstructuredReader")
     loader = UnstructuredReader()
-    documents = loader.load_data(file=Path(f"./{staticPath}/html/{index_name}.html"))
+    # TODO: html去掉
+    documents = loader.load_data(file=Path(f"./{staticPath}/file/{index_name}.html"))
     index = GPTListIndex.from_documents(documents)
 
     # predictor cost
@@ -208,12 +209,13 @@ def get_index_files():
     return files
 
 
-@app.route("/api/html-list", methods=["GET"])
+@app.route("/api/file-list", methods=["GET"])
 def get_html_files():
-    dir = f"{staticPath}/html"
+    dir = f"{staticPath}/file"
     files = os.listdir(dir)
     return [
-        {"path": f"/{dir}/{file}", "name": os.path.splitext(file)[0]} for file in files
+        {"path": f"/{dir}/{file}", "name": file, "ext": os.path.splitext(file)[1]}
+        for file in files
     ]
 
 
