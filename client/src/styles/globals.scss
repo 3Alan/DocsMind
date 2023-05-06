@@ -87,12 +87,23 @@ body {
   width: 100%;
 }
 
+// TODO: 使用 antd 的 Token实现
+
 .ant-menu-item {
   padding-left: 16px !important;
 }
 
 .ant-menu-item-active {
   background-color: #eff6ff;
+}
+
+.ant-collapse-header {
+  padding: 4px 12px;
+}
+
+.ant-collapse-content-box {
+  font-size: 12px;
+  padding: 8px 12px !important;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -12,14 +12,14 @@ interface ChatWindowProps {
   fileName: string;
   className?: string;
   onReplyComplete: (data: any) => void;
-  onReplyClick: (data: any) => void;
+  onSourceClick: (data: any) => void;
 }
 
 const ChatWindow: FC<ChatWindowProps> = ({
   fileName,
   className,
   onReplyComplete,
-  onReplyClick
+  onSourceClick
 }) => {
   const chatWindowRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
@@ -112,7 +112,8 @@ const ChatWindow: FC<ChatWindowProps> = ({
           }
         ];
       });
-      onReplyComplete({ sources: metaData?.sources });
+
+      onReplyComplete({ ...metaData?.sources[0] });
     } catch (error) {
       setLoading(false);
       setMessageList((pre) => {
@@ -196,7 +197,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
                 loading={loading && index === messageList.length - 1}
                 item={item}
                 text={item.reply || ''}
-                onReplyClick={onReplyClick}
+                onSourceClick={onSourceClick}
                 error={item.error}
               />
             )}

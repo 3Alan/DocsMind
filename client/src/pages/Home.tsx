@@ -69,11 +69,8 @@ const Home = () => {
     setCurrentFile({ name: option.label, path: option.value });
   }
 
-  function onReplyComplete(data: any, time?: number) {
-    const { sources } = data;
-    for (const item of sources) {
-      addHighLight(item.extraInfo.chunk_id, time);
-    }
+  function handleHighLight(item: any, time?: number) {
+    addHighLight(item.extraInfo.chunk_id, time);
   }
 
   useEffect(() => {
@@ -138,8 +135,8 @@ const Home = () => {
       <ChatWindow
         fileName={currentFile?.name || ''}
         className="flex flex-col"
-        onReplyComplete={onReplyComplete}
-        onReplyClick={(data) => onReplyComplete(data, 0)}
+        onReplyComplete={handleHighLight}
+        onSourceClick={(item) => handleHighLight(item, 0)}
       />
     </>
   );

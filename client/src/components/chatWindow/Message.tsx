@@ -1,10 +1,10 @@
-import { HighlightOutlined } from '@ant-design/icons';
+import { DollarOutlined, HighlightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { FC, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
+import { FC, MouseEvent, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 import { MessageItem } from './constants';
 import Loading from './Loading';
-import { isEmpty, isString } from 'lodash';
-import { Collapse } from 'antd';
+import { isString } from 'lodash';
+import { Collapse, Space, Tooltip } from 'antd';
 
 const { Panel } = Collapse;
 
@@ -15,7 +15,7 @@ interface MessageProps extends PropsWithChildren {
   item?: MessageItem;
   chunkIdList?: number[];
   error?: boolean;
-  onReplyClick?: (data: any) => void;
+  onSourceClick?: (data: any) => void;
 }
 
 const Message: FC<MessageProps> = ({
@@ -24,9 +24,10 @@ const Message: FC<MessageProps> = ({
   item,
   loading,
   error,
-  onReplyClick
+  onSourceClick
 }) => {
   const [words, setWords] = useState<string[]>([]);
+  const [showSources, setShowSources] = useState<boolean>(false);
 
   useEffect(() => {
     if (!error && isString(text)) {
@@ -38,45 +39,77 @@ const Message: FC<MessageProps> = ({
     return <Loading />;
   }
 
+  function handleSourceClick(e: MouseEvent, item: any) {
+    e.stopPropagation();
+    onSourceClick?.(item);
+  }
+
+  function toggleShowSource() {
+    setShowSources(!showSources);
+  }
+
   return (
-    <div
-      className={classNames(
-        'flex flex-col pt-2 shadow rounded-lg max-w-md mb-5 whitespace-pre-wrap',
-        isQuestion ? 'bg-blue-500 self-end text-white' : 'bg-blue-50'
-      )}
-    >
-      {isQuestion ? (
-        <div className="px-3 pb-2">{text}</div>
-      ) : (
-        <div className="px-3 pb-2 text-gray-800">
-          {error && text}
-          {words.map((word, index) => (
-            <span key={index}>{word} </span>
-          ))}
-        </div>
-      )}
-
-      {(item?.sources || item?.cost) && (
-        <div className="flex px-3 pt-2 pb-2 border-t-gray-200 border-t justify-between">
-          {!isEmpty(item?.sources) && (
-            <HighlightOutlined className=" text-gray-400" onClick={() => onReplyClick?.(item)} />
-          )}
-
-          <Collapse bordered={false} expandIconPosition="end" ghost>
-            {item.sources?.map((item, index) => (
-              <Panel header={`Source ${index + 1}`} key={index + 1}>
-                {item.text}
-              </Panel>
-            ))}
-          </Collapse>
+    <div className={classNames('flex flex-col pt-2 mb-5 max-w-md', { ['self-end']: isQuestion })}>
+      <div
+        className={classNames('flex mb-1 justify-between', {
+          ['self-end']: isQuestion
+        })}
+      >
+        <Space className="text-gray-400">
+          <strong className="text-gray-400 pr-2 ">{isQuestion ? 'You' : 'AI'}</strong>
 
           {item?.cost && (
-            <div className=" border-t-gray-200 border-t text-right">
-              <span className=" text-gray-400">Estimated {item.cost} tokens</span>
-            </div>
+            <Tooltip title={`Estimated ${item.cost} tokens`}>
+              <span className="cursor-pointer">
+                <DollarOutlined /> cost
+              </span>
+            </Tooltip>
           )}
-        </div>
+        </Space>
+
+        {item?.sources && (
+          <div className="cursor-pointer text-gray-400 text-xs" onClick={toggleShowSource}>
+            {showSources ? 'Hide Sources' : 'Show Source'}
+          </div>
+        )}
+      </div>
+
+      {showSources && (
+        <Collapse accordion expandIconPosition="end" size="small" className="mb-3">
+          {item?.sources?.map((item, index) => (
+            <Panel
+              header={`Source ${index + 1}`}
+              key={index + 1}
+              extra={
+                <HighlightOutlined
+                  className="text-gray-400 hover:text-gray-800"
+                  onClick={(e) => handleSourceClick(e, item)}
+                />
+              }
+            >
+              {item.text}
+            </Panel>
+          ))}
+        </Collapse>
       )}
+
+      <div
+        className={classNames(
+          'flex flex-col pt-2 shadow rounded-lg mb-5 whitespace-pre-wrap',
+          isQuestion ? 'bg-blue-500 self-end text-white' : 'bg-blue-50'
+        )}
+      >
+        {isQuestion ? (
+          <div className="px-3 pb-2">{text}</div>
+        ) : (
+          <div className="px-3 pb-2 text-gray-800">
+            {error && text}
+            {words.map((word, index) => (
+              <span key={index}>{word} </span>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
