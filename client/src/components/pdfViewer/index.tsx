@@ -10,8 +10,6 @@ export default function PdfViewer({ file }: { file: Blob }) {
   const pdfRef = useRef<PDFDocumentProxy>();
 
   function scrollToPage({ pageNo, time = 400 }: { pageNo: number; time: number }) {
-    console.log(pageNo, time, 'num---num');
-
     setTimeout(() => {
       if (pdfRef?.current) {
         pdfRef.current?.pages[pageNo - 1].scrollIntoView();

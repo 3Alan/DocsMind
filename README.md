@@ -1,17 +1,14 @@
-# Chat-Markdown
+# ChatText
 
 TODO:
 
 - Reduce the size of the server image.
-- pdf2htmlEX --fit-width 700 --process-outline 0 --printing 0 ./server/static/documents/pdf2htmlex.pdf
 - input /summarize to summarize
 - input /fetch to scrape the web page
 - chat mode
 - dark mode
-- 思考：既然 pdf 转化成 html 没有带来任何收益那么就没必要费这么大劲去转化成 html 了，直接处理 pdf 文件就好了，最后定位到对应页数就行了
-- pdf 每页再 split chunk
 
-Chat-Markdown is an open-source project that allows you to chat with your markdown files.
+ChatText is an open-source project that allows you to chat with your text.
 
 ![Stack](https://skillicons.dev/icons?i=vite,react,ts,tailwind,flask)
 
@@ -27,8 +24,8 @@ Deploy on Vercel and Railway
 
 ## Features
 
-- 🤖 Chat with your markdown files
-- 📝 Summarize articles
+- 🤖 Ask a question with your text
+- 📝 Summarize text
 - 🖍️ Highlight source
 - 📤 Upload files
 - 💾 Data saved locally
@@ -39,6 +36,7 @@ Deploy on Vercel and Railway
 
 I plan to add the following features in the future:
 
+- [ ] Chat mode
 - [ ] Support for more file formats: pdf, txt
 - [ ] Download doc from the internet
 - [ ] Markdown-formatted message

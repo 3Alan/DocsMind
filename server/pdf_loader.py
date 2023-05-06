@@ -3,6 +3,7 @@
 from pathlib import Path
 from typing import Any, List
 
+from llama_index.langchain_helpers.text_splitter import SentenceSplitter
 from llama_index.readers.base import BaseReader
 from llama_index.readers.schema.base import Document
 
@@ -51,7 +52,12 @@ class CJKPDFReader(BaseReader):
             # Get the text
             text = retstr.getvalue()
 
-            document_list.append(Document(text, extra_info={"page_no": i + 1}))
+            sentence_splitter = SentenceSplitter(chunk_size=400)
+            text_chunks = sentence_splitter.split_text(text)
+
+            document_list += [
+                Document(t, extra_info={"page_no": i + 1}) for t in text_chunks
+            ]
             # Clear the text
             retstr.truncate(0)
             retstr.seek(0)
