@@ -10,6 +10,7 @@ TODO:
 - input /fetch to scrape the web page
 - chat mode
 - dark mode
+- 思考：既然 pdf 转化成 html 没有带来任何收益那么就没必要费这么大劲去转化成 html 了，直接处理 pdf 文件就好了，最后定位到对应页数就行了
 
 Chat-Markdown is an open-source project that allows you to chat with your markdown files.
 

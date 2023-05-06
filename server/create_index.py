@@ -16,6 +16,8 @@ def create_index(filepath, filename) -> int:
 
     if ext == ".pdf":
         # TODO: Use pdf2htmlEX to convert PDF to HTML.
+        # loader 参考： https://github.com/emptycrown/llama-hub/blob/main/loader_hub/file/cjk_pdf/base.py
+        # https://github.com/emptycrown/llama-hub/blob/main/loader_hub/file/pymu_pdf/base.py
         html = "todo"
         loader = CustomReader()
         documents = loader.load_data(html=html, filename=name)
@@ -23,6 +25,8 @@ def create_index(filepath, filename) -> int:
         html = markdown.markdown(
             file_text, extensions=["pymdownx.superfences", "tables", "pymdownx.details"]
         )
+        # TODO: 利用 langchain splitter重写 https://python.langchain.com/en/latest/modules/indexes/text_splitters/examples/markdown.html
+        # 直接将markdown分段再分别转化成html，最后将所有html拼接起来并加上chunk_id
         loader = CustomReader()
         documents = loader.load_data(html=html, filename=name)
     elif ext == ".html":
