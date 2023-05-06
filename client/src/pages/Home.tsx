@@ -8,6 +8,7 @@ import eventEmitter from '../utils/eventEmitter';
 interface FileItem {
   name: string;
   path: string;
+  ext: string;
 }
 
 function removeHighLight() {
@@ -33,7 +34,7 @@ function addHighLight(chunkId: string, time = 400) {
 
 const Home = () => {
   const htmlRef = useRef<HTMLDivElement>(null);
-  const [html, setHtml] = useState('');
+  const [file, setFile] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentFile, setCurrentFile] = useState<FileItem>();
   const [fileList, setFileList] = useState<FileItem[]>([]);
@@ -47,17 +48,17 @@ const Home = () => {
   }, [currentFile]);
 
   async function getFileList() {
-    const res = await request('/api/html-list');
+    const res = await request('/api/file-list');
     setFileList(res.data);
 
     if (res.data.length > 0) {
       setCurrentFile(res.data[0]);
 
       setLoading(true);
-      const htmlRes = await request(`${res.data[0]?.path}`);
+      const fileRes = await request(`${res.data[0]?.path}`);
       setLoading(false);
 
-      setHtml(htmlRes.data);
+      setFile(fileRes.data);
     }
   }
 
@@ -65,7 +66,8 @@ const Home = () => {
     setLoading(true);
     const res = await request(option.value);
     setLoading(false);
-    setHtml(res.data);
+    setFile(res.data);
+    // TODO:
     setCurrentFile({ name: option.label, path: option.value });
   }
 
@@ -112,11 +114,11 @@ const Home = () => {
           </div>
         }
       >
-        {html ? (
+        {file ? (
           <div
             ref={htmlRef}
             className="markdown-body h-full overflow-auto relative"
-            dangerouslySetInnerHTML={{ __html: html }}
+            dangerouslySetInnerHTML={{ __html: file }}
           />
         ) : (
           <Empty
