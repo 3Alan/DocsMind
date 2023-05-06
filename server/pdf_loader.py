@@ -1,73 +1,63 @@
+"""Read PDF files."""
+
+from pathlib import Path
 from typing import Any, List
 
-import tiktoken
-from bs4 import BeautifulSoup
 from llama_index.readers.base import BaseReader
 from llama_index.readers.schema.base import Document
 
-staticPath = "static"
+# https://github.com/emptycrown/llama-hub/blob/main/loader_hub/file/cjk_pdf/base.py
 
 
-def encode_string(string: str, encoding_name: str = "p50k_base"):
-    encoding = tiktoken.get_encoding(encoding_name)
-    return encoding.encode(string)
+class CJKPDFReader(BaseReader):
+    """CJK PDF reader.
 
+    Extract text from PDF including CJK (Chinese, Japanese and Korean) languages using pdfminer.six.
+    """
 
-def decode_string(token: str, encoding_name: str = "p50k_base"):
-    encoding = tiktoken.get_encoding(encoding_name)
-    return encoding.decode(token)
-
-
-def num_tokens_from_string(string: str, encoding_name: str = "p50k_base") -> int:
-    """Returns the number of tokens in a text string."""
-    encoding = tiktoken.get_encoding(encoding_name)
-    num_tokens = len(encoding.encode(string))
-    return num_tokens
-
-
-def split_text_to_doc(
-    text: str, current_chunk_id, chunk_size: int = 400
-) -> List[Document]:
-    """Split text into chunks of a given size."""
-    chunks = []
-    token_len = num_tokens_from_string(text)
-
-    for i in range(0, token_len, chunk_size):
-        encode_text = encode_string(text)
-        decode_text = decode_string(encode_text[i : i + chunk_size]).strip()
-        chunks.append(
-            Document(
-                decode_text,
-                extra_info={"chunk_id": f"chunk-{current_chunk_id}"},
-            )
-        )
-
-    return chunks
-
-
-class PdfReader(BaseReader):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Init params."""
         super().__init__(*args, **kwargs)
 
-    def load_data(self, html, filename) -> List[Document]:
-        soup = BeautifulSoup(html, "html.parser")
+    def load_data(self, file: Path) -> List[Document]:
+        """Parse file."""
+
+        # Import pdfminer
+        from io import StringIO
+
+        from pdfminer.converter import TextConverter
+        from pdfminer.layout import LAParams
+        from pdfminer.pdfinterp import PDFPageInterpreter, PDFResourceManager
+        from pdfminer.pdfpage import PDFPage
+
+        # Create a resource manager
+        rsrcmgr = PDFResourceManager()
+        # Create an object to store the text
+        retstr = StringIO()
+        # Create a text converter
+        codec = "utf-8"
+        laparams = LAParams()
+        device = TextConverter(rsrcmgr, retstr, codec=codec, laparams=laparams)
+        # Create a PDF interpreter
+        interpreter = PDFPageInterpreter(rsrcmgr, device)
+        # Open the PDF file
+        fp = open(file, "rb")
+        # Create a list to store the text of each page
         document_list = []
+        # Extract text from each page
+        for i, page in enumerate(PDFPage.get_pages(fp)):
+            interpreter.process_page(page)
 
-        page_tag_list = soup.find_all(class_="pf")
+            # Get the text
+            text = retstr.getvalue()
 
-        for index, tag in enumerate(page_tag_list):
-            tag["data-chunk_id"] = f"chunk-{index+1}"
-            text_tag_list = tag.find_all(class_="t")
-            page_text = ""
-
-            for text_tag in text_tag_list:
-                page_text += f"{text_tag.text} "
-
-            document_list += split_text_to_doc(page_text, index + 1)
-
-        # # 保存修改后的HTML文件
-        with open(f"{staticPath}/html/{filename}.html", "w", encoding="utf-8") as f:
-            f.write(str(soup))
+            document_list.append(Document(text, extra_info={"page_no": i + 1}))
+            # Clear the text
+            retstr.truncate(0)
+            retstr.seek(0)
+        # Close the file
+        fp.close()
+        # Close the device
+        device.close()
 
         return document_list

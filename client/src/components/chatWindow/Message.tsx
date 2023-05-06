@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { FC, MouseEvent, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 import { MessageItem } from './constants';
 import Loading from './Loading';
-import { isString } from 'lodash';
+import { isEmpty, isString } from 'lodash';
 import { Collapse, Space, Tooltip } from 'antd';
 
 const { Panel } = Collapse;
@@ -49,7 +49,12 @@ const Message: FC<MessageProps> = ({
   }
 
   return (
-    <div className={classNames('flex flex-col pt-2 mb-5 max-w-md', { ['self-end']: isQuestion })}>
+    <div
+      className={classNames('flex flex-col pt-2 mb-5', {
+        ['self-end']: isQuestion,
+        ['w-full']: !isQuestion
+      })}
+    >
       <div
         className={classNames('flex mb-1 justify-between', {
           ['self-end']: isQuestion
@@ -59,7 +64,7 @@ const Message: FC<MessageProps> = ({
           <strong className="text-gray-400 pr-2 ">{isQuestion ? 'You' : 'AI'}</strong>
 
           {item?.cost && (
-            <Tooltip title={`Estimated ${item.cost} tokens`}>
+            <Tooltip title={`Estimated cost ${item.cost} tokens`}>
               <span className="cursor-pointer">
                 <DollarOutlined /> cost
               </span>
@@ -67,8 +72,11 @@ const Message: FC<MessageProps> = ({
           )}
         </Space>
 
-        {item?.sources && (
-          <div className="cursor-pointer text-gray-400 text-xs" onClick={toggleShowSource}>
+        {!isEmpty(item?.sources) && (
+          <div
+            className="cursor-pointer text-gray-400 text-xs items-center flex"
+            onClick={toggleShowSource}
+          >
             {showSources ? 'Hide Sources' : 'Show Source'}
           </div>
         )}
@@ -96,7 +104,7 @@ const Message: FC<MessageProps> = ({
       <div
         className={classNames(
           'flex flex-col pt-2 shadow rounded-lg mb-5 whitespace-pre-wrap',
-          isQuestion ? 'bg-blue-500 self-end text-white' : 'bg-blue-50'
+          isQuestion ? 'bg-blue-500 self-end text-white' : 'bg-blue-50 w-full'
         )}
       >
         {isQuestion ? (

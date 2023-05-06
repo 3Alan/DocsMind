@@ -4,6 +4,8 @@ import ChatWindow from '../components/chatWindow';
 import { Link } from 'react-router-dom';
 import request from '../utils/request';
 import eventEmitter from '../utils/eventEmitter';
+import PdfViewer from '../components/pdfViewer';
+import { isEmpty, has } from 'lodash';
 
 interface FileItem {
   name: string;
@@ -32,9 +34,22 @@ function addHighLight(chunkId: string, time = 400) {
   });
 }
 
+async function downloadFile(fileItem: FileItem) {
+  let res;
+  if (fileItem.ext === '.pdf') {
+    res = await request(fileItem.path, {
+      responseType: 'blob'
+    });
+  } else {
+    res = await request(fileItem.path);
+  }
+
+  return res.data;
+}
+
 const Home = () => {
   const htmlRef = useRef<HTMLDivElement>(null);
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [currentFile, setCurrentFile] = useState<FileItem>();
   const [fileList, setFileList] = useState<FileItem[]>([]);
@@ -55,24 +70,33 @@ const Home = () => {
       setCurrentFile(res.data[0]);
 
       setLoading(true);
-      const fileRes = await request(`${res.data[0]?.path}`);
+      const file = await downloadFile(res.data[0]);
       setLoading(false);
 
-      setFile(fileRes.data);
+      setFile(file);
     }
   }
 
   async function onFileChange(_item: string, option: any) {
     setLoading(true);
-    const res = await request(option.value);
+    const file = await downloadFile({ name: option.label, path: option.value, ext: option.ext });
     setLoading(false);
-    setFile(res.data);
-    // TODO:
-    setCurrentFile({ name: option.label, path: option.value });
+
+    setFile(file);
+    setCurrentFile({ name: option.label, path: option.value, ext: option.ext });
   }
 
   function handleHighLight(item: any, time?: number) {
-    addHighLight(item.extraInfo.chunk_id, time);
+    if (isEmpty(item)) {
+      return;
+    }
+
+    // PDF
+    if (has(item.extraInfo, 'page_no')) {
+      eventEmitter.emit('scrollToPage', { pageNo: item.extraInfo.page_no, time });
+    } else {
+      addHighLight(item.extraInfo.chunk_id, time);
+    }
   }
 
   useEffect(() => {
@@ -101,7 +125,8 @@ const Home = () => {
                 defaultValue={(fileList[0] as any)?.value}
                 options={fileList.map((item) => ({
                   label: item.name,
-                  value: item.path
+                  value: item.path,
+                  ext: item.ext
                 }))}
                 value={currentFile?.path}
                 style={{
@@ -115,11 +140,17 @@ const Home = () => {
         }
       >
         {file ? (
-          <div
-            ref={htmlRef}
-            className="markdown-body h-full overflow-auto relative"
-            dangerouslySetInnerHTML={{ __html: file }}
-          />
+          <>
+            {currentFile?.ext === '.pdf' ? (
+              <PdfViewer file={file} />
+            ) : (
+              <div
+                ref={htmlRef}
+                className="markdown-body h-full overflow-auto relative"
+                dangerouslySetInnerHTML={{ __html: file }}
+              />
+            )}
+          </>
         ) : (
           <Empty
             className="mt-24"

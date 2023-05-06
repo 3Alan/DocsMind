@@ -67,7 +67,7 @@ export default function UploadFile() {
           multiple={false}
           showUploadList={false}
           name="file"
-          accept=".md,.html"
+          accept=".md,.pdf"
           onChange={onUploadChange}
           disabled={disableUpload}
         >

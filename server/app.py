@@ -74,8 +74,7 @@ def summarize_index():
 
     UnstructuredReader = download_loader("UnstructuredReader")
     loader = UnstructuredReader()
-    # TODO: html去掉
-    documents = loader.load_data(file=Path(f"./{staticPath}/file/{index_name}.html"))
+    documents = loader.load_data(file=Path(f"./{staticPath}/file/{index_name}"))
     index = GPTListIndex.from_documents(documents)
 
     # predictor cost
@@ -130,7 +129,8 @@ def summarize_index():
 @app.route("/api/query", methods=["GET"])
 def query_index():
     query_text = request.args.get("query")
-    index_name = request.args.get("index")
+    file_name = request.args.get("index")
+    index_name = os.path.splitext(file_name)[0]
     open_ai_key = request.args.get("openAiKey")
     if open_ai_key:
         os.environ["OPENAI_API_KEY"] = open_ai_key

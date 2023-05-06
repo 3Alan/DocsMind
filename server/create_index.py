@@ -3,25 +3,20 @@ import os
 import markdown
 from custom_loader import CustomReader
 from llama_index import GPTSimpleVectorIndex, MockEmbedding, ServiceContext
-from pdf_loader import PdfReader
+from pdf_loader import CJKPDFReader
 
 staticPath = "static"
 
 
 def create_index(filepath, filename) -> int:
     name, ext = os.path.splitext(filename)
-    # load data
-    with open(filepath, "r", encoding="utf-8") as f:
-        file_text = f.read()
 
     if ext == ".pdf":
-        # TODO: Use pdf2htmlEX to convert PDF to HTML.
-        # loader 参考： https://github.com/emptycrown/llama-hub/blob/main/loader_hub/file/cjk_pdf/base.py
-        # https://github.com/emptycrown/llama-hub/blob/main/loader_hub/file/pymu_pdf/base.py
-        html = "todo"
-        loader = CustomReader()
-        documents = loader.load_data(html=html, filename=name)
+        loader = CJKPDFReader()
+        documents = loader.load_data(file=filepath)
     elif ext == ".md":
+        with open(filepath, "r", encoding="utf-8") as f:
+            file_text = f.read()
         html = markdown.markdown(
             file_text, extensions=["pymdownx.superfences", "tables", "pymdownx.details"]
         )
@@ -30,8 +25,8 @@ def create_index(filepath, filename) -> int:
         loader = CustomReader()
         documents = loader.load_data(html=html, filename=name)
     elif ext == ".html":
-        loader = PdfReader()
-        documents = loader.load_data(html=file_text, filename=name)
+        # TODO:
+        pass
 
     # predictor cost
     embed_model = MockEmbedding(embed_dim=1536)
