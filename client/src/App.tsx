@@ -3,20 +3,57 @@ import 'github-markdown-css/github-markdown-light.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import routes from './routes';
 import SideMenu from './components/sideMenu';
-import KeyModal from './components/keyModal';
+import SettingsModal from './components/settingsModal';
+import { useEffect, useState } from 'react';
+import request from './utils/request';
+import FileItem from './constants/fileItem';
+import { CurrentFileContext } from './context/currentFile';
 
 const App = () => {
+  const [currentFile, setCurrentFile] = useState<FileItem | null>(null);
+  const [fileList, setFileList] = useState<FileItem[]>([]);
+  const [showSettingModal, setShowSettingModal] = useState(false);
+
+  async function getFileList() {
+    const res = await request('/api/file-list');
+    setFileList(res.data);
+
+    if (res.data.length > 0) {
+      setCurrentFile(res.data[0]);
+    }
+  }
+
+  function handleFileClick(item: any) {
+    const file = fileList.find((f) => f.name === item.name) || null;
+    setCurrentFile(file);
+  }
+
+  function toggleSettingModal(open: boolean) {
+    setShowSettingModal(open);
+  }
+
+  useEffect(() => {
+    getFileList();
+  }, []);
+
   return (
     <BrowserRouter>
       <main className="bg-slate-100 h-screen flex">
-        <SideMenu />
-        <KeyModal />
-        <div className="flex py-4 flex-row justify-center m-auto w-5/6 space-x-4 h-full overflow-hidden">
-          <Routes>
-            {routes.map((route) => (
-              <Route key={route.path} path={route.path} element={route.element} />
-            ))}
-          </Routes>
+        <SideMenu
+          onFileClick={handleFileClick}
+          fileList={fileList}
+          activeFile={currentFile?.name || ''}
+          onOpenSetting={() => toggleSettingModal(true)}
+        />
+        <SettingsModal open={showSettingModal} onChange={toggleSettingModal} />
+        <div className="flex flex-1 h-full overflow-hidden">
+          <CurrentFileContext.Provider value={currentFile}>
+            <Routes>
+              {routes.map((route) => (
+                <Route key={route.path} path={route.path} element={route.element} />
+              ))}
+            </Routes>
+          </CurrentFileContext.Provider>
         </div>
       </main>
     </BrowserRouter>

@@ -81,11 +81,14 @@ body {
 /* 修改滚动条轨道的样式 */
 ::-webkit-scrollbar-track {
   background-color: #fff;
+  border-radius: 8px;
 }
 
 .markdown-body video {
   width: 100%;
 }
+
+// TODO: 使用 antd 的 Token实现
 
 .ant-menu-item {
   padding-left: 16px !important;
@@ -93,6 +96,15 @@ body {
 
 .ant-menu-item-active {
   background-color: #eff6ff;
+}
+
+.ant-collapse-header {
+  padding: 4px 12px;
+}
+
+.ant-collapse-content-box {
+  font-size: 12px;
+  padding: 8px 12px !important;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,6 +1,6 @@
-# Chat-Markdown
+# DocsMind
 
-Chat-Markdown is an open-source project that allows you to chat with your markdown files.
+DocsMind is an open-source project that allows you to chat with your docs.
 
 ![Stack](https://skillicons.dev/icons?i=vite,react,ts,tailwind,flask)
 
@@ -16,20 +16,23 @@ Deploy on Vercel and Railway
 
 ## Features
 
-- 🤖 Chat with your markdown files
-- 📝 Summarize articles
+- 🤖 Ask a question with your docs
+- 📝 Summarize docs
 - 🖍️ Highlight source
-- 📤 Upload files
+- 📤 Upload docs (.pdf,.md)
 - 💾 Data saved locally
 - 💰 Token usage tracker
 - 🐳 Dockerize
 
 ## Future Development
 
-I plan to add the following features in the future:
-
-- [ ] Support for more file formats: pdf, txt
-- [ ] Download doc from the internet
+- [ ] Chat mode
+- [ ] Dark mode
+- [ ] Improve the UI (Skeleton,Loading)
+- [ ] / command (/fetch /summarize)
+- [ ] Reduce the size of the server image.
+- [ ] Support for more docs formats: txt...
+- [ ] Download docs from the internet
 - [ ] Markdown-formatted message
 - [ ] i18n
 - [ ] Desktop application
@@ -129,6 +132,18 @@ pip install -r requirements.txt
 
 ```
 flask run --reload --port=8080
+```
+
+#### Install pdf2htmlEX for PDF convert
+
+```shell
+docker pull pdf2htmlex/pdf2htmlex:0.18.8.rc2-master-20200820-alpine-3.12.0-x86_64
+```
+
+set alias
+
+```shell
+alias pdf2htmlEX='docker run -ti --rm -v "`pwd`":/pdf -w /pdf pdf2htmlex/pdf2htmlex:0.18.8.rc2-master-20200820-alpine-3.12.0-x86_64'
 ```
 
 </details>

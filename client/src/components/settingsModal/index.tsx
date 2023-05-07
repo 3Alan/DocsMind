@@ -1,26 +1,26 @@
 import { Form, Input, Modal } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-export default function KeyModal() {
+interface SettingsModalProps {
+  open: boolean;
+  onChange: (open: boolean) => void;
+}
+
+export default function SettingsModal({ open, onChange }: SettingsModalProps) {
   const settings = useRef<any>(null);
   const [form] = Form.useForm();
-  const [showSettingModal, setShowSettingModal] = useState(false);
 
   useEffect(() => {
     const localSettings = JSON.parse(localStorage.getItem('settings') as string);
-    if (!localSettings) {
-      setShowSettingModal(true);
-    } else {
-      settings.current = localSettings;
-    }
-  }, [showSettingModal]);
+    settings.current = localSettings;
+  }, [open]);
 
   const onSaveSettings = () => {
     form
       .validateFields()
       .then((values) => {
         localStorage.setItem('settings', JSON.stringify(values));
-        setShowSettingModal(false);
+        onChange(false);
       })
       .catch((info) => {
         console.log('Validate Failed:', info);
@@ -28,12 +28,7 @@ export default function KeyModal() {
   };
 
   return (
-    <Modal
-      title="Settings"
-      open={showSettingModal}
-      onOk={onSaveSettings}
-      onCancel={() => setShowSettingModal(false)}
-    >
+    <Modal title="Settings" open={open} onOk={onSaveSettings} onCancel={() => onChange(false)}>
       <Form
         form={form}
         initialValues={{

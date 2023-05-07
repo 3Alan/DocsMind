@@ -24,8 +24,8 @@ openai.api_base = openai_proxy
 
 staticPath = "static"
 
-if not os.path.exists(f"{staticPath}/html"):
-    os.makedirs(f"{staticPath}/html")
+if not os.path.exists(f"{staticPath}/file"):
+    os.makedirs(f"{staticPath}/file")
 if not os.path.exists(f"{staticPath}/index"):
     os.makedirs(f"{staticPath}/index")
 if not os.path.exists(f"{staticPath}/temp"):
@@ -74,7 +74,7 @@ def summarize_index():
 
     UnstructuredReader = download_loader("UnstructuredReader")
     loader = UnstructuredReader()
-    documents = loader.load_data(file=Path(f"./{staticPath}/html/{index_name}.html"))
+    documents = loader.load_data(file=Path(f"./{staticPath}/file/{index_name}"))
     index = GPTListIndex.from_documents(documents)
 
     # predictor cost
@@ -129,7 +129,8 @@ def summarize_index():
 @app.route("/api/query", methods=["GET"])
 def query_index():
     query_text = request.args.get("query")
-    index_name = request.args.get("index")
+    file_name = request.args.get("index")
+    index_name = os.path.splitext(file_name)[0]
     open_ai_key = request.args.get("openAiKey")
     if open_ai_key:
         os.environ["OPENAI_API_KEY"] = open_ai_key
@@ -146,7 +147,9 @@ def query_index():
 
     res = index.query(query_text, streaming=True)
     cost = embed_model.last_token_usage + llm_predictor.last_token_usage
-    sources = [{"extraInfo": x.node.extra_info} for x in res.source_nodes]
+    sources = [
+        {"extraInfo": x.node.extra_info, "text": x.node.text} for x in res.source_nodes
+    ]
 
     def response_generator():
         yield json.dumps({"cost": cost, "sources": sources})
@@ -175,7 +178,7 @@ def upload_file():
         filepath = os.path.join(f"{staticPath}/temp", os.path.basename(filename))
         uploaded_file.save(filepath)
 
-        token_usage = create_index(filepath, os.path.splitext(filename)[0])
+        token_usage = create_index(filepath, filename)
     except Exception as e:
         logger.error(e, exc_info=True)
         # cleanup temp file
@@ -206,12 +209,18 @@ def get_index_files():
     return files
 
 
-@app.route("/api/html-list", methods=["GET"])
+@app.route("/api/file-list", methods=["GET"])
 def get_html_files():
-    dir = f"{staticPath}/html"
+    dir = f"{staticPath}/file"
     files = os.listdir(dir)
     return [
-        {"path": f"/{dir}/{file}", "name": os.path.splitext(file)[0]} for file in files
+        {
+            "path": f"/{dir}/{file}",
+            "name": os.path.splitext(file)[0],
+            "ext": os.path.splitext(file)[1],
+            "fullName": file,
+        }
+        for file in files
     ]
 
 
