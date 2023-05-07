@@ -23,7 +23,7 @@ def create_index(filepath, filename) -> int:
         # TODO: 利用 langchain splitter重写 https://python.langchain.com/en/latest/modules/indexes/text_splitters/examples/markdown.html
         # 直接将markdown分段再分别转化成html，最后将所有html拼接起来并加上chunk_id
         loader = CustomReader()
-        documents = loader.load_data(html=html, filename=name)
+        documents = loader.load_data(html=html, file=filepath)
     elif ext == ".html":
         # TODO:
         pass

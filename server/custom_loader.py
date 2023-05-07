@@ -50,7 +50,7 @@ class CustomReader(BaseReader):
         """Init params."""
         super().__init__(*args, **kwargs)
 
-    def load_data(self, html, filename) -> List[Document]:
+    def load_data(self, html, file) -> List[Document]:
         soup = BeautifulSoup(html, "html.parser")
         current_chunk_text = ""
         current_chunk_id = 1
@@ -109,7 +109,7 @@ class CustomReader(BaseReader):
             current_chunk_id += 1
 
         # 保存修改后的HTML文件
-        with open(f"{staticPath}/html/{filename}.html", "w", encoding="utf-8") as f:
+        with open(file, "w", encoding="utf-8") as f:
             f.write(str(soup))
 
         return document_list

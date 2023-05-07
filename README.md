@@ -6,7 +6,7 @@ DocsMind is an open-source project that allows you to chat with your docs.
 
 ## Demo
 
-[Demo Site](https://chat-markdown.alanwang.site/)
+[Demo Site](https://docs-mind.alanwang.site/)
 
 Deploy on Vercel and Railway
 
@@ -54,7 +54,7 @@ If you find this project helpful, please consider giving it a star 🌟
 
 > **Warning**
 >
-> Please check if you can access OpenAI in your region, you can refer to the [issue](https://github.com/3Alan/chat-markdown/issues/3#issuecomment-1511470063) for more information.
+> Please check if you can access OpenAI in your region, you can refer to the [issue](https://github.com/3Alan/DocsMind/issues/3#issuecomment-1511470063) for more information.
 
 1. Create .env(Optional)
 

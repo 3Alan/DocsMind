@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import request from './utils/request';
 import FileItem from './constants/fileItem';
 import { CurrentFileContext } from './context/currentFile';
+import eventEmitter from './utils/eventEmitter';
 
 const App = () => {
   const [currentFile, setCurrentFile] = useState<FileItem | null>(null);
@@ -34,6 +35,11 @@ const App = () => {
 
   useEffect(() => {
     getFileList();
+
+    eventEmitter.on('refreshFileList', getFileList);
+    return () => {
+      eventEmitter.off('refreshFileList', getFileList);
+    };
   }, []);
 
   return (

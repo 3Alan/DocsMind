@@ -4,6 +4,7 @@ import { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { baseURL } from '../../utils/request';
 import useOpenAiKey from '../../utils/useOpenAiKey';
+import eventEmitter from '../../utils/eventEmitter';
 
 const { Dragger } = Upload;
 
@@ -29,6 +30,7 @@ export default function FileUpload() {
         content: `${info.file.name} file uploaded successfully. token usage: 💰 ${info.file.response}`,
         duration: 8
       });
+      eventEmitter.emit('refreshFileList');
       setUploading(false);
     } else if (status === 'error') {
       void message.error(
