@@ -213,7 +213,7 @@ def get_index_files():
 def get_html_files():
     dir = f"{staticPath}/file"
     files = os.listdir(dir)
-    return [
+    file_list = [
         {
             "path": f"/{dir}/{file}",
             "name": os.path.splitext(file)[0],
@@ -222,6 +222,8 @@ def get_html_files():
         }
         for file in files
     ]
+
+    return sorted(file_list, key=lambda x: x["name"].lower())
 
 
 if __name__ == "__main__":
