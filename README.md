@@ -150,4 +150,7 @@ alias pdf2htmlEX='docker run -ti --rm -v "`pwd`":/pdf -w /pdf pdf2htmlex/pdf2htm
 
 ## Buy me a coffee
 
-<img height="300" src="https://raw.githubusercontent.com/3Alan/images/master/img/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E5%AE%9D%E4%BA%8C%E5%90%88%E4%B8%80%E6%94%B6%E6%AC%BE%E7%A0%81.jpg" />
+<details>
+  <summary>QR code</summary>
+  <img height="300" src="https://raw.githubusercontent.com/3Alan/images/master/img/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E5%AE%9D%E4%BA%8C%E5%90%88%E4%B8%80%E6%94%B6%E6%AC%BE%E7%A0%81.jpg" />
+</details>
