@@ -11,6 +11,7 @@ import Message from './Message';
 
 interface ChatWindowProps {
   fileName: string;
+  fullFileName: string;
   className?: string;
   onReplyComplete: (data: any) => void;
   onSourceClick: (data: any) => void;
@@ -18,6 +19,7 @@ interface ChatWindowProps {
 
 const ChatWindow: FC<ChatWindowProps> = ({
   fileName,
+  fullFileName,
   className,
   onReplyComplete,
   onSourceClick
@@ -68,7 +70,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
 
       if (summarize) {
         res = await fetchRequest('/api/summarize', {
-          index: fileName,
+          file: fullFileName,
           openAiKey
         });
       } else {

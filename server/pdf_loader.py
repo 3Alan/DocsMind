@@ -1,5 +1,6 @@
 """Read PDF files."""
 
+import shutil
 from pathlib import Path
 from typing import Any, List
 
@@ -8,6 +9,8 @@ from llama_index.readers.base import BaseReader
 from llama_index.readers.schema.base import Document
 
 # https://github.com/emptycrown/llama-hub/blob/main/loader_hub/file/cjk_pdf/base.py
+
+staticPath = "static"
 
 
 class CJKPDFReader(BaseReader):
@@ -20,7 +23,7 @@ class CJKPDFReader(BaseReader):
         """Init params."""
         super().__init__(*args, **kwargs)
 
-    def load_data(self, file: Path) -> List[Document]:
+    def load_data(self, filepath: Path, filename) -> List[Document]:
         """Parse file."""
 
         # Import pdfminer
@@ -42,7 +45,7 @@ class CJKPDFReader(BaseReader):
         # Create a PDF interpreter
         interpreter = PDFPageInterpreter(rsrcmgr, device)
         # Open the PDF file
-        fp = open(file, "rb")
+        fp = open(filepath, "rb")
         # Create a list to store the text of each page
         document_list = []
         # Extract text from each page
@@ -65,5 +68,7 @@ class CJKPDFReader(BaseReader):
         fp.close()
         # Close the device
         device.close()
+
+        shutil.copy2(filepath, f"{staticPath}/file/{filename}")
 
         return document_list

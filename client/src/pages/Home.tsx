@@ -108,6 +108,7 @@ const Home = () => {
       </div>
 
       <ChatWindow
+        fullFileName={currentFile?.fullName || ''}
         fileName={currentFile?.name.split(currentFile.ext)[0] || ''}
         className="flex flex-col"
         onReplyComplete={handleHighLight}

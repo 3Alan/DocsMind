@@ -1,0 +1,149 @@
+<h1 data-chunk_id="chunk-1">DocsMind</h1>
+<p data-chunk_id="chunk-1">DocsMind is an open-source project that allows you to chat with your docs.</p>
+<p data-chunk_id="chunk-1"><img alt="Stack" src="https://skillicons.dev/icons?i=vite,react,ts,tailwind,flask"/></p>
+<h2 data-chunk_id="chunk-2">Demo</h2>
+<p data-chunk_id="chunk-2"><a href="https://docs-mind.alanwang.site/">Demo Site</a></p>
+<p data-chunk_id="chunk-2">Deploy on Vercel and Railway</p>
+<blockquote data-chunk_id="chunk-2">
+<p><strong>Warning</strong></p>
+<p>Due to the free plan of Railway only providing 500 hours per month, the Demo on the 21st day of each month will not be available. Please clone it locally for use at that time.</p>
+</blockquote>
+<h2 data-chunk_id="chunk-3">Features</h2>
+<ul data-chunk_id="chunk-3">
+<li>🤖 Ask a question with your docs</li>
+<li>📝 Summarize docs</li>
+<li>🖍️ Highlight source</li>
+<li>📤 Upload docs .pdf,.md(best support)</li>
+<li>💾 Data saved locally</li>
+<li>💰 Token usage tracker</li>
+<li>🐳 Dockerize</li>
+</ul>
+<h2 data-chunk_id="chunk-4">Future Development</h2>
+<ul data-chunk_id="chunk-4">
+<li>[ ] Chat mode</li>
+<li>[ ] Dark mode</li>
+<li>[ ] Improve the UI (Skeleton,Loading)</li>
+<li>[ ] / command (/fetch /summarize)</li>
+<li>[ ] Reduce the size of the server image.</li>
+<li>[ ] Support for more docs formats: txt...</li>
+<li>[ ] Download docs from the internet</li>
+<li>[ ] Markdown-formatted message</li>
+<li>[ ] i18n</li>
+<li>[ ] Desktop application</li>
+</ul>
+<p data-chunk_id="chunk-4">If you find this project helpful, please consider giving it a star 🌟</p>
+<h2 data-chunk_id="chunk-5">Environment Variables</h2>
+<table data-chunk_id="chunk-5">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Optional</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OPENAI_API_KEY</td>
+<td>sk-xxx</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>OPENAI_PROXY</td>
+<td>will replace https://api.openai.com/v1</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>VITE_SERVICES_URL</td>
+<td>backend url for frontend code</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>VITE_DISABLED_UPLOAD</td>
+<td>DISABLED_UPLOAD</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h2 data-chunk_id="chunk-6">Q&amp;A</h2>
+<h3 data-chunk_id="chunk-7">How to run locally?</h3>
+<blockquote data-chunk_id="chunk-7">
+<p><strong>Warning</strong></p>
+<p>Please check if you can access OpenAI in your region, you can refer to the <a href="https://github.com/3Alan/DocsMind/issues/3#issuecomment-1511470063">issue</a> for more information.</p>
+</blockquote>
+<ol data-chunk_id="chunk-7">
+<li>Create .env(Optional)</li>
+</ol>
+<p data-chunk_id="chunk-7">Create a <code>.env</code> file and copy the contents of <code>.env.example</code> to modify it.</p>
+<ol data-chunk_id="chunk-7">
+<li>Run App</li>
+</ol>
+<div class="highlight" data-chunk_id="chunk-7"><pre><span></span><code>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div>
+<p data-chunk_id="chunk-7">Please add <code>--build</code> to rebuild the image after each code update.</p>
+<div class="highlight" data-chunk_id="chunk-7"><pre><span></span><code>docker-compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+</code></pre></div>
+<p data-chunk_id="chunk-7">now you can access the app at <code>http://localhost:8081</code></p>
+<h3 data-chunk_id="chunk-8">Local Development</h3>
+<details data-chunk_id="chunk-8">
+<summary>Detail</summary>
+
+#### Create .env(Optional)
+
+Create a `.env` file and copy the contents of `.env.example` to modify it.
+
+#### Run Frontend
+
+1. Install dependencies
+
+<div class="highlight"><pre><span></span><code>yarn
+</code></pre></div>
+
+2. Run app
+
+<div class="highlight"><pre><span></span><code>yarn dev
+</code></pre></div>
+
+#### Run Backend
+
+you need a python environment
+
+1. Create virtual environment
+
+<div class="highlight"><pre><span></span><code>cd server
+python -m venv .venv
+</code></pre></div>
+
+2. Active virtual environment
+
+windows
+
+<div class="highlight"><pre><span></span><code>.venv\Scripts\activate
+</code></pre></div>
+
+mac
+
+<div class="highlight"><pre><span></span><code>. .venv/bin/activate
+</code></pre></div>
+
+3. Install dependencies
+
+<div class="highlight"><pre><span></span><code>pip install -r requirements.txt
+</code></pre></div>
+
+4. Run Services
+
+<div class="highlight"><pre><span></span><code>flask run --reload --port=8080
+</code></pre></div>
+
+#### Install pdf2htmlEX for PDF convert
+
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>pull<span class="w"> </span>pdf2htmlex/pdf2htmlex:0.18.8.rc2-master-20200820-alpine-3.12.0-x86_64
+</code></pre></div>
+
+set alias
+
+<div class="highlight"><pre><span></span><code><span class="nb">alias</span><span class="w"> </span><span class="nv">pdf2htmlEX</span><span class="o">=</span><span class="s1">'docker run -ti --rm -v "`pwd`":/pdf -w /pdf pdf2htmlex/pdf2htmlex:0.18.8.rc2-master-20200820-alpine-3.12.0-x86_64'</span>
+</code></pre></div>
+</details>
+<h2 data-chunk_id="chunk-9">Buy me a coffee</h2>
+<p data-chunk_id="chunk-9"><img height="300" src="https://raw.githubusercontent.com/3Alan/images/master/img/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E5%AE%9D%E4%BA%8C%E5%90%88%E4%B8%80%E6%94%B6%E6%AC%BE%E7%A0%81.jpg"/></p>

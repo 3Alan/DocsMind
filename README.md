@@ -19,7 +19,7 @@ Deploy on Vercel and Railway
 - 🤖 Ask a question with your docs
 - 📝 Summarize docs
 - 🖍️ Highlight source
-- 📤 Upload docs (.pdf,.md)
+- 📤 Upload docs .pdf,.md(best support)
 - 💾 Data saved locally
 - 💰 Token usage tracker
 - 🐳 Dockerize

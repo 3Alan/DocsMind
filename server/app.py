@@ -67,14 +67,14 @@ def handle_error(error):
 
 @app.route("/api/summarize", methods=["GET"])
 def summarize_index():
-    index_name = request.args.get("index")
+    file = request.args.get("file")
     open_ai_key = request.args.get("openAiKey")
     if open_ai_key:
         os.environ["OPENAI_API_KEY"] = open_ai_key
 
     UnstructuredReader = download_loader("UnstructuredReader")
     loader = UnstructuredReader()
-    documents = loader.load_data(file=Path(f"./{staticPath}/file/{index_name}"))
+    documents = loader.load_data(file=Path(f"./{staticPath}/file/{file}"))
     index = GPTListIndex.from_documents(documents)
 
     # predictor cost
