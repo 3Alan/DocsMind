@@ -1,15 +1,6 @@
-# ChatText
+# DocsMind
 
-TODO:
-
-- Reduce the size of the server image.
-- input /summarize to summarize
-- input /fetch to scrape the web page
-- chat mode
-- dark mode
-- Skeleton,Loading
-
-ChatText is an open-source project that allows you to chat with your text.
+DocsMind is an open-source project that allows you to chat with your docs.
 
 ![Stack](https://skillicons.dev/icons?i=vite,react,ts,tailwind,flask)
 
@@ -25,21 +16,23 @@ Deploy on Vercel and Railway
 
 ## Features
 
-- 🤖 Ask a question with your text
-- 📝 Summarize text
+- 🤖 Ask a question with your docs
+- 📝 Summarize docs
 - 🖍️ Highlight source
-- 📤 Upload files
+- 📤 Upload docs (.pdf,.md)
 - 💾 Data saved locally
 - 💰 Token usage tracker
 - 🐳 Dockerize
 
 ## Future Development
 
-I plan to add the following features in the future:
-
 - [ ] Chat mode
-- [ ] Support for more file formats: pdf, txt
-- [ ] Download doc from the internet
+- [ ] Dark mode
+- [ ] Improve the UI (Skeleton,Loading)
+- [ ] / command (/fetch /summarize)
+- [ ] Reduce the size of the server image.
+- [ ] Support for more docs formats: pdf, txt
+- [ ] Download docs from the internet
 - [ ] Markdown-formatted message
 - [ ] i18n
 - [ ] Desktop application
