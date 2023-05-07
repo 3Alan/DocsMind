@@ -31,7 +31,7 @@ Deploy on Vercel and Railway
 - [ ] Improve the UI (Skeleton,Loading)
 - [ ] / command (/fetch /summarize)
 - [ ] Reduce the size of the server image.
-- [ ] Support for more docs formats: pdf, txt
+- [ ] Support for more docs formats: txt...
 - [ ] Download docs from the internet
 - [ ] Markdown-formatted message
 - [ ] i18n
