@@ -7,6 +7,7 @@ TODO:
 - input /fetch to scrape the web page
 - chat mode
 - dark mode
+- Skeleton,Loading
 
 ChatText is an open-source project that allows you to chat with your text.
 

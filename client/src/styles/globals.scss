@@ -81,6 +81,7 @@ body {
 /* 修改滚动条轨道的样式 */
 ::-webkit-scrollbar-track {
   background-color: #fff;
+  border-radius: 8px;
 }
 
 .markdown-body video {

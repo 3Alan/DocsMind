@@ -7,12 +7,14 @@ import eventEmitter from '../../utils/eventEmitter';
 
 export default function PdfViewer({ file }: { file: Blob }) {
   const [numPages, setNumPages] = useState<number>();
-  const pdfRef = useRef<PDFDocumentProxy>();
+  const pdfRef = useRef<HTMLDivElement>(null);
 
-  function scrollToPage({ pageNo, time = 400 }: { pageNo: number; time: number }) {
+  function scrollToPage(meta: { pageNo: number; time: number }) {
+    const { pageNo, time } = meta;
+
     setTimeout(() => {
       if (pdfRef?.current) {
-        pdfRef.current?.pages[pageNo - 1].scrollIntoView();
+        pdfRef.current?.children[pageNo - 1].scrollIntoView();
       }
     }, time);
   }
@@ -31,8 +33,8 @@ export default function PdfViewer({ file }: { file: Blob }) {
 
   return (
     <Document
-      ref={pdfRef}
-      className="h-full overflow-auto relative scroll-smooth"
+      inputRef={pdfRef}
+      className="h-full overflow-auto relative scroll-smooth rounded-lg shadow-md"
       file={file}
       onLoadSuccess={onDocumentLoadSuccess}
       options={{

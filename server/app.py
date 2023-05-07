@@ -214,7 +214,12 @@ def get_html_files():
     dir = f"{staticPath}/file"
     files = os.listdir(dir)
     return [
-        {"path": f"/{dir}/{file}", "name": file, "ext": os.path.splitext(file)[1]}
+        {
+            "path": f"/{dir}/{file}",
+            "name": os.path.splitext(file)[0],
+            "ext": os.path.splitext(file)[1],
+            "fullName": file,
+        }
         for file in files
     ]
 

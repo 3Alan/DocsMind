@@ -1,17 +1,13 @@
-import { Button, Card, Empty, Select } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { Empty } from 'antd';
+import { useContext, useEffect, useRef, useState } from 'react';
 import ChatWindow from '../components/chatWindow';
-import { Link } from 'react-router-dom';
 import request from '../utils/request';
 import eventEmitter from '../utils/eventEmitter';
 import PdfViewer from '../components/pdfViewer';
 import { isEmpty, has } from 'lodash';
-
-interface FileItem {
-  name: string;
-  path: string;
-  ext: string;
-}
+import FileItem from '../constants/fileItem';
+import { CurrentFileContext } from '../context/currentFile';
+import isPdf from '../utils/isPdf';
 
 function removeHighLight() {
   const highLightElements = document.querySelectorAll('.hl-source');
@@ -36,7 +32,7 @@ function addHighLight(chunkId: string, time = 400) {
 
 async function downloadFile(fileItem: FileItem) {
   let res;
-  if (fileItem.ext === '.pdf') {
+  if (isPdf(fileItem.ext)) {
     res = await request(fileItem.path, {
       responseType: 'blob'
     });
@@ -51,8 +47,7 @@ const Home = () => {
   const htmlRef = useRef<HTMLDivElement>(null);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [currentFile, setCurrentFile] = useState<FileItem>();
-  const [fileList, setFileList] = useState<FileItem[]>([]);
+  const currentFile = useContext(CurrentFileContext);
 
   useEffect(() => {
     eventEmitter.emit('cleanChat');
@@ -60,33 +55,21 @@ const Home = () => {
     if (htmlRef.current) {
       htmlRef.current.scrollTop = 0;
     }
+
+    getFile();
   }, [currentFile]);
 
-  async function getFileList() {
-    const res = await request('/api/file-list');
-    setFileList(res.data);
-
-    if (res.data.length > 0) {
-      setCurrentFile(res.data[0]);
-
+  async function getFile() {
+    if (currentFile) {
       setLoading(true);
-      const file = await downloadFile(res.data[0]);
+      const file = await downloadFile(currentFile);
       setLoading(false);
 
       setFile(file);
     }
   }
 
-  async function onFileChange(_item: string, option: any) {
-    setLoading(true);
-    const file = await downloadFile({ name: option.label, path: option.value, ext: option.ext });
-    setLoading(false);
-
-    setFile(file);
-    setCurrentFile({ name: option.label, path: option.value, ext: option.ext });
-  }
-
-  function handleHighLight(item: any, time?: number) {
+  function handleHighLight(item: any, time = 400) {
     if (isEmpty(item)) {
       return;
     }
@@ -99,54 +82,17 @@ const Home = () => {
     }
   }
 
-  useEffect(() => {
-    getFileList();
-  }, []);
-
   return (
-    <>
-      <Card
-        style={{ width: 700 }}
-        className="flex flex-col h-full overflow-auto"
-        bordered={false}
-        bodyStyle={{
-          overflow: 'hidden',
-          padding: 0,
-          height: '100%'
-        }}
-        headStyle={{
-          marginBottom: 2
-        }}
-        title={
-          <div className="flex justify-between">
-            <span>
-              File:
-              <Select
-                defaultValue={(fileList[0] as any)?.value}
-                options={fileList.map((item) => ({
-                  label: item.name,
-                  value: item.path,
-                  ext: item.ext
-                }))}
-                value={currentFile?.path}
-                style={{
-                  width: 200,
-                  marginLeft: 5
-                }}
-                onChange={onFileChange}
-              ></Select>
-            </span>
-          </div>
-        }
-      >
+    <div className="w-full flex">
+      <div className="flex h-full overflow-auto flex-1 justify-center py-3">
         {file ? (
           <>
-            {currentFile?.ext === '.pdf' ? (
+            {isPdf(currentFile?.ext || '') ? (
               <PdfViewer file={file} />
             ) : (
               <div
                 ref={htmlRef}
-                className="markdown-body h-full overflow-auto relative"
+                className="markdown-body h-full rounded-lg overflow-auto relative w-[700px] shadow-md"
                 dangerouslySetInnerHTML={{ __html: file }}
               />
             )}
@@ -157,21 +103,17 @@ const Home = () => {
             image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
             imageStyle={{ height: 60 }}
             description={<span>No uploaded file.</span>}
-          >
-            <Link to="/upload">
-              <Button type="primary">Upload Now</Button>
-            </Link>
-          </Empty>
+          />
         )}
-      </Card>
+      </div>
 
       <ChatWindow
-        fileName={currentFile?.name || ''}
+        fileName={currentFile?.name.split(currentFile.ext)[0] || ''}
         className="flex flex-col"
         onReplyComplete={handleHighLight}
         onSourceClick={(item) => handleHighLight(item, 0)}
       />
-    </>
+    </div>
   );
 };
 

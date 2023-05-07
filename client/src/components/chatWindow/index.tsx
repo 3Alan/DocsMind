@@ -1,5 +1,6 @@
 import { ProfileOutlined, SendOutlined, WarningTwoTone } from '@ant-design/icons';
-import { Button, Card, Input, Popconfirm, Tooltip } from 'antd';
+import { Button, Card, Input, message, Popconfirm, Tooltip } from 'antd';
+import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import { FC, Fragment, KeyboardEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import eventEmitter from '../../utils/eventEmitter';
@@ -135,6 +136,11 @@ const ChatWindow: FC<ChatWindowProps> = ({
   };
 
   const onSearch = async () => {
+    if (!openAiKey) {
+      message.error('Please set your openAI key');
+      return;
+    }
+
     setQuery('');
     setMessageList([...messageList, { question: query }, { reply: '' }]);
     onReply(query);
@@ -162,8 +168,8 @@ const ChatWindow: FC<ChatWindowProps> = ({
 
   return (
     <Card
-      style={{ width: 450 }}
-      className={className}
+      style={{ width: 390 }}
+      className={classNames(className, 'rounded-none')}
       bodyStyle={{
         flex: 1,
         overflow: 'auto',

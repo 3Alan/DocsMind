@@ -1,13 +1,11 @@
 import { InboxOutlined } from '@ant-design/icons';
-import { Alert, Card, message, Spin, Upload } from 'antd';
+import { message, Spin, Upload } from 'antd';
 import { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { baseURL } from '../utils/request';
-import useOpenAiKey from '../utils/useOpenAiKey';
+import { baseURL } from '../../utils/request';
+import useOpenAiKey from '../../utils/useOpenAiKey';
 
 const { Dragger } = Upload;
-
-const disableUpload = import.meta.env.VITE_DISABLED_UPLOAD;
 
 function generateConfetti() {
   confetti({
@@ -18,7 +16,7 @@ function generateConfetti() {
   });
 }
 
-export default function UploadFile() {
+export default function FileUpload() {
   const [uploading, setUploading] = useState(false);
   const openAiKey = useOpenAiKey();
 
@@ -41,25 +39,7 @@ export default function UploadFile() {
   };
 
   return (
-    <Card title="Upload File" className="w-full">
-      {disableUpload && (
-        <Alert
-          className="mb-6"
-          showIcon
-          type="warning"
-          description={
-            <>
-              The upload is not available on the current website. You can
-              <a href="https://github.com/3Alan/chat-markdown" target="__blank">
-                {' '}
-                clone the project{' '}
-              </a>
-              to your local device to complete the upload.
-            </>
-          }
-        />
-      )}
-
+    <div className="w-full">
       <Spin spinning={uploading}>
         <Dragger
           action={`${baseURL}/api/upload`}
@@ -69,15 +49,14 @@ export default function UploadFile() {
           name="file"
           accept=".md,.pdf"
           onChange={onUploadChange}
-          disabled={disableUpload}
         >
-          <p className="ant-upload-drag-icon">
-            <InboxOutlined />
+          <p className="text-blue-500">
+            <InboxOutlined style={{ fontSize: 32 }} />
           </p>
-          <p className="ant-upload-text">Click or drag file to this area to upload</p>
-          <p className="ant-upload-hint">Support markdown file</p>
+          <p className="text-sm">Click or drag file to this area to upload</p>
+          <p className="text-xs text-gray-400">Support .md,.pdf</p>
         </Dragger>
       </Spin>
-    </Card>
+    </div>
   );
 }
