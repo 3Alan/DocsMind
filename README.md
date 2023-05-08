@@ -82,7 +82,7 @@ now you can access the app at `http://localhost:8081`
 
 Create a `.env` file and copy the contents of `.env.example` to modify it.
 
-#### Run Frontend
+#### Run Frontend UI
 
 1. Install dependencies
 
@@ -96,7 +96,7 @@ yarn
 yarn dev
 ```
 
-#### Run Backend
+#### Run Backend Services
 
 you need a python environment
 
@@ -131,18 +131,6 @@ pip install -r requirements.txt
 
 ```
 flask run --reload --port=8080
-```
-
-#### Install pdf2htmlEX for PDF convert
-
-```shell
-docker pull pdf2htmlex/pdf2htmlex:0.18.8.rc2-master-20200820-alpine-3.12.0-x86_64
-```
-
-set alias
-
-```shell
-alias pdf2htmlEX='docker run -ti --rm -v "`pwd`":/pdf -w /pdf pdf2htmlex/pdf2htmlex:0.18.8.rc2-master-20200820-alpine-3.12.0-x86_64'
 ```
 
 </details>

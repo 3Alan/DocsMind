@@ -22,7 +22,6 @@
 <ul data-chunk_id="chunk-4">
 <li>[ ] Chat mode</li>
 <li>[ ] Dark mode</li>
-<li>[ ] Improve the UI (Skeleton,Loading)</li>
 <li>[ ] / command (/fetch /summarize)</li>
 <li>[ ] Reduce the size of the server image.</li>
 <li>[ ] Support for more docs formats: txt...</li>
@@ -91,7 +90,7 @@
 
 Create a `.env` file and copy the contents of `.env.example` to modify it.
 
-#### Run Frontend
+#### Run Frontend UI
 
 1. Install dependencies
 
@@ -103,7 +102,7 @@ Create a `.env` file and copy the contents of `.env.example` to modify it.
 <div class="highlight"><pre><span></span><code>yarn dev
 </code></pre></div>
 
-#### Run Backend
+#### Run Backend Services
 
 you need a python environment
 
@@ -133,16 +132,6 @@ mac
 4. Run Services
 
 <div class="highlight"><pre><span></span><code>flask run --reload --port=8080
-</code></pre></div>
-
-#### Install pdf2htmlEX for PDF convert
-
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>pull<span class="w"> </span>pdf2htmlex/pdf2htmlex:0.18.8.rc2-master-20200820-alpine-3.12.0-x86_64
-</code></pre></div>
-
-set alias
-
-<div class="highlight"><pre><span></span><code><span class="nb">alias</span><span class="w"> </span><span class="nv">pdf2htmlEX</span><span class="o">=</span><span class="s1">'docker run -ti --rm -v "`pwd`":/pdf -w /pdf pdf2htmlex/pdf2htmlex:0.18.8.rc2-master-20200820-alpine-3.12.0-x86_64'</span>
 </code></pre></div>
 </details>
 <h2 data-chunk_id="chunk-9">Buy me a coffee</h2>
