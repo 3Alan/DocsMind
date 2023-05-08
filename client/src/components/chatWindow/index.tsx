@@ -182,6 +182,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
       title={fileName ? `Chat with ${fileName}` : 'Select File'}
       extra={
         <Popconfirm
+          disabled={!openAiKey}
           title="This will consume a large amount of tokens"
           description="Do you want to continue?"
           okText="Yes"
@@ -189,7 +190,7 @@ const ChatWindow: FC<ChatWindowProps> = ({
           onConfirm={onSummarizeClick}
         >
           <Tooltip title="Summarize">
-            <Button icon={<ProfileOutlined />}></Button>
+            <Button icon={<ProfileOutlined />} disabled={!openAiKey}></Button>
           </Tooltip>
         </Popconfirm>
       }
@@ -216,9 +217,9 @@ const ChatWindow: FC<ChatWindowProps> = ({
       <div className="p-4 pb-0 border-t border-t-gray-200 border-solid border-x-0 border-b-0">
         <div className="relative">
           <Input.TextArea
-            disabled={loading}
+            disabled={loading || !openAiKey}
             size="large"
-            placeholder="Input your question"
+            placeholder={openAiKey ? 'Input your question' : 'Configure your OpenAI key'}
             value={query}
             className="pr-[36px]"
             onKeyDown={onKeyDown}

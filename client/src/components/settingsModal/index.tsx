@@ -1,5 +1,6 @@
 import { Form, Input, Modal } from 'antd';
 import { useEffect, useRef } from 'react';
+import eventEmitter from '../../utils/eventEmitter';
 
 interface SettingsModalProps {
   open: boolean;
@@ -21,6 +22,7 @@ export default function SettingsModal({ open, onChange }: SettingsModalProps) {
       .then((values) => {
         localStorage.setItem('settings', JSON.stringify(values));
         onChange(false);
+        eventEmitter.emit('refreshSettings');
       })
       .catch((info) => {
         console.log('Validate Failed:', info);

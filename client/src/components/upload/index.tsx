@@ -51,6 +51,7 @@ export default function FileUpload() {
           name="file"
           accept=".md,.pdf"
           onChange={onUploadChange}
+          disabled={!openAiKey}
         >
           <p className="text-blue-500">
             <InboxOutlined style={{ fontSize: 32 }} />

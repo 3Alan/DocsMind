@@ -42,7 +42,6 @@ If you find this project helpful, please consider giving it a star 🌟
 
 | Name                 | Description                            | Optional |
 | -------------------- | -------------------------------------- | -------- |
-| OPENAI_API_KEY       | sk-xxx                                 | ✅       |
 | OPENAI_PROXY         | will replace https://api.openai.com/v1 | ✅       |
 | VITE_SERVICES_URL    | backend url for frontend code          | ✅       |
 | VITE_DISABLED_UPLOAD | DISABLED_UPLOAD                        | ✅       |
@@ -55,7 +54,7 @@ If you find this project helpful, please consider giving it a star 🌟
 >
 > Please check if you can access OpenAI in your region, you can refer to the [issue](https://github.com/3Alan/DocsMind/issues/3#issuecomment-1511470063) for more information.
 
-1. Create .env(Optional)
+1. Create .env
 
 Create a `.env` file and copy the contents of `.env.example` to modify it.
 
@@ -78,7 +77,7 @@ now you can access the app at `http://localhost:8081`
 <details>
   <summary>Detail</summary>
 
-#### Create .env(Optional)
+#### Create .env
 
 Create a `.env` file and copy the contents of `.env.example` to modify it.
 
