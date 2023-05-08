@@ -129,8 +129,7 @@ def summarize_index():
 @app.route("/api/query", methods=["GET"])
 def query_index():
     query_text = request.args.get("query")
-    file_name = request.args.get("index")
-    index_name = os.path.splitext(file_name)[0]
+    index_name = request.args.get("index")
     open_ai_key = request.args.get("openAiKey")
     if open_ai_key:
         os.environ["OPENAI_API_KEY"] = open_ai_key
@@ -143,6 +142,7 @@ def query_index():
     service_context = ServiceContext.from_defaults(
         llm_predictor=llm_predictor, embed_model=embed_model
     )
+    # 不支持 streaming，所以需要另外执行
     index.query(query_text, service_context=service_context)
 
     res = index.query(query_text, streaming=True)

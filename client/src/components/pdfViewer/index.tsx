@@ -4,6 +4,7 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import type { PDFDocumentProxy } from 'pdfjs-dist';
 import { useEffect, useRef, useState } from 'react';
 import eventEmitter from '../../utils/eventEmitter';
+import PageSpin from '../pageSpin';
 
 export default function PdfViewer({ file }: { file: Blob }) {
   const [numPages, setNumPages] = useState<number>();
@@ -34,7 +35,8 @@ export default function PdfViewer({ file }: { file: Blob }) {
   return (
     <Document
       inputRef={pdfRef}
-      className="h-full overflow-auto relative scroll-smooth rounded-lg shadow-md"
+      loading={<PageSpin />}
+      className="w-[700px] bg-white h-full overflow-auto relative scroll-smooth rounded-lg shadow-md"
       file={file}
       onLoadSuccess={onDocumentLoadSuccess}
       options={{

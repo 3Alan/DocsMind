@@ -28,7 +28,6 @@ Deploy on Vercel and Railway
 
 - [ ] Chat mode
 - [ ] Dark mode
-- [ ] Improve the UI (Skeleton,Loading)
 - [ ] / command (/fetch /summarize)
 - [ ] Reduce the size of the server image.
 - [ ] Support for more docs formats: txt...

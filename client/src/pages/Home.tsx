@@ -1,5 +1,5 @@
 import { Empty } from 'antd';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ChatWindow from '../components/chatWindow';
 import request from '../utils/request';
 import eventEmitter from '../utils/eventEmitter';
@@ -8,6 +8,7 @@ import { isEmpty, has } from 'lodash';
 import FileItem from '../constants/fileItem';
 import { CurrentFileContext } from '../context/currentFile';
 import isPdf from '../utils/isPdf';
+import HtmlViewer from '../components/htmlViewer';
 
 function removeHighLight() {
   const highLightElements = document.querySelectorAll('.hl-source');
@@ -44,17 +45,12 @@ async function downloadFile(fileItem: FileItem) {
 }
 
 const Home = () => {
-  const htmlRef = useRef<HTMLDivElement>(null);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const currentFile = useContext(CurrentFileContext);
 
   useEffect(() => {
     eventEmitter.emit('cleanChat');
-
-    if (htmlRef.current) {
-      htmlRef.current.scrollTop = 0;
-    }
 
     getFile();
   }, [currentFile]);
@@ -90,11 +86,7 @@ const Home = () => {
             {isPdf(currentFile?.ext || '') ? (
               <PdfViewer file={file} />
             ) : (
-              <div
-                ref={htmlRef}
-                className="markdown-body h-full rounded-lg overflow-auto relative w-[700px] shadow-md"
-                dangerouslySetInnerHTML={{ __html: file }}
-              />
+              <HtmlViewer html={file} loading={loading} />
             )}
           </>
         ) : (
