@@ -3,7 +3,6 @@
 <p data-chunk_id="chunk-1"><img alt="Stack" src="https://skillicons.dev/icons?i=vite,react,ts,tailwind,flask"/></p>
 <h2 data-chunk_id="chunk-2">Demo</h2>
 <p data-chunk_id="chunk-2"><a href="https://docs-mind.alanwang.site/">Demo Site</a></p>
-<p data-chunk_id="chunk-2">Deploy on Vercel and Railway</p>
 <blockquote data-chunk_id="chunk-2">
 <p><strong>Warning</strong></p>
 <p>Due to the free plan of Railway only providing 500 hours per month, the Demo on the 21st day of each month will not be available. Please clone it locally for use at that time.</p>
@@ -59,26 +58,31 @@
 </tbody>
 </table>
 <h2 data-chunk_id="chunk-6">Q&amp;A</h2>
-<h3 data-chunk_id="chunk-7">How to run locally?</h3>
-<blockquote data-chunk_id="chunk-7">
+<p data-chunk_id="chunk-6">This project includes both front-end (/client) and back-end (/server) code. The front-end code is used to display the UI, while the back-end code provides services to the UI.</p>
+<h3 data-chunk_id="chunk-7">How to deploy?</h3>
+<p data-chunk_id="chunk-7">You need to deploy this project using Docker Compose.</p>
+<h3 data-chunk_id="chunk-8">Can I deploy on Vercel?</h3>
+<p data-chunk_id="chunk-8">No, Vercel is a serverless platform where you can only deploy your UI code (/client).</p>
+<h3 data-chunk_id="chunk-9">How to run?</h3>
+<blockquote data-chunk_id="chunk-9">
 <p><strong>Warning</strong></p>
 <p>Please check if you can access OpenAI in your region, you can refer to the <a href="https://github.com/3Alan/DocsMind/issues/3#issuecomment-1511470063">issue</a> for more information.</p>
 </blockquote>
-<ol data-chunk_id="chunk-7">
+<ol data-chunk_id="chunk-9">
 <li>Create .env</li>
 </ol>
-<p data-chunk_id="chunk-7">Create a <code>.env</code> file and copy the contents of <code>.env.example</code> to modify it.</p>
-<ol data-chunk_id="chunk-7">
+<p data-chunk_id="chunk-9">Create a <code>.env</code> file and copy the contents of <code>.env.example</code> to modify it.</p>
+<ol data-chunk_id="chunk-9">
 <li>Run App</li>
 </ol>
-<div class="highlight" data-chunk_id="chunk-7"><pre><span></span><code>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+<div class="highlight" data-chunk_id="chunk-9"><pre><span></span><code>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
 </code></pre></div>
-<p data-chunk_id="chunk-7">Please add <code>--build</code> to rebuild the image after each code update.</p>
-<div class="highlight" data-chunk_id="chunk-7"><pre><span></span><code>docker-compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+<p data-chunk_id="chunk-9">Please add <code>--build</code> to rebuild the image after each code update.</p>
+<div class="highlight" data-chunk_id="chunk-9"><pre><span></span><code>docker-compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
 </code></pre></div>
-<p data-chunk_id="chunk-7">now you can access the app at <code>http://localhost:8081</code></p>
-<h3 data-chunk_id="chunk-8">Local Development</h3>
-<details data-chunk_id="chunk-8">
+<p data-chunk_id="chunk-9">now you can access the app at <code>http://localhost:8081</code></p>
+<h3 data-chunk_id="chunk-10">Local Development</h3>
+<details data-chunk_id="chunk-10">
 <summary>Detail</summary>
 
 #### Create .env
@@ -129,8 +133,10 @@ mac
 <div class="highlight"><pre><span></span><code>flask run --reload --port=8080
 </code></pre></div>
 </details>
-<h2 data-chunk_id="chunk-9">Buy me a coffee</h2>
-<details data-chunk_id="chunk-9">
+<h2 data-chunk_id="chunk-11">License</h2>
+<p data-chunk_id="chunk-11"><a href="https://github.com/3Alan/DocsMind/blob/main/LICENSE">AGPL-3.0 License</a></p>
+<h2 data-chunk_id="chunk-12">Buy me a coffee</h2>
+<details data-chunk_id="chunk-12">
 <summary>QR code</summary>
 <img height="300" src="https://raw.githubusercontent.com/3Alan/images/master/img/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E5%AE%9D%E4%BA%8C%E5%90%88%E4%B8%80%E6%94%B6%E6%AC%BE%E7%A0%81.jpg"/>
 </details>

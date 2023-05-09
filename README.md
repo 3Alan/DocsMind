@@ -142,6 +142,10 @@ flask run --reload --port=8080
 
 </details>
 
+## License
+
+[AGPL-3.0 License](https://github.com/3Alan/DocsMind/blob/main/LICENSE)
+
 ## Buy me a coffee
 
 <details>
