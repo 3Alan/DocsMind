@@ -8,8 +8,6 @@ DocsMind is an open-source project that allows you to chat with your docs.
 
 [Demo Site](https://docs-mind.alanwang.site/)
 
-Deploy on Vercel and Railway
-
 > **Warning**
 >
 > Due to the free plan of Railway only providing 500 hours per month, the Demo on the 21st day of each month will not be available. Please clone it locally for use at that time.
@@ -48,7 +46,17 @@ If you find this project helpful, please consider giving it a star 🌟
 
 ## Q&A
 
-### How to run locally?
+This project includes both front-end (/client) and back-end (/server) code. The front-end code is used to display the UI, while the back-end code provides services to the UI.
+
+### How to deploy?
+
+You need to deploy this project using Docker Compose.
+
+### Can I deploy on Vercel?
+
+No, Vercel is a serverless platform where you can only deploy your UI code (/client).
+
+### How to run?
 
 > **Warning**
 >
