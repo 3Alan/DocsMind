@@ -44,7 +44,7 @@ If you find this project helpful, please consider giving it a star 🌟
 | VITE_SERVICES_URL    | backend url for frontend code          | ✅       |
 | VITE_DISABLED_UPLOAD | DISABLED_UPLOAD                        | ✅       |
 
-## Q&A
+## FAQ
 
 This project includes both front-end (/client) and back-end (/server) code. The front-end code is used to display the UI, while the back-end code provides services to the UI.
 
