@@ -148,7 +148,9 @@ flask run --reload --port=8080
 
 ## Buy me a coffee
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N1L5Y7V)
+
 <details>
-  <summary>QR code</summary>
+  <summary>Alipay and Wechat</summary>
   <img height="300" src="https://raw.githubusercontent.com/3Alan/images/master/img/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E5%AE%9D%E4%BA%8C%E5%90%88%E4%B8%80%E6%94%B6%E6%AC%BE%E7%A0%81.jpg" />
 </details>
