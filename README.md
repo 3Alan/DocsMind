@@ -4,6 +4,8 @@ DocsMind is an open-source project that allows you to chat with your docs.
 
 ![Stack](https://skillicons.dev/icons?i=vite,react,ts,tailwind,flask)
 
+It is currently under development and there may be major changes at any time.
+
 ## Demo
 
 [Demo Site](https://docs-mind.alanwang.site/)
@@ -44,17 +46,13 @@ If you find this project helpful, please consider giving it a star 🌟
 | VITE_SERVICES_URL    | backend url for frontend code          | ✅       |
 | VITE_DISABLED_UPLOAD | DISABLED_UPLOAD                        | ✅       |
 
-## Q&A
+## FAQ
 
-This project includes both front-end (/client) and back-end (/server) code. The front-end code is used to display the UI, while the back-end code provides services to the UI.
+This project includes both frontend (/client) and backend (/server) code. The frontend code is used to display the UI, while the backend code provides services to the UI.
 
 ### How to deploy?
 
-You need to deploy this project using Docker Compose.
-
-### Can I deploy on Vercel?
-
-No, Vercel is a serverless platform where you can only deploy your UI code (/client).
+[More details](https://github.com/3Alan/DocsMind/blob/main/Deployment.md)
 
 ### How to run?
 
@@ -79,6 +77,8 @@ docker-compose up -d --build
 ```
 
 now you can access the app at `http://localhost:8081`
+
+All data will be saved in the `./data` directory.
 
 ### Local Development
 
@@ -148,7 +148,9 @@ flask run --reload --port=8080
 
 ## Buy me a coffee
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N1L5Y7V)
+
 <details>
-  <summary>QR code</summary>
+  <summary>Alipay and Wechat</summary>
   <img height="300" src="https://raw.githubusercontent.com/3Alan/images/master/img/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E5%AE%9D%E4%BA%8C%E5%90%88%E4%B8%80%E6%94%B6%E6%AC%BE%E7%A0%81.jpg" />
 </details>
