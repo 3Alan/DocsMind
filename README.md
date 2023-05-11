@@ -52,7 +52,7 @@ This project includes both frontend (/client) and backend (/server) code. The fr
 
 ### How to deploy?
 
-[More details](https://github.com/3Alan/DocsMind/blob/main/Deploy.md)
+[More details](https://github.com/3Alan/DocsMind/blob/main/Deployment.md)
 
 ### How to run?
 
