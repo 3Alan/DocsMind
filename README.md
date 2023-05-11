@@ -4,6 +4,8 @@ DocsMind is an open-source project that allows you to chat with your docs.
 
 ![Stack](https://skillicons.dev/icons?i=vite,react,ts,tailwind,flask)
 
+It is currently under development and there may be major changes at any time.
+
 ## Demo
 
 [Demo Site](https://docs-mind.alanwang.site/)
@@ -46,15 +48,11 @@ If you find this project helpful, please consider giving it a star 🌟
 
 ## FAQ
 
-This project includes both front-end (/client) and back-end (/server) code. The front-end code is used to display the UI, while the back-end code provides services to the UI.
+This project includes both frontend (/client) and backend (/server) code. The frontend code is used to display the UI, while the backend code provides services to the UI.
 
 ### How to deploy?
 
-You need to deploy this project using Docker Compose.
-
-### Can I deploy on Vercel?
-
-No, Vercel is a serverless platform where you can only deploy your UI code (/client).
+[More details](https://github.com/3Alan/DocsMind/blob/main/Deploy.md)
 
 ### How to run?
 
@@ -79,6 +77,8 @@ docker-compose up -d --build
 ```
 
 now you can access the app at `http://localhost:8081`
+
+All data will be saved in the `./data` directory.
 
 ### Local Development
 
