@@ -4,19 +4,25 @@ import os
 from pathlib import Path
 
 import openai
-from create_index import create_index
 from dotenv import load_dotenv
 from flask import Flask, Response, jsonify, request, stream_with_context
 from flask_cors import CORS
+from langchain.chat_models import ChatOpenAI
 from llama_index import (
     GPTListIndex,
-    GPTSimpleVectorIndex,
+    LLMPredictor,
     MockEmbedding,
     MockLLMPredictor,
+    ResponseSynthesizer,
     ServiceContext,
+    StorageContext,
     download_loader,
+    load_index_from_storage,
 )
 from llama_index.optimization.optimizer import SentenceEmbeddingOptimizer
+from llama_index.query_engine import RetrieverQueryEngine
+
+from create_index import create_index
 
 openai_proxy = os.environ.get("OPENAI_PROXY", "https://api.openai.com/v1")
 openai.api_base = openai_proxy
@@ -75,14 +81,14 @@ def summarize_index():
     UnstructuredReader = download_loader("UnstructuredReader")
     loader = UnstructuredReader()
     documents = loader.load_data(file=Path(f"./{staticPath}/file/{file}"))
-    index = GPTListIndex.from_documents(documents)
+    # index = GPTListIndex.from_documents(documents)
 
     # predictor cost
-    llm_predictor = MockLLMPredictor(max_tokens=256)
-    embed_model = MockEmbedding(embed_dim=1536)
-    service_context = ServiceContext.from_defaults(
-        llm_predictor=llm_predictor, embed_model=embed_model
-    )
+    # llm_predictor = MockLLMPredictor(max_tokens=256)
+    # embed_model = MockEmbedding(embed_dim=1536)
+    # service_context = ServiceContext.from_defaults(
+    #     llm_predictor=llm_predictor, embed_model=embed_model
+    # )
 
     # TODO: Format everything as markdown
     prompt = f"""
@@ -98,20 +104,34 @@ def summarize_index():
         3. <question text>
         """
 
-    index.query(
-        prompt,
-        response_mode="tree_summarize",
-        service_context=service_context,
-        optimizer=SentenceEmbeddingOptimizer(percentile_cutoff=0.8),
-    )
+    # index.query(
+    #     prompt,
+    #     response_mode="tree_summarize",
+    #     service_context=service_context,
+    #     optimizer=SentenceEmbeddingOptimizer(percentile_cutoff=0.8),
+    # )
 
-    res = index.query(
-        prompt,
+    llm_predictor = LLMPredictor(
+        llm=ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo", streaming=True)
+    )
+    service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
+    index = GPTListIndex.from_documents(documents, service_context=service_context)
+    retriever = index.as_retriever()
+    synth = ResponseSynthesizer.from_args(
         streaming=True,
         response_mode="tree_summarize",
         optimizer=SentenceEmbeddingOptimizer(percentile_cutoff=0.8),
     )
-    cost = embed_model.last_token_usage + llm_predictor.last_token_usage
+    query_engine = RetrieverQueryEngine(
+        response_synthesizer=synth,
+        retriever=retriever,
+    )
+
+    res = query_engine.query(prompt)
+    # cost = embed_model.last_token_usage + llm_predictor.last_token_usage
+    cost = 10
+
+    print(str(res))
 
     def response_generator():
         yield json.dumps({"cost": cost, "sources": []})
@@ -134,19 +154,35 @@ def query_index():
     if open_ai_key:
         os.environ["OPENAI_API_KEY"] = open_ai_key
 
-    index = GPTSimpleVectorIndex.load_from_disk(f"{staticPath}/index/{index_name}.json")
-
-    # predictor cost
-    llm_predictor = MockLLMPredictor(max_tokens=256)
-    embed_model = MockEmbedding(embed_dim=1536)
-    service_context = ServiceContext.from_defaults(
-        llm_predictor=llm_predictor, embed_model=embed_model
+    storage_context = StorageContext.from_defaults(
+        persist_dir=f"{staticPath}/index/{index_name}"
     )
-    # 不支持 streaming，所以需要另外执行
-    index.query(query_text, service_context=service_context)
 
-    res = index.query(query_text, streaming=True)
-    cost = embed_model.last_token_usage + llm_predictor.last_token_usage
+    # predictor cost start
+    mock_llm_predictor = MockLLMPredictor(max_tokens=256)
+    mock_embed_model = MockEmbedding(embed_dim=1536)
+    mock_service_context = ServiceContext.from_defaults(
+        llm_predictor=mock_llm_predictor, embed_model=mock_embed_model
+    )
+    mock_index = load_index_from_storage(
+        storage_context, service_context=mock_service_context
+    )
+    mock_query_engine = mock_index.as_query_engine(
+        service_context=mock_service_context, similarity_top_k=2
+    )
+    mock_query_engine.query(query_text)
+    # predictor cost end
+
+    llm_predictor = LLMPredictor(
+        llm=ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo", streaming=True)
+    )
+    service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
+    index = load_index_from_storage(storage_context, service_context=service_context)
+    query_engine = index.as_query_engine(streaming=True, similarity_top_k=2)
+
+    res = query_engine.query(query_text)
+
+    cost = mock_embed_model.last_token_usage + mock_llm_predictor.last_token_usage
     sources = [
         {"extraInfo": x.node.extra_info, "text": x.node.text} for x in res.source_nodes
     ]

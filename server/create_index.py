@@ -2,7 +2,7 @@ import os
 
 import markdown
 from custom_loader import CustomReader
-from llama_index import GPTSimpleVectorIndex, MockEmbedding, ServiceContext
+from llama_index import GPTVectorStoreIndex, MockEmbedding, ServiceContext
 from pdf_loader import CJKPDFReader
 
 staticPath = "static"
@@ -31,13 +31,13 @@ def create_index(filepath, filename) -> int:
     # predictor cost
     embed_model = MockEmbedding(embed_dim=1536)
     service_context = ServiceContext.from_defaults(embed_model=embed_model)
-    index = GPTSimpleVectorIndex.from_documents(
+    index = GPTVectorStoreIndex.from_documents(
         documents, service_context=service_context
     )
 
-    index = GPTSimpleVectorIndex.from_documents(documents)
+    index = GPTVectorStoreIndex.from_documents(documents)
 
     # save to disk
-    index.save_to_disk(f"{staticPath}/index/{name}.json")
+    index.storage_context.persist(persist_dir=f"{staticPath}/index/{name}")
 
     return embed_model.last_token_usage
