@@ -4,6 +4,8 @@ If you just want to try it out instead of using it in a production environment, 
 
 ## Docker
 
+Fork the repository and clone the code to your local machine.
+
 > **Warning**
 >
 > Please check if you can access OpenAI in your region, you can refer to the [issue](https://github.com/3Alan/DocsMind/issues/3#issuecomment-1511470063) for more information.
