@@ -24,7 +24,7 @@ It is currently under development and there may be major changes at any time.
 - 💰 Token usage tracker
 - 🐳 Dockerize
 
-## 🚀 RoadMap
+## 🚀 Road Map
 
 - [ ] Chat mode
 - [ ] Dark mode
