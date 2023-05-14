@@ -133,8 +133,6 @@ const ChatWindow: FC<ChatWindowProps> = ({
           }
         ];
       });
-
-      message.error(error as any);
       console.log(error);
     }
   };
