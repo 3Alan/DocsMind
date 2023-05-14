@@ -6,7 +6,7 @@ DocsMind is an open-source project that allows you to chat with your docs.
 
 It is currently under development and there may be major changes at any time.
 
-## Demo
+## 🎬 Demo
 
 [Demo Site](https://docs-mind.alanwang.site/)
 
@@ -14,7 +14,7 @@ It is currently under development and there may be major changes at any time.
 >
 > Due to the free plan of Railway only providing 500 hours per month, the Demo on the 21st day of each month will not be available. Please clone it locally for use at that time.
 
-## Features
+## 🌟 Features
 
 - 🤖 Ask a question with your docs
 - 📝 Summarize docs
@@ -24,7 +24,7 @@ It is currently under development and there may be major changes at any time.
 - 💰 Token usage tracker
 - 🐳 Dockerize
 
-## Future Development
+## 🚀 Road Map
 
 - [ ] Chat mode
 - [ ] Dark mode
@@ -38,7 +38,7 @@ It is currently under development and there may be major changes at any time.
 
 If you find this project helpful, please consider giving it a star 🌟
 
-## Environment Variables
+## 💻 Environment Variables
 
 | Name                 | Description                            | Optional |
 | -------------------- | -------------------------------------- | -------- |
@@ -46,7 +46,7 @@ If you find this project helpful, please consider giving it a star 🌟
 | VITE_SERVICES_URL    | backend url for frontend code          | ✅       |
 | VITE_DISABLED_UPLOAD | DISABLED_UPLOAD                        | ✅       |
 
-## FAQ
+## ❓ FAQ
 
 This project includes both frontend (/client) and backend (/server) code. The frontend code is used to display the UI, while the backend code provides services to the UI.
 
@@ -142,11 +142,11 @@ flask run --reload --port=8080
 
 </details>
 
-## License
+## 📝 License
 
 [AGPL-3.0 License](https://github.com/3Alan/DocsMind/blob/main/LICENSE)
 
-## Buy me a coffee
+## ☕ Buy me a coffee
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N1L5Y7V)
 

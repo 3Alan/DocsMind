@@ -1,0 +1,36 @@
+name: 🐞 Bug Report
+description: Create a report to help us improve
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is. If applicable, add screenshots to help explain your problem.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log located at `logs/app.log` and the client error (browser console) so that I can better understand the issue. If there are no errors, fill in no
+      render: shell
+    validations:
+      required: true
+  - type: checkboxes
+    id: validations
+    attributes:
+      label: Validations
+      description: Before submitting the issue, please make sure you do the following
+      options: 
+        - label: Already read the README
+          required: true
+        - label: Check that there isn't already an issue that reports the same bug to avoid creating a duplicate. 
+          required: true
+    validations:
+      required: true
