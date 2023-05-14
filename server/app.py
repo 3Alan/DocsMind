@@ -13,14 +13,12 @@ from llama_index import (
     LLMPredictor,
     MockEmbedding,
     MockLLMPredictor,
-    ResponseSynthesizer,
+    QuestionAnswerPrompt,
     ServiceContext,
     StorageContext,
     download_loader,
     load_index_from_storage,
 )
-from llama_index.optimization.optimizer import SentenceEmbeddingOptimizer
-from llama_index.query_engine import RetrieverQueryEngine
 
 from create_index import create_index
 
@@ -81,22 +79,14 @@ def summarize_index():
     UnstructuredReader = download_loader("UnstructuredReader")
     loader = UnstructuredReader()
     documents = loader.load_data(file=Path(f"./{staticPath}/file/{file}"))
-    # index = GPTListIndex.from_documents(documents)
+    index = GPTListIndex.from_documents(documents)
 
-    # predictor cost
-    # llm_predictor = MockLLMPredictor(max_tokens=256)
-    # embed_model = MockEmbedding(embed_dim=1536)
-    # service_context = ServiceContext.from_defaults(
-    #     llm_predictor=llm_predictor, embed_model=embed_model
-    # )
-
-    # TODO: Format everything as markdown
     prompt = f"""
-        Summarize this document and provide three questions related to the summary. Try to use your own words when possible. Keep your answer under 5 sentences. 
+        Summarize this document and provide three questions related to the summary. Try to use your own words when possible. Keep your answer under 5 sentences.
+        Your answer should be written in markdown.
 
         Use the following format:
         <summary text>
-
 
         Questions you may want to ask 🤔
         1. <question text>
@@ -104,34 +94,29 @@ def summarize_index():
         3. <question text>
         """
 
-    # index.query(
-    #     prompt,
-    #     response_mode="tree_summarize",
-    #     service_context=service_context,
-    #     optimizer=SentenceEmbeddingOptimizer(percentile_cutoff=0.8),
-    # )
+    # predictor cost start
+    mock_llm_predictor = MockLLMPredictor(max_tokens=256)
+    mock_embed_model = MockEmbedding(embed_dim=1536)
+    mock_service_context = ServiceContext.from_defaults(
+        llm_predictor=mock_llm_predictor, embed_model=mock_embed_model
+    )
+    mock_query_engine = index.as_query_engine(
+        response_mode="tree_summarize",
+        service_context=mock_service_context,
+    )
+    mock_query_engine.query(prompt)
+    # predictor cost end
 
     llm_predictor = LLMPredictor(
         llm=ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo", streaming=True)
     )
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
-    index = GPTListIndex.from_documents(documents, service_context=service_context)
-    retriever = index.as_retriever()
-    synth = ResponseSynthesizer.from_args(
-        streaming=True,
-        response_mode="tree_summarize",
-        optimizer=SentenceEmbeddingOptimizer(percentile_cutoff=0.8),
-    )
-    query_engine = RetrieverQueryEngine(
-        response_synthesizer=synth,
-        retriever=retriever,
+    query_engine = index.as_query_engine(
+        streaming=True, response_mode="tree_summarize", service_context=service_context
     )
 
     res = query_engine.query(prompt)
-    # cost = embed_model.last_token_usage + llm_predictor.last_token_usage
-    cost = 10
-
-    print(str(res))
+    cost = mock_embed_model.last_token_usage + mock_llm_predictor.last_token_usage
 
     def response_generator():
         yield json.dumps({"cost": cost, "sources": []})
@@ -157,6 +142,15 @@ def query_index():
     storage_context = StorageContext.from_defaults(
         persist_dir=f"{staticPath}/index/{index_name}"
     )
+    QA_PROMPT_TMPL = (
+        "We have provided context information below. \n"
+        "---------------------\n"
+        "{context_str}"
+        "\n---------------------\n"
+        "Given this information, please answer the question and format your answer using markdown.\n"
+        "{query_str}\n"
+    )
+    QA_PROMPT = QuestionAnswerPrompt(QA_PROMPT_TMPL)
 
     # predictor cost start
     mock_llm_predictor = MockLLMPredictor(max_tokens=256)
@@ -168,7 +162,7 @@ def query_index():
         storage_context, service_context=mock_service_context
     )
     mock_query_engine = mock_index.as_query_engine(
-        service_context=mock_service_context, similarity_top_k=2
+        text_qa_template=QA_PROMPT, similarity_top_k=2
     )
     mock_query_engine.query(query_text)
     # predictor cost end
@@ -178,7 +172,9 @@ def query_index():
     )
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
     index = load_index_from_storage(storage_context, service_context=service_context)
-    query_engine = index.as_query_engine(streaming=True, similarity_top_k=2)
+    query_engine = index.as_query_engine(
+        streaming=True, text_qa_template=QA_PROMPT, similarity_top_k=2
+    )
 
     res = query_engine.query(query_text)
 
