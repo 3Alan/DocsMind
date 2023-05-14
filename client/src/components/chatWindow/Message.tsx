@@ -77,7 +77,7 @@ const Message: FC<MessageProps> = ({
             className="cursor-pointer text-gray-400 text-xs items-center flex"
             onClick={toggleShowSource}
           >
-            {showSources ? 'Hide Sources' : 'Show Source'}
+            {showSources ? 'Hide Sources' : 'Show Sources'}
           </div>
         )}
       </div>

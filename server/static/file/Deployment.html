@@ -1,0 +1,48 @@
+<p>The first thing you need to know is that this project includes frontend (UI) and backend. I strongly recommend using Docker for deployment.</p>
+<p>If you just want to try it out instead of using it in a production environment, you can deploy it using Vercel + Railway.</p>
+<h2 data-chunk_id="chunk-1">Docker</h2>
+<blockquote data-chunk_id="chunk-1">
+<p><strong>Warning</strong></p>
+<p>Please check if you can access OpenAI in your region, you can refer to the <a href="https://github.com/3Alan/DocsMind/issues/3#issuecomment-1511470063">issue</a> for more information.</p>
+</blockquote>
+<ol data-chunk_id="chunk-1">
+<li>Create .env</li>
+</ol>
+<p data-chunk_id="chunk-1">Create a <code>.env</code> file and copy the contents of <code>.env.example</code> to modify it.</p>
+<ol data-chunk_id="chunk-1">
+<li>Run App</li>
+</ol>
+<div class="highlight" data-chunk_id="chunk-1"><pre><span></span><code>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div>
+<p data-chunk_id="chunk-1">Please add <code>--build</code> to rebuild the image after each code update.</p>
+<div class="highlight" data-chunk_id="chunk-1"><pre><span></span><code>docker-compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+</code></pre></div>
+<p data-chunk_id="chunk-1">now you can access the app at <code>http://localhost:8081</code></p>
+<p data-chunk_id="chunk-1">All data will be saved in the <code>./data</code> directory.</p>
+<h2 data-chunk_id="chunk-2">Vercel + Railway</h2>
+<blockquote data-chunk_id="chunk-2">
+<p><strong>Warning</strong></p>
+<p>❗❗❗ if you want to use this project in a production environment, do not deploy it in this way. All data will be cleared when you redeploy.</p>
+</blockquote>
+<p data-chunk_id="chunk-2">We will deploy the code separately to Vercel and Railway.</p>
+<p data-chunk_id="chunk-2">Please follow the steps one by one.</p>
+<h3 data-chunk_id="chunk-3">Railway</h3>
+<p data-chunk_id="chunk-3">Deploy the backend using the following template.</p>
+<p data-chunk_id="chunk-3"><a href="https://railway.app/template/HcW7kc?referralCode=Hk0oZ6"><img alt="Deploy on Railway" src="https://railway.app/button.svg"/></a></p>
+<p data-chunk_id="chunk-3">Do not check Private repository.
+<img alt="20230511150842" src="https://raw.githubusercontent.com/3Alan/images/master/img/20230511150842.png"/></p>
+<p data-chunk_id="chunk-3">After deployment, you will receive a domain. Copy it as it will be used later.
+<img alt="20230511135709" src="https://raw.githubusercontent.com/3Alan/images/master/img/20230511135709.png"/></p>
+<p data-chunk_id="chunk-3">You can also customize the domain.
+<img alt="20230511140533" src="https://raw.githubusercontent.com/3Alan/images/master/img/20230511140533.png"/></p>
+<h3 data-chunk_id="chunk-4">Vercel</h3>
+<ol data-chunk_id="chunk-4">
+<li>Select the repository created by Railway.</li>
+<li>Change the Root Directory to "client".</li>
+<li>Change the Framework Preset to "Vite".</li>
+<li>Add an environment variable <code>VITE_SERVICES_URL</code> with the value of Railway's Domain.</li>
+</ol>
+<p data-chunk_id="chunk-4"><img alt="20230511141639" src="https://raw.githubusercontent.com/3Alan/images/master/img/20230511141639.png"/></p>
+<p data-chunk_id="chunk-4"><img alt="20230511141851" src="https://raw.githubusercontent.com/3Alan/images/master/img/20230511141851.png"/></p>
+<p data-chunk_id="chunk-4">Now you can upload your files, ❗❗❗ but please be reminded that all data will be cleared once you redeploy.</p>
+<p data-chunk_id="chunk-4"><strong>If you have a better deployment method, please feel free to share the tutorial and submit a pull request.</strong></p>
